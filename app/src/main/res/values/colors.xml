@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="brown">#FF5C5454</color>
+    <color name="brown_stroke">#FFCEBDB7</color>
+    <color name="pale_brown">#FF9D8580</color>
+    <color name="pale_brown_btn">#FFE8D5CD</color>
+    <color name="pale_brown_stroke">#FFADA9A9</color>
+    <color name="taupe">#FFC3B5B2</color>
+    <color name="bright_taupe">#FFE0D8D7</color>
+    <color name="taupe_line">#FFCBCBCB</color>
+    <color name="taupe_stroke">#FFCEC2BF</color>
+
+    <color name="pale_green">#FFD1F1D4</color>
+    <color name="green">#FFA8E8AE</color>
+    <color name="dark_green">#FF7FB084</color>
+    <color name="bright_green">#FFE5F1DB</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#FFD9D9D9</color>
+    <color name="pale_grey">#FFF2F2F2</color>
+
+    <color name="beige">#FFFFF5EE</color>
+    <color name="pale_beige">#FFFFFBF9</color>
+
+    <color name="bright_pink">#FFFDF1F1</color>
+    <color name="pale_pink">#FFFFEBEB</color>
+    <color name="pink">#FFFECECE</color>
+    <color name="dark_pink">#FFFF9292</color>
+
+    <color name="brown_font">#FFADA5A1</color>
+
+    <color name="star">#FFFFEB33</color>
+    <color name="star_stroke">#FFC9C9C9</color>
+
 </resources>
