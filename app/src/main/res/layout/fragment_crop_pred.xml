@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pale_beige"
+    tools:context=".CropPrediction.CropPredFragment">
+
+    <!--1-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/beige_background"
+        android:elevation="10dp"
+        >
+
+        <!--날짜 선택-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="23.6dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo"
+                android:adjustViewBounds="true"
+                />
+
+            <!-- SpannableStringBuilder builder = new SpannableStringBuilder("가나다라");
+
+                // "가"와 "나다"의 크기를 서로 다르게 하기 위해 Spannable 객체를 생성하여 적용합니다.
+                Spannable spannable = new SpannableString("가나다라");
+                spannable.setSpan(new RelativeSizeSpan(2f), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // "가"의 크기를 2배로 설정
+                spannable.setSpan(new RelativeSizeSpan(1f), 1, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // "나다"의 크기를 원래 크기로 설정
+
+                // TextView에 적용합니다.
+                TextView textView = findViewById(R.id.textView);
+                textView.setText(spannable);
+
+                으로 변경 가능.
+                -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4월"
+                    android:id="@+id/month"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/brown"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="2024년"
+                    android:id="@+id/year"
+                    android:textSize="13dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/brown"
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/month_btn"
+                    android:background="@drawable/triangle_button"
+                    android:layout_gravity="bottom"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생산이 어려운 작물입니다.\n확인하여 추천 대체 메뉴를 고려해주세요!"
+            android:textSize="15dp"
+            android:layout_marginLeft="30.66dp"
+            android:layout_marginBottom="26.90dp"
+            android:textColor="@color/brown"
+            />
+
+    </LinearLayout>
+
+    <!--2-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40.43dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/white_full_background">
+        <!--생산이 어려운 작물_-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="18.66dp"
+            android:layout_marginTop="19.33dp"
+            android:layout_marginRight="127dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4월"
+                android:textSize="18dp"
+                android:id="@+id/month_text"
+                android:textColor="@color/dark_pink"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="에 생산이 어려운 작물"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"/>
+        </LinearLayout>
+
+        <!--이미지-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="28.3dp"
+            android:layout_marginBottom="28.3"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/prev_button"
+                android:id="@+id/prev_btn"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+                
+                <ImageView
+                    android:layout_width="134dp"
+                    android:layout_height="134dp"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="38dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="작물 이름"
+                    android:textColor="@color/brown"
+                    android:id="@+id/crop_id"
+                    android:layout_marginTop="24dp"/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="43dp"
+                android:background="@drawable/next_button"
+                android:id="@+id/next_btn"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--3-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27.66dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/white_full_background">
+
+        <!--영향 받는 메뉴명-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="18.66dp"
+            android:layout_marginTop="19.33dp"
+            android:layout_marginRight="127dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="영향 받는"
+                android:textSize="18dp"
+                android:textColor="@color/brown"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 메뉴명(작물)"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_pink"/>
+        </LinearLayout>
+
+        <!--메뉴들-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="28.3dp"
+            android:layout_marginLeft="18.66dp"
+            android:layout_marginRight="18.66dp"
+            android:layout_marginBottom="19.33dp">
+
+            <!--메뉴-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:orientation="horizontal"
+                android:background="@drawable/pink_full_background">
+
+                <!--date-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="9dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="17"
+                        android:textSize="24dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        android:id="@+id/day"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일"
+                        android:textSize="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        android:id="@+id/day_text"/>
+                </LinearLayout>
+
+                <!--text-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <!--메뉴이름-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="미나리 무침"
+                        android:id="@+id/original_menu"
+                        android:textSize="10dp"
+                        android:textColor="@color/brown"/>
+                    <!--대체메뉴-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="추천 대체 작물 : "
+                            android:textSize="10dp"
+                            android:textColor="@color/brown"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시금치 무침"
+                            android:textSize="10dp"
+                            android:id="@+id/pred_menu"
+                            android:textColor="@color/brown"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <!--메뉴-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:orientation="horizontal"
+                android:background="@drawable/pink_full_background">
+
+                <!--date-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="9dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="17"
+                        android:textSize="24dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        android:id="@+id/day2"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일"
+                        android:textSize="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        android:id="@+id/day_text2"/>
+                </LinearLayout>
+
+                <!--text-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <!--메뉴이름-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="미나리 무침"
+                        android:id="@+id/original_menu2"
+                        android:textSize="10dp"
+                        android:textColor="@color/brown"/>
+                    <!--대체메뉴-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="추천 대체 작물 : "
+                            android:textSize="10dp"
+                            android:textColor="@color/brown"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시금치 무침"
+                            android:textSize="10dp"
+                            android:id="@+id/pred_menu2"
+                            android:textColor="@color/brown"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
