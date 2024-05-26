@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/crop_pred_bottom_sheet"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/white_background">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="53dp"
+        android:layout_height="7dp"
+        android:background="@drawable/down_scrollbar"
+        android:layout_marginTop="19dp"
+        android:id="@+id/down_scrollbar"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/date_oval"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="10dp"
+        android:padding="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="미나리 무침"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="@color/brown"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="24dp">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기존 작물"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="미나리"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:paddingLeft="47dp"
+                android:paddingRight="47dp"
+                android:background="@color/beige"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/brown"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대체 작물"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시금치"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:paddingLeft="47dp"
+                android:paddingRight="47dp"
+                android:background="@color/beige"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/brown"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="75dp"
+        android:background="@color/beige">
+
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시금치"
+                android:textSize="14dp"
+                android:textColor="@color/brown"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="칼로리"
+                android:textSize="10dp"
+                android:textColor="@color/brown" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지방"
+                android:textSize="10dp"
+                android:textColor="@color/brown" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="탄수화물"
+                android:textSize="10dp"
+                android:textColor="@color/brown" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="단백질"
+                android:textSize="10dp"
+                android:textColor="@color/brown" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
