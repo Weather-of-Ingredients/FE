@@ -1,23 +1,27 @@
 package com.example.woi_fe.CropPrediction;
 
-import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.health.SystemHealthManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.woi_fe.R;
+import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
+import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
+import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
 import com.example.woi_fe.databinding.CropPredBottomSheetBinding;
 import com.example.woi_fe.databinding.FragmentCropPredBinding;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +43,10 @@ public class CropPredFragment extends Fragment {
 
     private Calendar calendar;
 
+    private int itemSize = 0;
+    private List<CropItem> cropItems = null;
+
+    private RecommendationRepository recommendationRepository;
     public CropPredFragment() {
         // Required empty public constructor
     }
@@ -76,22 +84,120 @@ public class CropPredFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCropPredBinding.inflate(inflater, container, false);
 
+        //retrofit 연결
+        recommendationRepository = new RecommendationRepository();
+
         calendar = Calendar.getInstance();
-        binding.cropPredSetYear.setText(calendar.get(Calendar.YEAR) + "년");
-        binding.cropPredSetMonth.setText(calendar.get(Calendar.MONTH) +1 + "월");
 
-        binding.monthText.setText(calendar.get(Calendar.MONTH) +1 + "월");
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) +1;
 
+        binding.cropPredSetYear.setText(year + "년");
+        binding.cropPredSetMonth.setText(month + "월");
+        binding.monthText.setText(month + "월");
+
+        //bad_crops list 보여주기
+        callRetrofit(year, month);
+
+        setItemClickListener();
+
+        //상세 메뉴 창 연결
+        setDetailClickListener();
+        //달력 버튼 선택
+        setButtonClickListener();
+
+        return binding.getRoot();
+    }
+
+    private void callRetrofit(int year, int month) {
+        recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+            @Override
+            public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
+                if(response.isSuccessful()){
+                    if(response.body() != null){
+                        itemSize = 0;
+                        CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
+                        cropItems = ResponseCropItems.getData();
+
+                        if(!cropItems.isEmpty()){
+                            binding.prevBtn.setVisibility(View.INVISIBLE);
+                            binding.cropId.setVisibility(View.VISIBLE);
+                            binding.cropId.setText(cropItems.get(0).getIngredient_name());
+                            if(cropItems.size() > 1){
+                                binding.nextBtn.setVisibility(View.VISIBLE);
+                                binding.prevBtn.setVisibility(View.INVISIBLE);
+                            }
+                        }else{
+                            binding.nextBtn.setVisibility(View.INVISIBLE);
+                            binding.prevBtn.setVisibility(View.INVISIBLE);
+                            binding.cropId.setVisibility(View.INVISIBLE);
+                            binding.cropId.setText("");
+                        }
+
+                    }else{
+                        Log.e("MainActivity", "response.body()==null");
+                    }
+                }else{
+                    Log.e("MainActivity", "response.isSuccessful()에서 오류");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
+                Log.e("MainActivity", "GET request failed", t);
+            }
+
+
+        });
+    }
+
+
+    private void setCropListener(){
+        if((!cropItems.isEmpty()) && cropItems.size() > 1){
+            if(itemSize == 0){
+                binding.nextBtn.setVisibility(View.VISIBLE);
+                binding.prevBtn.setVisibility(View.INVISIBLE);
+            }else if(1 <= itemSize && itemSize < cropItems.size() -1){
+                binding.nextBtn.setVisibility(View.VISIBLE);
+                binding.prevBtn.setVisibility(View.VISIBLE);
+            }else if(itemSize == cropItems.size() -1){
+                binding.nextBtn.setVisibility(View.INVISIBLE);
+                binding.prevBtn.setVisibility(View.VISIBLE);
+
+            }else{
+                System.out.println("사이즈 설정 오류");
+            }
+        }else{
+
+        }
+    }
+    private void setItemClickListener() {
+        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemSize++;
+                binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
+                setCropListener();
+            }
+        });
+        binding.prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemSize--;
+                binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
+                setCropListener();
+            }
+        });
+
+    }
+
+    private void setDetailClickListener() {
         binding.originalMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowBottomSheet();
             }
         });
-        //달력 버튼 선택
-        setButtonClickListener();
-
-        return binding.getRoot();
     }
 
     private void ShowBottomSheet() {
@@ -133,8 +239,11 @@ public class CropPredFragment extends Fragment {
                 binding.cropPredSetYear.setText(setYear + "년");
                 binding.cropPredSetMonth.setText(setMonth + "월");
                 binding.monthText.setText(setMonth + "월");
+                callRetrofit(setYear, setMonth);
             }
         });
+
+
     }
 
     private void setDateInit() {
