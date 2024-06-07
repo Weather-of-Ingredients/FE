@@ -11,7 +11,7 @@
                 </shape>
             </item>
             <item
-                android:drawable="@drawable/triangle_button"
+                android:drawable="@drawable/btn_date"
                 android:gravity="right|center_vertical">
             </item>
         </layer-list>

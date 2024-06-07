@@ -1,18 +1,13 @@
 package com.example.woi_fe.Diet.ItemMove;
 
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.R;
@@ -31,7 +26,7 @@ public class ItemMoveAdapter extends RecyclerView.Adapter<ItemMoveAdapter.ItemVi
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.diet_item, parent, false);
+        View view = inflater.inflate(R.layout.item_diet_update_menu, parent, false);
         return new ItemViewHolder(view);
     }
 

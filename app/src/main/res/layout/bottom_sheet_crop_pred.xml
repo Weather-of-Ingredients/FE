@@ -6,12 +6,12 @@
     android:id="@+id/crop_pred_bottom_sheet"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/white_background">
+    android:background="@drawable/background_white">
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="53dp"
         android:layout_height="7dp"
-        android:background="@drawable/down_scrollbar"
+        android:background="@drawable/scrollbar_down"
         android:layout_marginTop="19dp"
         android:id="@+id/down_scrollbar"
         />
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/date_oval"
+        android:background="@drawable/oval_date"
         android:layout_marginTop="17dp"
         android:layout_marginBottom="10dp"
         android:padding="24dp">

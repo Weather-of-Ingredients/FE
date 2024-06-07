@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/white_background"
+        android:background="@drawable/background_white"
         android:elevation="10dp">
 
         <androidx.appcompat.widget.AppCompatButton
@@ -24,7 +24,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginLeft="32dp"
             android:id="@+id/diet_close_btn"
-            android:background="@drawable/close_btn"
+            android:background="@drawable/btn_close"
             android:adjustViewBounds="true"
             />
 
@@ -40,7 +40,7 @@
             android:id="@+id/diet_date"/>
 
         <Spinner
-            android:background="@drawable/spinner"
+            android:background="@drawable/btn_diet_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -76,7 +76,7 @@
             android:layout_marginBottom="79dp"
             android:layout_marginRight="32dp"
             android:elevation="0dp"
-            android:background="@drawable/pale_brown_btn_background"
+            android:background="@drawable/background_full_pale_brown"
             />
 
     </LinearLayout>
@@ -114,7 +114,7 @@ android:id="@+id/diet_update_datepicker_layout"
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/white_full_background"
+        android:background="@drawable/background_full_white"
         android:text="완료"
         android:textColor="@color/brown"
         android:layout_margin="5dp"

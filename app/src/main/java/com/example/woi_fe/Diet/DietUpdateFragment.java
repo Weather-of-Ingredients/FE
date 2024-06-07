@@ -8,21 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.woi_fe.Diet.ItemMove.ItemMoveAdapter;
 import com.example.woi_fe.Diet.ItemMove.ItemMoveCallback;
-import com.example.woi_fe.Diet.ItemMove.ItemMoveListener;
 import com.example.woi_fe.R;
-import com.example.woi_fe.databinding.DietItemBinding;
 import com.example.woi_fe.databinding.FragmentDietUpdateBinding;
 
 import java.util.Calendar;
@@ -155,7 +148,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void setSpinner() {
-        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(), R.array.diet_array, R.layout.diet_category_item);
+        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(), R.array.diet_array, R.layout.item_diet_update_diet_category);
         binding.dietSpinner.setAdapter(spinner_adapter);
     }
 
