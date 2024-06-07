@@ -3,6 +3,7 @@ package com.example.woi_fe;
 import android.os.Bundle;
 
 import com.example.woi_fe.CropPrediction.CropPredFragment;
+import com.example.woi_fe.Diet.DietUpdateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new CropPredFragment())
+                .replace(R.id.container, new DietUpdateFragment())
                 .commit();
     }
 
