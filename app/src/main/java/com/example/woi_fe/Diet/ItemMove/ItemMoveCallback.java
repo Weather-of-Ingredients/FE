@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.R;
-import com.example.woi_fe.databinding.DietItemBinding;
 
 public class ItemMoveCallback extends ItemTouchHelper.Callback{
 

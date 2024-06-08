@@ -17,6 +17,7 @@ import com.example.woi_fe.Diet.ItemMove.ItemMoveAdapter;
 import com.example.woi_fe.Diet.ItemMove.ItemMoveCallback;
 import com.example.woi_fe.R;
 import com.example.woi_fe.databinding.FragmentDietUpdateBinding;
+import com.example.woi_fe.databinding.ItemDietUpdateMenuBinding;
 
 import java.util.Calendar;
 
@@ -38,6 +39,8 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     private Calendar calendar;
 
     private FragmentDietUpdateBinding binding;
+    private ItemDietUpdateMenuBinding menuBinding;
+
     public DietUpdateFragment() {
         // Required empty public constructor
     }
@@ -83,6 +86,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
 
         binding.dietDate.setText(year + "년 " + month + "월 " + date + "일");
 
+        //날짜 변경
         binding.dietDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +98,8 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
                 setCompleteButtonClickListener();
             }
         });
+
+        //메뉴 수정
 
 
         //스피너 설정
