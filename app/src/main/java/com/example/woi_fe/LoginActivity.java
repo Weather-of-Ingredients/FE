@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         TextView subMessage = findViewById(R.id.sub_message);
-        Spanned text = Html.fromHtml("재료의 <b>날씨</b>에 오신 것을 환영합니다!", Html.FROM_HTML_MODE_LEGACY);
+        Spanned text = Html.fromHtml("<b>재료의 날씨</b>에 오신 것을 환영합니다!", Html.FROM_HTML_MODE_LEGACY);
         subMessage.setText(text);
 
         // "회원가입" 텍스트를 핑크색으로 설정

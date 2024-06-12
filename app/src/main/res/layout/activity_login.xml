@@ -120,19 +120,6 @@
         app:layout_constraintTop_toBottomOf="@id/login_button"
         app:layout_constraintWidth_percent="0.8" />
 
-<!--    <Button-->
-<!--        android:id="@+id/register_button"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:background="@drawable/register_botton_background"-->
-<!--        android:text="회원가입"-->
-<!--        android:textColor="@color/pink"-->
-<!--        android:textSize="12sp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/login_button_line"-->
-<!--        app:layout_constraintWidth_percent="0.8" />-->
 
     <Button
         android:id="@+id/register_button"
