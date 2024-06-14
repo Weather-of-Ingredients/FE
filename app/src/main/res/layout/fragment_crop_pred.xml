@@ -65,13 +65,14 @@
                         android:textStyle="bold"
                         android:textColor="@color/brown"
                         />
+
                     <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="8dp"
                         android:id="@+id/crop_pred_set_month_btn"
                         android:background="@drawable/btn_date"
+                        android:layout_width="7dp"
+                        android:layout_height="10dp"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="8dp"
                         />
                 </LinearLayout>
 
