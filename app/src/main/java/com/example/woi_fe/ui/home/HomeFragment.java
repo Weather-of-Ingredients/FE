@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment {
         MyDietAdapter adapter = new MyDietAdapter(context, itemList);
 
         // RecyclerView 설정
-        RecyclerView feedRecyclerView = findViewById(R.id.feedRecyclerView);
+        RecyclerView feedRecyclerView = getView().findViewById(R.id.feedRecyclerView);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         feedRecyclerView.setAdapter(adapter);
 
@@ -111,36 +111,34 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        MyApplication.getDb().collection("users").document(auth.getUid()).collection("menus")
-                .whereEqualTo("date", selectedDate)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot result) {
-                        List<DietDTO> itemList = new ArrayList<>();
-                        for (DocumentSnapshot document : result) {
-                            DietDTO item = document.toObject(DietDTO.class);
-                            if (item != null) {
-                                item.setDietId(document.getDietID());
-                                itemList.add(item);
-                            }
-                        }
-                        binding.feedRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        binding.feedRecyclerView.setAdapter(new MyDietAdapter(MainActivity.this, itemList));
-                        Toast.makeText(MainActivity.this, "내강의리스트 가져오기 성공", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "데이터 획득 실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        MyApplication.getDb().collection("users").document(auth.getUid()).collection("menus")
+//                .whereEqualTo("date", selectedDate)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    public void onSuccess(QuerySnapshot result) {
+//                        List<DietDTO> itemList = new ArrayList<>();
+//                        for (DocumentSnapshot document : result) {
+//                            DietDTO item = document.toObject(DietDTO.class);
+//                            if (item != null) {
+//                                item.setDietId(document.getDietID());
+//                                itemList.add(item);
+//                            }
+//                        }
+//                        binding.feedRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//                        binding.feedRecyclerView.setAdapter(new MyDietAdapter(MainActivity.this, itemList));
+//                        Toast.makeText(MainActivity.this, "식단 가져오기 성공", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(MainActivity.this, "데이터 획득 실패", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     @Override
     public void onDestroyView() {
