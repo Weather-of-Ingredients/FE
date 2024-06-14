@@ -1,5 +1,6 @@
 package com.example.woi_fe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,6 +11,12 @@ import com.example.woi_fe.Retrofit.controller.RegistrationRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.user.UserRegisterDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,25 +50,52 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(UserRegisterDTO userRegisterDTO) {
-        Call<String> call = registrationRetrofitAPI.register(userRegisterDTO);
-        call.enqueue(new Callback<String>() {
+        Call<ResponseBody> call = registrationRetrofitAPI.register(userRegisterDTO);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
-                    // 성공 시 추가적인 처리 (예: 로그인 페이지로 이동)
+                    try {
+                        String jsonString = response.body().string();
+                        JSONObject jsonObject = new JSONObject(jsonString);
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+                        // 성공 시 추가적인 처리 (예: 로그인 페이지로 이동)
+                        Intent intent = new Intent(RegisterActivity.this, RegisterCompleteActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(RegisterActivity.this, "Register Successful but failed to parse response", Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(RegisterActivity.this, "Register Successful but response format is invalid", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Register Failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    String errorMessage = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMessage = response.errorBody().string();
+                            JSONObject jsonObject = new JSONObject(errorMessage);
+                            errorMessage = jsonObject.getString("message");
+                        } else {
+                            errorMessage = response.message();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        errorMessage = e.getMessage();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        errorMessage = "Failed to parse error response";
+                    }
+                    Toast.makeText(RegisterActivity.this, "Register Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(RegisterActivity.this, "Register Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
-
 }
