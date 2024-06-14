@@ -204,66 +204,66 @@
                 app:layout_constraintTop_toBottomOf="@id/label_email"
                 app:layout_constraintWidth_percent="0.8" />
 
-            <TextView
-                android:id="@+id/label_birthdate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="  생년월일"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/email"
-                app:layout_constraintWidth_percent="0.8" />
+<!--            <TextView-->
+<!--                android:id="@+id/label_birthdate"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="  생년월일"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/email"-->
+<!--                app:layout_constraintWidth_percent="0.8" />-->
 
-            <LinearLayout
-                android:id="@+id/birth"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_birthdate"
-                app:layout_constraintWidth_percent="0.8"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/birth"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/label_birthdate"-->
+<!--                app:layout_constraintWidth_percent="0.8"-->
+<!--                android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/signBirth"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/edit_text_background"
-                    android:ems="10"
-                    android:hint=" 년(4자)"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:textSize="10sp"
-                    android:layout_weight="1"/>
-                <EditText
-                    android:id="@+id/signBirth2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/edit_text_background"
-                    android:ems="10"
-                    android:hint=" 월"
-                    android:textSize="10sp"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:layout_weight="1"/>
-                <EditText
-                    android:id="@+id/signBirth3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_background"
-                    android:ems="10"
-                    android:hint=" 일"
-                    android:textSize="10sp"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:layout_weight="1"/>
-            </LinearLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/signBirth"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:background="@drawable/edit_text_background"-->
+<!--                    android:ems="10"-->
+<!--                    android:hint=" 년(4자)"-->
+<!--                    android:inputType="textPersonName"-->
+<!--                    android:text=""-->
+<!--                    android:textSize="10sp"-->
+<!--                    android:layout_weight="1"/>-->
+<!--                <EditText-->
+<!--                    android:id="@+id/signBirth2"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:background="@drawable/edit_text_background"-->
+<!--                    android:ems="10"-->
+<!--                    android:hint=" 월"-->
+<!--                    android:textSize="10sp"-->
+<!--                    android:inputType="textPersonName"-->
+<!--                    android:text=""-->
+<!--                    android:layout_weight="1"/>-->
+<!--                <EditText-->
+<!--                    android:id="@+id/signBirth3"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/edit_text_background"-->
+<!--                    android:ems="10"-->
+<!--                    android:hint=" 일"-->
+<!--                    android:textSize="10sp"-->
+<!--                    android:inputType="textPersonName"-->
+<!--                    android:text=""-->
+<!--                    android:layout_weight="1"/>-->
+<!--            </LinearLayout>-->
 
             <TextView
                 android:id="@+id/label_school"
@@ -275,7 +275,7 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/birth"
+                app:layout_constraintTop_toBottomOf="@id/email"
                 app:layout_constraintWidth_percent="0.8" />
 
             <EditText
