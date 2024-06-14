@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +56,17 @@ public class LoginActivity extends AppCompatActivity {
 
             loginUser(loginId, password);
         });
+
+        // 회원가입 버튼 누를시
+        Button goToRegisterButton = findViewById(R.id.register_button);
+        goToRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void loginUser(String loginId, String password) {
@@ -70,7 +83,8 @@ public class LoginActivity extends AppCompatActivity {
                         String responseString = response.body().string();
                         JSONObject jsonResponse = new JSONObject(responseString);
                         String message = jsonResponse.getString("token");
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "로그인이 성공적으로 완료되었습니다. 환영합니다!", Toast.LENGTH_SHORT).show();
                         // 로그인 성공 시 다음 페이지로 이동
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -79,13 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Successful but failed to parse response", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 불일치합니다." + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Login Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 불일치합니다." + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
