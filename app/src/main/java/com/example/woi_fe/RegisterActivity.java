@@ -2,6 +2,7 @@ package com.example.woi_fe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,17 +37,54 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Register button 클릭 시 호출
         findViewById(R.id.register_button).setOnClickListener(v -> {
-            UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
-            userRegisterDTO.setName(((EditText) findViewById(R.id.name)).getText().toString());
-            userRegisterDTO.setLoginId(((EditText) findViewById(R.id.username)).getText().toString());
-            userRegisterDTO.setPassword(((EditText) findViewById(R.id.password)).getText().toString());
-            userRegisterDTO.setCheckedPassword(((EditText) findViewById(R.id.confirm_password)).getText().toString());
-            userRegisterDTO.setEmail(((EditText) findViewById(R.id.email)).getText().toString());
-            userRegisterDTO.setPhoneNum(((EditText) findViewById(R.id.phone)).getText().toString());
-            userRegisterDTO.setSchool(((EditText) findViewById(R.id.school)).getText().toString());
+            if (validateInput()) {
+                UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+                userRegisterDTO.setName(((EditText) findViewById(R.id.name)).getText().toString());
+                userRegisterDTO.setLoginId(((EditText) findViewById(R.id.username)).getText().toString());
+                userRegisterDTO.setPassword(((EditText) findViewById(R.id.password)).getText().toString());
+                userRegisterDTO.setCheckedPassword(((EditText) findViewById(R.id.confirm_password)).getText().toString());
+                userRegisterDTO.setEmail(((EditText) findViewById(R.id.email)).getText().toString());
+                userRegisterDTO.setPhoneNum(((EditText) findViewById(R.id.phone)).getText().toString());
+                userRegisterDTO.setSchool(((EditText) findViewById(R.id.school)).getText().toString());
 
-            registerUser(userRegisterDTO);
+                registerUser(userRegisterDTO);
+            }
         });
+    }
+
+    private boolean validateInput() {
+        String username = ((EditText) findViewById(R.id.username)).getText().toString();
+        String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        String confirmPassword = ((EditText) findViewById(R.id.confirm_password)).getText().toString();
+        String email = ((EditText) findViewById(R.id.email)).getText().toString();
+        String phone = ((EditText) findViewById(R.id.phone)).getText().toString();
+
+        if (username.length() < 6) {
+            Toast.makeText(this, "아이디는 6자 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}$")) {
+            Toast.makeText(this, "비밀번호는 대소문자와 숫자를 포함하여 6자 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "올바른 이메일 형식이 아닙니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!phone.matches("^(01[0-9])\\d{3,4}\\d{4}$")) {
+            Toast.makeText(this, "전화번호 형식이 맞지 않습니다. 01XXXXXXXX 또는 01XXXXXXXXX 형식을 사용하세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void registerUser(UserRegisterDTO userRegisterDTO) {
@@ -98,4 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
