@@ -33,4 +33,6 @@
     <color name="star">#FFFFEB33</color>
     <color name="star_stroke">#FFC9C9C9</color>
 
+    <color name="gray">#D7D7D7</color>
+    <color name="gray_font">#AFAFAF</color>
 </resources>
