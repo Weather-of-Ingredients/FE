@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_layout, fragment);
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
-        printKeyHash();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new CropPredFragment())
-                .commit();
+//        printKeyHash();
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.main_layout, new CropPredFragment())
+//                .commit();
     }
 
     private static final String TAG = "KeyHash";
