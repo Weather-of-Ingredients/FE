@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/crop_pred_bottom_sheet"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/white_background">
+    android:gravity="center">
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="53dp"
