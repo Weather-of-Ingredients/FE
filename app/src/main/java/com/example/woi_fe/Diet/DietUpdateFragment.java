@@ -26,7 +26,7 @@ import java.util.Calendar;
  * Use the {@link DietUpdateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener, DietItemAdapter.AdapterCallback {
+public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener, DietItemAdapter.AdapterCallback, CustomDialog.DialogCallbackListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +44,10 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
 
     private boolean isSaved = false;
     private boolean isEdited = false;
+    private boolean isChangedCategory = false;
+    private int lastPosition = 0;
+    private int position = 0;
+
     public DietUpdateFragment() {
         // Required empty public constructor
     }
@@ -84,7 +88,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         isSaved = false;
         isEdited = false;
 
-        Log.d("MainActivity", String.valueOf(isSaved));
+        Log.d("MainActivity", "[UpdateFragment] save: " + isSaved + " edit: " + isEdited);
 
 
         //날짜 초기화
@@ -97,19 +101,26 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         //diet_item 설정
         setDietList();
 
+        //저장 버튼
         binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //retrofit 연결
 
                 isSaved = true;
-                Log.d("MainActivity", String.valueOf(isSaved));
+                isChangedCategory = false;
+                position = lastPosition;
+
+                Log.d("MainActivity", "[UpdateFragment] save 클릭");
+                Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
+                Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
             }
         });
+        //닫기 버튼
         binding.dietCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("MainActivity", "버튼 선택");
+                Log.d("MainActivity", "[UpdateFragment] 닫기 버튼 클릭");
                 //retrofit 연결
                 /*
                  * case 1
@@ -143,15 +154,13 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void setCustomDialog() {
-        Log.d("MainActivity", "setCustomDialog");
-        Log.d("MainActivity", String.valueOf(isSaved));
-
+        Log.d("MainActivity", "**[setCustomDialog]");
+        Log.d("MainActivity", "**[setCustomDialog] save: " + isSaved + " edit: " + isEdited);
         if(!isSaved){
             //완료 버튼을 누르지 않은 경우
             if(isEdited){
                 //텍스트의 변경이 있는 경우
                 //팝업 창
-                Log.d("MainActivity", String.valueOf(isSaved));
                 showCustomDialog();
             }else{
                 //텍스트의 변경이 없는 경우
@@ -160,19 +169,21 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         }else{
             //완료 버튼을 누른 경우
             //초기화해야할 boolean 값들 ?
-            Log.d("MainActivity", String.valueOf(isSaved));
             isSaved = false;
             isEdited = false;
             //창 닫기
         }
+        Log.d("MainActivity", "**[setCustomDialog]");
     }
 
     private void showCustomDialog() {
         //dialogCustomBinding = DialogCustomBinding.inflate(getLayoutInflater());
-        CustomDialog dialog = new CustomDialog(requireContext());
+        Log.d("MainActivity", "** **[showCustomDialog]");
+        CustomDialog dialog = new CustomDialog(requireContext(), this);
 
         //dialog.setContentView(dialogCustomBinding.getRoot());
         dialog.show();
+        Log.d("MainActivity", "** **[showCustomDialog]");
     }
 
     private void setInitDate() {
@@ -229,14 +240,18 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d("MainActivity", "**[OnItemSelected]");
         Log.d("MainActivity", String.valueOf(adapterView.getSelectedItem()));
-        //카테고리가 변경될 때마다 완료 버튼의 boolean 값 false 로 변경
-        //아니오를 누른 경우
-        //변경되면 안됨
-        isSaved = false;
-        Log.d("MainActivity", String.valueOf(isSaved));
-        setCustomDialog();
 
+        isChangedCategory = true;
+        lastPosition = i;//현재 위치 저장
+        isSaved = false;
+
+        Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
+        Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
+
+        setCustomDialog();
+        Log.d("MainActivity", "**[OnItemSelected]");
     }
 
     @Override
@@ -288,5 +303,31 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     public void onItemChanged(int position) {
         /*edit text*/
         isEdited = true;
+    }
+
+    @Override
+    public void dialogCallbackListener(boolean isDialogResult) {
+        Log.d("MainActivity", "** ** **[dialogCallbackListener]");
+        if(isDialogResult){
+            /*true -> yes 를 누른 경우
+            * 수정 내용 반영 x
+            * 기존의 내용 그대로 취소
+            * lastPosition = 0
+            * */
+
+        }else{
+            /*false -> no를 누른 경우
+            * 수정 내용 유지
+            * customdialog만 취소
+            * lastPosition = 0
+            * */
+            if(isChangedCategory){
+                //default로 되지 않은 경우
+                //lastposition의 category가 나와야 한다.
+                Log.d("MainActivity", "position: " + position);
+            }
+
+        }
+        Log.d("MainActivity", "** ** **[dialogCallbackListener]");
     }
 }
