@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(jsonString);
                         String message = jsonObject.getString("message");
                         Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                        // 성공 시 추가적인 처리 (예: 로그인 페이지로 이동)
+                        // 성공 시 로그인 페이지로 이동
                         Intent intent = new Intent(RegisterActivity.this, RegisterCompleteActivity.class);
                         startActivity(intent);
                         finish();
