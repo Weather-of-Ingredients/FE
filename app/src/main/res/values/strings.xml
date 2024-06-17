@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">WoI_FE</string>
+
     <string name="title_dietCal">홈</string>
     <string name="title_makeDiet">식단 등록</string>
     <string name="title_home">식단 일정</string>
     <string name="title_notifications">작물</string>
     <string name="title_dashboard">영양성분</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="diet_array">
+        <item>조식</item>
+        <item>중식</item>
+        <item>석식</item>
+    </string-array>
+
 </resources>

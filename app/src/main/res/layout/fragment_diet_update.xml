@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="28dp"
+    tools:context=".ui.Diet.DietUpdateFragment">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background_white"
+        android:elevation="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="32dp"
+            android:id="@+id/diet_close_btn"
+            android:background="@drawable/btn_close"
+            android:adjustViewBounds="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="32dp"
+            android:text="날짜"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/brown"
+            android:id="@+id/diet_date"/>
+
+        <Spinner
+            android:background="@drawable/btn_diet_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="32dp"
+            android:paddingLeft="14dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:spinnerMode="dropdown"
+            android:id="@+id/diet_spinner" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:id="@+id/diet_recyclerView"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/brown"
+            android:gravity="center"
+            android:paddingRight="33dp"
+            android:paddingLeft="33dp"
+            android:id="@+id/diet_update_save_btn"
+            android:layout_gravity="end"
+            android:layout_marginBottom="79dp"
+            android:layout_marginRight="32dp"
+            android:elevation="0dp"
+            android:background="@drawable/background_full_pale_brown"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#99000000"
+        android:id="@+id/diet_update_opacity_layout"
+        android:visibility="gone"
+        >
+
+    </LinearLayout>
+
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:background="@color/white"
+android:layout_marginTop="70dp"
+android:layout_gravity="center_horizontal"
+android:id="@+id/diet_update_datepicker_layout"
+    android:visibility="gone">
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:id="@+id/diet_update_set_datepicker"
+        android:calendarViewShown="false"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_full_white"
+        android:text="완료"
+        android:textColor="@color/brown"
+        android:layout_margin="5dp"
+        android:id="@+id/diet_update_complete_button"/>
+
+</LinearLayout>
+
+</FrameLayout>
