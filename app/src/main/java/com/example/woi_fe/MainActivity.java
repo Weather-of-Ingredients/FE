@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
+
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
+import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -62,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Notifications");
                 }
+            } else if (itemId == R.id.navigation_dietCal){
+                loadFragment(new DietCalFragment());
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("식단 일정");
+                }
+            } else if (itemId == R.id.navigation_makeDiet){
+                loadFragment(new );
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("식단 등록");
+                }
             }
             return true;
         });
@@ -78,11 +90,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_layout, fragment);
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
-        printKeyHash();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_layout, new DietUpdateFragment())
-                .commit();
     }
 
     private static final String TAG = "KeyHash";
