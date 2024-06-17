@@ -1,4 +1,4 @@
-package com.example.woi_fe.CropPrediction;
+package com.example.woi_fe.ui.CropPrediction;
 
 import android.os.Bundle;
 
