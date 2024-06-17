@@ -1,6 +1,5 @@
-package com.example.woi_fe.Diet;
+package com.example.woi_fe.ui.Diet;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.woi_fe.Dialog.CustomDialog;
-import com.example.woi_fe.Diet.ItemMove.ItemMoveCallback;
+import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveCallback;
 import com.example.woi_fe.R;
 import com.example.woi_fe.databinding.FragmentDietUpdateBinding;
 

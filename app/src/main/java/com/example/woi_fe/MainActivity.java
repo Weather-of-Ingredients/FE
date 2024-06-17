@@ -1,24 +1,17 @@
 package com.example.woi_fe;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.util.Log;
 
-import com.example.woi_fe.CropPrediction.CropPredFragment;
-import com.example.woi_fe.Diet.DietUpdateFragment;
+import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
+import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
-import com.example.woi_fe.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.woi_fe.databinding.ActivityMainBinding;
 
@@ -26,7 +19,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Base64;
-import android.util.Log;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
