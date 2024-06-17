@@ -9,12 +9,12 @@ import com.google.gson.Gson;
 public class RetrofitClient {
 
     private static final String BASE_URL="http://10.0.2.2:8080";
+
     private static Retrofit retrofit;
 
     public static Retrofit getInstance(){
         if(retrofit == null){
 
-            // TODO : 데이터 통신의 로그를 Logcat에서 확인할 수 있다.
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 

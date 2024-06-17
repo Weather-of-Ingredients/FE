@@ -148,6 +148,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
                 setCustomDialog();
                 isSaved = false;
                 isEdited = false;
+
             }
         });
         return binding.getRoot();
