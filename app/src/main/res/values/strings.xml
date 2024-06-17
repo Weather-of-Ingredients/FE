@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WoI_FE</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dietCal">홈</string>
+    <string name="title_makeDiet">식단 등록</string>
+    <string name="title_home">식단 일정</string>
+    <string name="title_notifications">작물</string>
+    <string name="title_dashboard">영양성분</string>
 </resources>

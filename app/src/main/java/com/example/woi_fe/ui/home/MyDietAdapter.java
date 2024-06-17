@@ -49,10 +49,10 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
                 bundle.putString("week", data.getWeek());
                 bundle.putString("menus", data.getMenus());
 
-                Intent intent = new Intent(context, DietDetailActivity.class);
-                intent.putExtras(bundle);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, DietDetailFragment.class);
+//                intent.putExtras(bundle);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.woi_fe.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
+import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -67,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new CropPredFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Notifications");
+                }
+            } else if (itemId == R.id.navigation_dietCal){
+                loadFragment(new DietCalFragment());
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("식단 일정");
+                }
+            } else if (itemId == R.id.navigation_makeDiet){
+                loadFragment(new );
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("식단 등록");
                 }
             }
             return true;
