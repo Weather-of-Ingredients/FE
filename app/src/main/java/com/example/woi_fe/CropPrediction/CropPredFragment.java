@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
-import com.example.woi_fe.databinding.CropPredBottomSheetBinding;
+import com.example.woi_fe.databinding.BottomSheetCropPredBinding;
 import com.example.woi_fe.databinding.FragmentCropPredBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -201,7 +201,7 @@ public class CropPredFragment extends Fragment {
     }
 
     private void ShowBottomSheet() {
-        CropPredBottomSheetBinding bottomSheetBinding = CropPredBottomSheetBinding.inflate(getLayoutInflater());
+        BottomSheetCropPredBinding bottomSheetBinding = BottomSheetCropPredBinding.inflate(getLayoutInflater());
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(bottomSheetBinding.getRoot());
 

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/beige_background"
+            android:background="@drawable/background_beige"
             android:elevation="10dp"
             >
 
@@ -68,11 +68,12 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/crop_pred_set_month_btn"
+                        android:background="@drawable/btn_date"
                         android:layout_width="7dp"
                         android:layout_height="10dp"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="8dp"
-                        android:background="@drawable/triangle_button" />
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -97,7 +98,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:orientation="vertical"
-            android:background="@drawable/white_full_background">
+            android:background="@drawable/background_full_white">
             <!--생산이 어려운 작물_-->
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -136,7 +137,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="43dp"
-                    android:background="@drawable/prev_button"
+                    android:background="@drawable/btn_prev"
                     android:id="@+id/prev_btn"
                     android:visibility="invisible"
                     />
@@ -168,7 +169,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="43dp"
-                    android:background="@drawable/next_button"
+                    android:background="@drawable/btn_next"
                     android:id="@+id/next_btn"
                     android:visibility="invisible"
                     />
@@ -184,7 +185,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:orientation="vertical"
-            android:background="@drawable/white_full_background">
+            android:background="@drawable/background_full_white">
 
             <!--영향 받는 메뉴명-->
             <LinearLayout
@@ -226,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="17dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/pink_full_background">
+                    android:background="@drawable/background_full_pink">
 
                     <!--date-->
                     <LinearLayout
@@ -341,7 +342,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_full_background"
+            android:background="@drawable/background_full_white"
             android:text="완료"
             android:textColor="@color/brown"
             android:layout_margin="5dp"

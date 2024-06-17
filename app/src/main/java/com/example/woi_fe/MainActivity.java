@@ -5,6 +5,9 @@ import android.view.MenuItem;
 import android.util.Log;
 
 import com.example.woi_fe.CropPrediction.CropPredFragment;
+
+import com.example.woi_fe.Diet.DietUpdateFragment;
+
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
@@ -84,12 +87,14 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_layout, fragment);
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
+
 //        printKeyHash();
 //
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
 //                .commit();
     }
+
 
     private static final String TAG = "KeyHash";
 
