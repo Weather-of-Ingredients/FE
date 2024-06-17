@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle("식단 일정");
                 }
             } else if (itemId == R.id.navigation_makeDiet){
-                loadFragment(new );
+                loadFragment(new DietUpdateFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 등록");
                 }
