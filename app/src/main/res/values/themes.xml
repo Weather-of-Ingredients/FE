@@ -13,4 +13,7 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/custom_bs</item>
     </style>
+    <style name="CalendarViewTheme" parent="Theme.WoI_FE">
+        <item name="colorAccent">@color/pink</item>
+    </style>
 </resources>

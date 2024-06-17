@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="28dp"
-    tools:context=".Diet.DietUpdateFragment">
+    tools:context=".ui.Diet.DietUpdateFragment">
 
 <LinearLayout
     android:layout_width="match_parent"

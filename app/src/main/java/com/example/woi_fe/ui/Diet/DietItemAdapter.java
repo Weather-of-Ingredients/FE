@@ -1,4 +1,4 @@
-package com.example.woi_fe.Diet;
+package com.example.woi_fe.ui.Diet;
 
 import android.content.Context;
 import android.text.Editable;
@@ -19,11 +19,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woi_fe.Diet.ItemMove.ItemMoveListener;
+import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveListener;
 import com.example.woi_fe.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemViewHolder> implements ItemMoveListener {
 

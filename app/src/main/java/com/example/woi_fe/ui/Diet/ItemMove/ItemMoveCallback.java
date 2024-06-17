@@ -1,10 +1,10 @@
-package com.example.woi_fe.Diet.ItemMove;
+package com.example.woi_fe.ui.Diet.ItemMove;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woi_fe.Diet.DietItemAdapter;
+import com.example.woi_fe.ui.Diet.DietItemAdapter;
 import com.example.woi_fe.R;
 
 public class ItemMoveCallback extends ItemTouchHelper.Callback{

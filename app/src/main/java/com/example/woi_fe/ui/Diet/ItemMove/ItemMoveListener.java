@@ -1,4 +1,4 @@
-package com.example.woi_fe.Diet.ItemMove;
+package com.example.woi_fe.ui.Diet.ItemMove;
 
 import android.view.View;
 

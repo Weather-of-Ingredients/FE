@@ -12,6 +12,18 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_makeDiet"
+        android:name="com.example.woi_fe.ui.home.HomeFragment"
+        android:label="@string/title_makeDiet"
+        tools:layout="@layout/fragment_makediet" />
+
+    <fragment
+        android:id="@+id/navigation_dietCal"
+        android:name="com.example.woi_fe.ui.dietcal.DietCalFragment"
+        android:label="@string/title_dietCal"
+        tools:layout="@layout/fragment_dietcal" />
+
+    <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.woi_fe.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
