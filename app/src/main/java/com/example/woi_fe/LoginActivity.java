@@ -1,6 +1,8 @@
 package com.example.woi_fe;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Retrofit retrofit = RetrofitClient.getInstance();
+        Retrofit retrofit = RetrofitClient.getInstance(this);
         registrationRetrofitAPI = retrofit.create(RegistrationRetrofitAPI.class);
 
         TextView subMessage = findViewById(R.id.sub_message);
@@ -53,6 +55,11 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login_button).setOnClickListener(v -> {
             String loginId = ((EditText) findViewById(R.id.username)).getText().toString();
             String password = ((EditText) findViewById(R.id.password)).getText().toString();
+
+
+            LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
+            loginRequestDTO.setLoginId(loginId);
+            loginRequestDTO.setPassword(password);
 
             loginUser(loginId, password);
         });
@@ -83,11 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                         String responseString = response.body().string();
                         JSONObject jsonResponse = new JSONObject(responseString);
                         String message = jsonResponse.getString("token");
+                        String token = jsonResponse.getString("token");
+                        saveToken(token); // 토큰 저장
                         //Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         Toast.makeText(LoginActivity.this, "로그인이 성공적으로 완료되었습니다. 환영합니다!", Toast.LENGTH_SHORT).show();
                         // 로그인 성공 시 다음 페이지로 이동
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("TOKEN", token);
                         startActivity(intent);
+                        finish();
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(LoginActivity.this, "Login Successful but failed to parse response", Toast.LENGTH_SHORT).show();
@@ -102,5 +113,19 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 불일치합니다." + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // 토큰 저장
+    private void saveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences("WoI", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("jwtToken", token);
+        editor.apply();
+    }
+
+    // 토큰 읽기
+    private String getToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("WoI", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("jwtToken", null);
     }
 }

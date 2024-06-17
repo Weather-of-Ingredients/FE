@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Retrofit retrofit = RetrofitClient.getInstance();
+        Retrofit retrofit = RetrofitClient.getInstance(this);
         registrationRetrofitAPI = retrofit.create(RegistrationRetrofitAPI.class);
 
         // Register button 클릭 시 호출
