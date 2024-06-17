@@ -1,5 +1,8 @@
 package com.example.woi_fe.CropPrediction;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,7 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
+import com.bumptech.glide.Glide;
+import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
@@ -16,6 +23,10 @@ import com.example.woi_fe.databinding.BottomSheetCropPredBinding;
 import com.example.woi_fe.databinding.FragmentCropPredBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
@@ -110,6 +121,7 @@ public class CropPredFragment extends Fragment {
     }
 
     private void callRetrofit(int year, int month) {
+        Log.e("MainActivity", "레트로핏 연결");
         recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
             @Override
             public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
@@ -122,23 +134,32 @@ public class CropPredFragment extends Fragment {
                         if(!cropItems.isEmpty()){
                             binding.prevBtn.setVisibility(View.INVISIBLE);
                             binding.cropId.setVisibility(View.VISIBLE);
+
                             binding.cropId.setText(cropItems.get(0).getIngredient_name());
+                            Glide.with(requireContext())
+                                    .load(cropItems.get(0).getIngredient_image())
+                                    .override(134, 134)
+                                    .into(binding.cropImage);
                             if(cropItems.size() > 1){
                                 binding.nextBtn.setVisibility(View.VISIBLE);
                                 binding.prevBtn.setVisibility(View.INVISIBLE);
                             }
                         }else{
-                            binding.nextBtn.setVisibility(View.INVISIBLE);
-                            binding.prevBtn.setVisibility(View.INVISIBLE);
-                            binding.cropId.setVisibility(View.INVISIBLE);
-                            binding.cropId.setText("");
+                            handleEmptyCropItems();
                         }
 
                     }else{
                         Log.e("MainActivity", "response.body()==null");
+                        handleEmptyCropItems();
                     }
                 }else{
                     Log.e("MainActivity", "response.isSuccessful()에서 오류");
+                    Log.e("MainActivity","Request failed with code: " + response.code());
+                    try {
+                        Log.e("MainActivity","Error body: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -151,6 +172,14 @@ public class CropPredFragment extends Fragment {
         });
     }
 
+    private void handleEmptyCropItems() {
+        binding.nextBtn.setVisibility(View.INVISIBLE);
+        binding.prevBtn.setVisibility(View.INVISIBLE);
+        binding.cropId.setVisibility(View.INVISIBLE);
+        binding.cropId.setText("");
+        Glide.with(requireContext())
+                .clear(binding.cropImage); // 이미지도 지우기
+    }
 
     private void setCropListener(){
         if((!cropItems.isEmpty()) && cropItems.size() > 1){
@@ -177,6 +206,10 @@ public class CropPredFragment extends Fragment {
             public void onClick(View view) {
                 itemSize++;
                 binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
+                Glide.with(requireContext())
+                        .load(cropItems.get(itemSize).getIngredient_image())
+                        .override(134, 134)
+                        .into(binding.cropImage);
                 setCropListener();
             }
         });
@@ -185,6 +218,10 @@ public class CropPredFragment extends Fragment {
             public void onClick(View view) {
                 itemSize--;
                 binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
+                Glide.with(requireContext())
+                        .load(cropItems.get(itemSize).getIngredient_image())
+                        .override(134, 134)
+                        .into(binding.cropImage);
                 setCropListener();
             }
         });

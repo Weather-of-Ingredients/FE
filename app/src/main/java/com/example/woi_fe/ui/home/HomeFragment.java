@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
     private void setupBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
-        View view = getLayoutInflater().inflate(R.layout.crop_pred_bottom_sheet, null);
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_crop_pred, null);
 
         binding.textHome.setOnClickListener(new View.OnClickListener() {
             @Override

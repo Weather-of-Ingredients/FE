@@ -5,13 +5,10 @@ import android.view.MenuItem;
 import android.util.Log;
 
 import com.example.woi_fe.CropPrediction.CropPredFragment;
-<<<<<<< HEAD
 import com.example.woi_fe.Diet.DietUpdateFragment;
-=======
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
->>>>>>> a9fdc2c418e2e41ff8a38c6a0588d675ae1795cd
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -51,12 +48,15 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Home page");
         }
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_layout, new CropPredFragment())
+                .commit();
+        /*bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
                 //                    updateIcons(item, R.drawable.calendar_1);
-                loadFragment(new HomeFragment());
+                loadFragment(new DietUpdateFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Home");
                 }
@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             return true;
-        });
-        loadFragment(new HomeFragment());
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        });*/
+        //loadFragment(new CropPredFragment());
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         printKeyHash();
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_layout, new DietUpdateFragment())
+                .replace(R.id.main_layout, new CropPredFragment())
                 .commit();
     }
 
