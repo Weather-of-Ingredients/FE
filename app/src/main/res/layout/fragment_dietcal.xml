@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/pale_beige">
+        android:background="@color/bright_pink">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

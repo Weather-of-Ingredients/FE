@@ -21,6 +21,8 @@ public class DietCalFragment extends Fragment {
         binding = FragmentDietcalBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+//        binding.yetNoDiet.setVisibility(View.GONE);
+
         return root;
     }
 }
