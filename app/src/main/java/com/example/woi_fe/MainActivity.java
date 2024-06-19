@@ -3,15 +3,23 @@ package com.example.woi_fe;
 import android.os.Bundle;
 import android.util.Log;
 
+<<<<<<< HEAD
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 
+=======
+import com.example.woi_fe.CropPrediction.CropPredFragment;
+import com.example.woi_fe.Diet.DietUpdateFragment;
+>>>>>>> graph
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
+<<<<<<< HEAD
 
+=======
+>>>>>>> graph
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Home page");
         }
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_layout, new CropPredFragment())
+                .commit();
+        /*bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
                 //                    updateIcons(item, R.drawable.calendar_1);
-                loadFragment(new HomeFragment());
+                loadFragment(new DietUpdateFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Home");
                 }
@@ -79,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             return true;
-        });
-        loadFragment(new HomeFragment());
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        });*/
+        //loadFragment(new CropPredFragment());
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
@@ -94,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
 
+<<<<<<< HEAD
+=======
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_layout, new CropPredFragment())
+                .commit();
+>>>>>>> graph
     }
 
 
