@@ -53,35 +53,37 @@ public class MainActivity extends AppCompatActivity {
                 //                    updateIcons(item, R.drawable.calendar_1);
                 loadFragment(new HomeFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Home");
+                    getSupportActionBar().setTitle("식단 일정");
                 }
             } else if (itemId == R.id.navigation_dashboard) {
                 //                    updateIcons(item, R.drawable.checklist_1);
                 loadFragment(new DashboardFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Dashboard");
+                    getSupportActionBar().setTitle("영양성분");
                 }
             } else if (itemId == R.id.navigation_notifications) {
                 //                    updateIcons(item, R.drawable.user_1);
                 loadFragment(new CropPredFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Notifications");
+                    getSupportActionBar().setTitle("작물");
                 }
             } else if (itemId == R.id.navigation_dietCal){
                 loadFragment(new DietCalFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("식단 일정");
+                    getSupportActionBar().setTitle("홈");
                 }
-//            } else if (itemId == R.id.navigation_makeDiet){
-//                loadFragment(new );
-//                if (getSupportActionBar() != null) {
-//                    getSupportActionBar().setTitle("식단 등록");
-//                }
+
+            } else if (itemId == R.id.navigation_makeDiet){
+                loadFragment(new DietUpdateFragment());
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("식단 등록");
+                }
+
             }
             return true;
         });
-        loadFragment(new HomeFragment());
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        loadFragment(new DietCalFragment());
+        bottomNavigationView.setSelectedItemId(R.id.navigation_dietCal);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
