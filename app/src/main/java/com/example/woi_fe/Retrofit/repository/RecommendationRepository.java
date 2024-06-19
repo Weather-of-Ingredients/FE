@@ -12,9 +12,11 @@ import retrofit2.Call;
 public class RecommendationRepository {
     private RecommendationRetrofitAPI recommendationRetrofitAPI;
 
-    public RecommendationRepository(){
-        recommendationRetrofitAPI = RetrofitClient.getInstance().create(RecommendationRetrofitAPI.class);
-    }
+
+//    해당 부분에 오류 생겨서 임의로 주석처리함
+//    public RecommendationRepository(){
+//        recommendationRetrofitAPI = RetrofitClient.getInstance(this).create(RecommendationRetrofitAPI.class);
+//    }
 
     public Call<List<CropItem>> getAllCropItems(){
         return recommendationRetrofitAPI.getAllCropItems();

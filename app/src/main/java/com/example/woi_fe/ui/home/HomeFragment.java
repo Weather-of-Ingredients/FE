@@ -56,8 +56,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Retrofit retrofit = RetrofitClient.getInstance();
-        dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
+        //Retrofit retrofit = RetrofitClient.getInstance();
+        //dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
 
 
         // 바텀 시트
@@ -115,6 +115,7 @@ public class HomeFragment extends Fragment {
     private void setupBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.bottom_sheet_crop_pred, null);
+
 
 //        binding.textHome.setOnClickListener(new View.OnClickListener() {
 //            @Override
