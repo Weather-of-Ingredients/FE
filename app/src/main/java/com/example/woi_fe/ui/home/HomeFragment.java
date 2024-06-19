@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Retrofit retrofit = RetrofitClient.getInstance();
+        Retrofit retrofit = RetrofitClient.getInstance(requireContext());// 진선 수정
         dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
 
 

@@ -3,23 +3,13 @@ package com.example.woi_fe;
 import android.os.Bundle;
 import android.util.Log;
 
-<<<<<<< HEAD
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
-
-=======
-import com.example.woi_fe.CropPrediction.CropPredFragment;
-import com.example.woi_fe.Diet.DietUpdateFragment;
->>>>>>> graph
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
-<<<<<<< HEAD
-
-=======
->>>>>>> graph
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -105,12 +95,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
 
-<<<<<<< HEAD
-=======
-        getSupportFragmentManager().beginTransaction()
+        /*getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_layout, new CropPredFragment())
-                .commit();
->>>>>>> graph
+                .commit();*/
     }
 
 
