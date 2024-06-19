@@ -56,8 +56,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Retrofit retrofit = RetrofitClient.getInstance();
-        dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
+        //Retrofit retrofit = RetrofitClient.getInstance();
+        //dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
 
 
         // 바텀 시트

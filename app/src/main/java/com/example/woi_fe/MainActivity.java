@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 일정");
                 }
-            } else if (itemId == R.id.navigation_makeDiet){
-                loadFragment(new );
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("식단 등록");
-                }
+//            } else if (itemId == R.id.navigation_makeDiet){
+//                loadFragment(new );
+//                if (getSupportActionBar() != null) {
+//                    getSupportActionBar().setTitle("식단 등록");
+//                }
             }
             return true;
         });
