@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/food_nutrition_layout"
+    tools:context=".FoodNutrition.FoodNutritionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/pale_beige">
+
+        <!--1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/background_beige"
+            android:elevation="10dp"
+            >
+
+            <!--날짜 선택-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="23.6dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/logo"
+                    android:adjustViewBounds="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4월"
+                        android:id="@+id/food_nutrition_set_month"
+                        android:textSize="24dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="2024년"
+                        android:id="@+id/food_nutrition_set_year"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brown"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/food_nutrition_set_month_btn"
+                        android:background="@drawable/btn_date"
+                        android:layout_width="7dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="8dp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이 달의 영양성분 그래프입니다.\n균형 맞춘 식단인지 확인해보세요!"
+                android:textSize="15dp"
+                android:layout_marginLeft="30.66dp"
+                android:layout_marginBottom="26.90dp"
+                android:textColor="@color/brown"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40.43dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/graph" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
