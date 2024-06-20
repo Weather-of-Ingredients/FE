@@ -10,6 +10,9 @@ import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
+
+import com.example.woi_fe.ui.notifications.NotificationsFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("홈");
                 }
+
             } else if (itemId == R.id.navigation_makeDiet){
                 loadFragment(new DietUpdateFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 등록");
                 }
+
             }
             return true;
         });
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+
 
     private static final String TAG = "KeyHash";
 

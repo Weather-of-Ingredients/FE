@@ -57,7 +57,57 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
         dietRepository = new DietRepository();
+
+        //Retrofit retrofit = RetrofitClient.getInstance();
+        //dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
+
+
+        // 바텀 시트
+//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+//        binding.textHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bottomSheetDialog.show();
+//            }
+//        });
+//        setupBottomSheet();
+//
+//        final TextView textView = binding.textHome;
+//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        // 캘린더뷰
+        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                // 일단 현재 날짜를 가져옴
+                Calendar calendar = Calendar.getInstance();
+                // 사용자가 선택한 날짜로 Calendar 객체를 업데이트
+                calendar.set(year, month, dayOfMonth);
+
+                // 날짜 형식 지정
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                // selectedDate 업데이트
+                selectedDate = dateFormat.format(calendar.getTime());
+
+                // 날짜를 하루 더함
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+                // 선택된 날짜에 대한 식단 목록 업데이트
+                updateDiet();
+            }
+        });
+
+        // Context를 가져옴
+        Context context = requireContext();
+
+        // itemList 생성
+        List<DietDTO> itemList = new ArrayList<>();
+
+        // 어댑터 생성
+        MyDietAdapter adapter = new MyDietAdapter(context, itemList);
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         binding.feedRecyclerView.setLayoutManager(layoutManager);
@@ -67,8 +117,13 @@ public class HomeFragment extends Fragment {
 
         loadDietList();
 
+
 //        // 캘린더뷰
 //        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+
+//        binding.textHome.setOnClickListener(new View.OnClickListener() {
+
 //            @Override
 //            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
 //                // 일단 현재 날짜를 가져옴
