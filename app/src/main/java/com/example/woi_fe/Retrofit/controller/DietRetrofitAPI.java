@@ -2,6 +2,7 @@ package com.example.woi_fe.Retrofit.controller;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 
 import java.util.List;
@@ -37,4 +38,7 @@ public interface DietRetrofitAPI {
     // 오늘자 식단 가져오기
 
     // 사용자별 식단 날짜별로 가져오기
+
+    @GET("/api/menus/{food_Name}")
+    Call<List<MenuDTO>> getMenuList(@Path("food_Name") String foodName);
 }

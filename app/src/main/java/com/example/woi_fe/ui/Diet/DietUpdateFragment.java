@@ -1,5 +1,6 @@
 package com.example.woi_fe.ui.Diet;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -88,6 +89,15 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         isEdited = false;
 
         Log.d("MainActivity", "[UpdateFragment] save: " + isSaved + " edit: " + isEdited);
+
+        binding.btnMenuSearch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // menu 검색 페이지로 넘어가기
+                Intent intent = new Intent(requireContext(), MenuSearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         //날짜 초기화
