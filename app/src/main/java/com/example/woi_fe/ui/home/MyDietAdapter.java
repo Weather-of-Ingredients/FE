@@ -1,5 +1,6 @@
 package com.example.woi_fe.ui.home;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.databinding.ItemDietBinding;
+import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 
 import java.util.List;
 
@@ -37,8 +40,15 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
 
         holder.binding.itemTypeView.setText(data.getType());
         holder.binding.itemDateView.setText(data.getDate());
-        holder.binding.itemWeekView.setText(data.getWeek());
-        holder.binding.itemMenusView.setText(data.getMenus());
+        holder.binding.itemWeekView.setText(data.getWeek().toString());
+        
+        // menus 데이터를 적절한 문자열 형식으로 변환하여 표시
+        StringBuilder menusText = new StringBuilder();
+        for (MenuDTO menu : data.getMenus()) {
+            menusText.append(menu.getFood_name()).append(", ");
+            // 필요한 경우 다른 필드도 추가
+        }
+        holder.binding.itemMenusView.setText(menusText.toString());
 
         holder.binding.itemMenusView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,13 +56,19 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
                 Bundle bundle = new Bundle();
                 bundle.putString("type", data.getType());
                 bundle.putString("date", data.getDate());
-                bundle.putString("week", data.getWeek());
-                bundle.putString("menus", data.getMenus());
+                bundle.putString("week", data.getWeek().toString());
+                // menus 데이터를 적절한 문자열 형식으로 변환하여 Bundle에 추가
+                StringBuilder menusText = new StringBuilder();
+                for (MenuDTO menu : data.getMenus()) {
+                    menusText.append(menu.getFood_name()).append(", ");
+                    // 필요한 경우 다른 필드도 추가
+                }
+                bundle.putString("menus", menusText.toString());
 
-//                Intent intent = new Intent(context, DietDetailFragment.class);
-//                intent.putExtras(bundle);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, DietUpdateFragment.class);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
@@ -60,5 +76,10 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    public void updateItems(List<DietDTO> itemList) {
+        this.itemList = itemList;
+        notifyDataSetChanged();
     }
 }
