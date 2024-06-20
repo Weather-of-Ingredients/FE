@@ -28,7 +28,7 @@ public class DietCalFragment extends Fragment {
         binding = FragmentDietcalBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        dietRepository = new DietRepository();
+        dietRepository = new DietRepository(requireContext());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         binding.feedRecyclerView.setLayoutManager(layoutManager);

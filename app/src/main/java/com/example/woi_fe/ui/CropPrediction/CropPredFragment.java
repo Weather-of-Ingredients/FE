@@ -85,7 +85,7 @@ public class CropPredFragment extends Fragment {
         binding = FragmentCropPredBinding.inflate(inflater, container, false);
 
         //retrofit 연결
-        recommendationRepository = new RecommendationRepository();
+        recommendationRepository = new RecommendationRepository(requireContext());
 
         calendar = Calendar.getInstance();
 

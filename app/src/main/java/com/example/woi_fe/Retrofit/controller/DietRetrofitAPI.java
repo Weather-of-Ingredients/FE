@@ -1,6 +1,7 @@
 package com.example.woi_fe.Retrofit.controller;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
+import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 
 import java.util.List;
@@ -28,10 +29,12 @@ public interface DietRetrofitAPI {
     Call<ResponseBody> deleteDiet(@Path("dietId") int dietId);
 
     @GET("/api/diet/all") // 식단 목록 가져오기
-    @Headers("Authorization: Bearer {token}")
-    Call<List<DietDTO>> getAllDiets();
+    Call<List<DietResponseDTO>> getAllDiets();
 
     @GET("/api/user/diet") // 사용자별 식단 가져오기
-    @Headers("Authorization: Bearer {token}")
-    Call<List<DietDTO>> getUserDiets();
+    Call<List<DietResponseDTO>> getUserDiets();
+
+    // 오늘자 식단 가져오기
+
+    // 사용자별 식단 날짜별로 가져오기
 }

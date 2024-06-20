@@ -1,5 +1,7 @@
 package com.example.woi_fe.Retrofit.repository;
 
+import android.content.Context;
+
 import com.example.woi_fe.Retrofit.controller.RecommendationRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
@@ -14,9 +16,9 @@ public class RecommendationRepository {
 
 
 //    해당 부분에 오류 생겨서 임의로 주석처리함
-//    public RecommendationRepository(){
-//        recommendationRetrofitAPI = RetrofitClient.getInstance(this).create(RecommendationRetrofitAPI.class);
-//    }
+    public RecommendationRepository(Context context){
+        recommendationRetrofitAPI = RetrofitClient.getInstance(context).create(RecommendationRetrofitAPI.class);
+    }
 
     public Call<List<CropItem>> getAllCropItems(){
         return recommendationRetrofitAPI.getAllCropItems();

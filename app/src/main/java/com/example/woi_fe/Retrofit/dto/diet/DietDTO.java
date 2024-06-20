@@ -16,7 +16,7 @@ public class DietDTO {
     @SerializedName("type")
     private String type;
     @SerializedName("week")
-    private LocalDate week;
+    private String week;
 
     @SerializedName("menus")
     private List<MenuDTO> menus;
@@ -31,11 +31,11 @@ public class DietDTO {
         this.dietId = dietId;
     }
 
-    public LocalDate getWeek() {
+    public String getWeek() {
         return week;
     }
 
-    public void setWeek(LocalDate week) {
+    public void setWeek(String week) {
         this.week = week;
     }
 
