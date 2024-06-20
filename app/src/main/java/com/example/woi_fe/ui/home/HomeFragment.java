@@ -2,6 +2,7 @@ package com.example.woi_fe.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.controller.RegistrationRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
+import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
+import com.example.woi_fe.Retrofit.repository.DietRepository;
 import com.example.woi_fe.databinding.FragmentHomeBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -43,7 +46,8 @@ import retrofit2.Retrofit;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private String selectedDate = "0";
+    private DietRepository dietRepository;
+    private MyDietAdapter adapter;
 
     private DietRetrofitAPI dietRetrofitAPI;
 
@@ -56,8 +60,10 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //Retrofit retrofit = RetrofitClient.getInstance();
-        //dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
+        dietRepository = new DietRepository(requireContext());
+
+        Retrofit retrofit = RetrofitClient.getInstance(requireContext());
+        dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
 
 
         // 바텀 시트
@@ -74,96 +80,168 @@ public class HomeFragment extends Fragment {
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         // 캘린더뷰
-        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                // 일단 현재 날짜를 가져옴
-                Calendar calendar = Calendar.getInstance();
-                // 사용자가 선택한 날짜로 Calendar 객체를 업데이트
-                calendar.set(year, month, dayOfMonth);
-
-                // 날짜 형식 지정
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                // selectedDate 업데이트
-                selectedDate = dateFormat.format(calendar.getTime());
-
-                // 날짜를 하루 더함
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
-
-                // 선택된 날짜에 대한 식단 목록 업데이트
-                updateDiet();
-            }
-        });
+//        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+//                // 일단 현재 날짜를 가져옴
+//                Calendar calendar = Calendar.getInstance();
+//                // 사용자가 선택한 날짜로 Calendar 객체를 업데이트
+//                calendar.set(year, month, dayOfMonth);
+//
+//                // 날짜 형식 지정
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                // selectedDate 업데이트
+//                selectedDate = dateFormat.format(calendar.getTime());
+//
+//                // 날짜를 하루 더함
+//                calendar.add(Calendar.DAY_OF_MONTH, 1);
+//
+//                // 선택된 날짜에 대한 식단 목록 업데이트
+//                updateDiet();
+//            }
+//        });
 
         // Context를 가져옴
         Context context = requireContext();
 
         // itemList 생성
-        List<DietDTO> itemList = new ArrayList<>();
+        List<DietResponseDTO> itemList = new ArrayList<>();
 
         // 어댑터 생성
         MyDietAdapter adapter = new MyDietAdapter(context, itemList);
 
-        // RecyclerView 설정
-//        RecyclerView feedRecyclerView = getView().findViewById(R.id.feedRecyclerView);
-//        feedRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-//        feedRecyclerView.setAdapter(adapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        binding.feedRecyclerView.setLayoutManager(layoutManager);
+
+        adapter = new MyDietAdapter(requireContext(), new ArrayList<>());
+        binding.feedRecyclerView.setAdapter(adapter);
+
+        loadDietList();
+
+//        // 캘린더뷰
+//        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+
+//        binding.textHome.setOnClickListener(new View.OnClickListener() {
+
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+//                // 일단 현재 날짜를 가져옴
+//                Calendar calendar = Calendar.getInstance();
+//                // 사용자가 선택한 날짜로 Calendar 객체를 업데이트
+//                calendar.set(year, month, dayOfMonth);
+//
+//                // 날짜 형식 지정
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                // selectedDate 업데이트
+//                selectedDate = dateFormat.format(calendar.getTime());
+//
+//                // 날짜를 하루 더함
+//                calendar.add(Calendar.DAY_OF_MONTH, 1);
+//
+//                // 선택된 날짜에 대한 식단 목록 업데이트
+//                updateDiet();
+//            }
+//        });
 
         return root;
     }
 
-    private void setupBottomSheet() {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
-        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_crop_pred, null);
+    private void loadDietList() {
+        Call<List<DietResponseDTO>> call = dietRetrofitAPI.getUserDiets();
 
-
-//        binding.textHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bottomSheetDialog.show();
-//            }
-//        });
-
-        bottomSheetDialog.setContentView(view);
-    }
-
-    private void updateDiet(){
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getDiet();
-    }
-
-    private void getDiet(){
-        DietDTO dietDTO = new DietDTO();
-        Call<List<DietDTO>> call = dietRetrofitAPI.getAllDiets();
-
-        call.enqueue(new Callback<List<DietDTO>>() {
+        call.enqueue(new Callback<List<DietResponseDTO>>() {
             @Override
-            public void onResponse(Call<List<DietDTO>> call, Response<List<DietDTO>> response) {
-                if(response.isSuccessful()){
-                    try{
-                        String responseString = response.body().toString();
-                        JSONObject jsonResponse = new JSONObject(responseString);
-                    } catch (JSONException e){
-                        e.printStackTrace();
-                    }
+            public void onResponse(Call<List<DietResponseDTO>> call, Response<List<DietResponseDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<DietResponseDTO> diets = response.body();
+                    adapter = new MyDietAdapter(getContext(), diets);
+                    binding.feedRecyclerView.setAdapter(adapter);
                 } else {
-
+                    Log.e("HomeFragment", "Response not successful or body is null");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<DietDTO>> call, Throwable t) {
+            public void onFailure(Call<List<DietResponseDTO>> call, Throwable t) {
 
             }
         });
 
+//        dietRepository.getAllDiets().enqueue(new Callback<List<DietResponseDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<DietResponseDTO>> call, Response<List<DietResponseDTO>> response) {
+//                if (response.isSuccessful()) {
+//                    List<DietResponseDTO> dietList = response.body();
+////                    adapter.updateItems(dietList);
+//                    Log.d("HomeFragment", response.body().toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<DietResponseDTO>> call, Throwable t) {
+////                binding.textView.setText(t.getMessage());
+//                Log.e("HomeFragment", t.getMessage());
+//            }
+//        });
     }
 
+//    private void setupBottomSheet() {
+//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+//        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_crop_pred, null);
+//
+////        binding.textHome.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                bottomSheetDialog.show();
+////            }
+////        });
+//
+//        bottomSheetDialog.setContentView(view);
+//    }
+//
+//    private void updateDiet(){
+//
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        getDiet();
+//    }
+//
+//    private void getDiet(){
+//        DietDTO dietDTO = new DietDTO();
+//        Call<List<DietDTO>> call = dietRetrofitAPI.getAllDiets();
+//        call.enqueue(new Callback<List<DietDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<DietDTO>> call, Response<List<DietDTO>> response) {
+//                if (!response.isSuccessful()) {
+//                    // Context를 가져옴
+//                    Context context = requireContext();
+//
+//                    // itemList 생성
+//                    List<DietDTO> itemList = new ArrayList<>();
+//
+//                    // 레이아웃 설정
+//                    LinearLayoutManager manager = new LinearLayoutManager(requireContext());
+//                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+//                    binding.feedRecyclerView.setLayoutManager(manager);
+//
+//                    // 어댑터 생성
+//                    MyDietAdapter adapter = new MyDietAdapter(context, itemList);
+//                    binding.feedRecyclerView.setAdapter(adapter);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<DietDTO>> call, Throwable t) {
+//                binding.textView.setText(t.getMessage());
+//            }
+//        });
+//
+//    }
 
     @Override
     public void onDestroyView() {

@@ -1,5 +1,6 @@
 package com.example.woi_fe.Retrofit.network;
 
+import android.util.Log;
 import android.content.Context;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,8 +21,16 @@ public class RetrofitClient {
 
             String token = TokenManager.getToken(context);
 
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+            // TODO : 데이터 통신의 로그를 Logcat에서 확인할 수 있다.
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    Log.d("HTTP", message);
+                }
+            });
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
 
             Gson gson = new GsonBuilder()
                     .setLenient()
