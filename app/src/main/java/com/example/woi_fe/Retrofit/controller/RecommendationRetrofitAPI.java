@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
 public interface RecommendationRetrofitAPI {
@@ -15,5 +16,6 @@ public interface RecommendationRetrofitAPI {
     Call<List<CropItem>> getAllCropItems();
 
     @GET("/api/crops/{year}/{month}/{bad_crops}")
+    @Headers("Authorization: Bearer {token}")
     Call<CropResponseDTO<List<CropItem>>> getCropItems(@Path("year") int year, @Path("month") int month, @Path("bad_crops") String bad_crops);
 }
