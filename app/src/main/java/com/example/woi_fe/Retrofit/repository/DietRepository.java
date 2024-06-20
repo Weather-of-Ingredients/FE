@@ -27,9 +27,11 @@ public class DietRepository {
         return dietRetrofitAPI.getAllDiets();
     }
 
-    public Call<List<DietResponseDTO>> getUserDiets() {
-        return dietRetrofitAPI.getUserDiets();
+    public Call<List<DietResponseDTO>> getDietByUserAndDate(String date) {
+        return dietRetrofitAPI.getDietByUserAndDate(date);
     }
+
+    public Call<List<DietResponseDTO>> getDietByUserAndToday(){ return dietRetrofitAPI.getDietByUserAndToday(); }
 
     public Call<List<MenuDTO>> getMenuList(String foodName) { return dietRetrofitAPI.getMenuList(foodName); }
 }

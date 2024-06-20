@@ -32,13 +32,12 @@ public interface DietRetrofitAPI {
     @GET("/api/diet/all") // 식단 목록 가져오기
     Call<List<DietResponseDTO>> getAllDiets();
 
-    @GET("/api/user/diet") // 사용자별 식단 가져오기
-    Call<List<DietResponseDTO>> getUserDiets();
+    @GET("/api/user/diet/{date}") // 사용자별 날짜별로 식단 가져오기
+    Call<List<DietResponseDTO>> getDietByUserAndDate(@Path("date") String date);
 
-    // 오늘자 식단 가져오기
+    @GET("/api/user/diet/today") // 사용자별 오늘자 식단 가져오기
+    Call<List<DietResponseDTO>> getDietByUserAndToday();
 
-    // 사용자별 식단 날짜별로 가져오기
-
-    @GET("/api/menus/{food_Name}")
+    @GET("/api/menus/{food_Name}") // 메뉴 검색
     Call<List<MenuDTO>> getMenuList(@Path("food_Name") String foodName);
 }
