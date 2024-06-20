@@ -3,14 +3,16 @@ package com.example.woi_fe;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.woi_fe.FoodNutrition.FoodNutritionFragment;
+import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
+
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
 import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.home.HomeFragment;
 
 import com.example.woi_fe.ui.notifications.NotificationsFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,9 @@ import android.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -40,50 +45,49 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-      
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Home page");
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_layout, new CropPredFragment())
-                .commit();
-        /*bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
                 //                    updateIcons(item, R.drawable.calendar_1);
-                loadFragment(new DietUpdateFragment());
+                loadFragment(new HomeFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Home");
+                    getSupportActionBar().setTitle("식단 일정");
                 }
             } else if (itemId == R.id.navigation_dashboard) {
                 //                    updateIcons(item, R.drawable.checklist_1);
                 loadFragment(new DashboardFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Dashboard");
+                    getSupportActionBar().setTitle("영양성분");
                 }
             } else if (itemId == R.id.navigation_notifications) {
                 //                    updateIcons(item, R.drawable.user_1);
                 loadFragment(new CropPredFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Notifications");
+                    getSupportActionBar().setTitle("작물");
                 }
             } else if (itemId == R.id.navigation_dietCal){
                 loadFragment(new DietCalFragment());
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("식단 일정");
+                    getSupportActionBar().setTitle("홈");
                 }
+
             } else if (itemId == R.id.navigation_makeDiet){
-                loadFragment(new );
+                loadFragment(new DietUpdateFragment());
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 등록");
                 }
+
             }
             return true;
-        });*/
-        //loadFragment(new CropPredFragment());
-        //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        });
+        loadFragment(new DietCalFragment());
+        bottomNavigationView.setSelectedItemId(R.id.navigation_dietCal);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
@@ -96,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack
         transaction.commit();
 
-        /*getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_layout, new CropPredFragment())
-                .commit();*/
     }
 
 

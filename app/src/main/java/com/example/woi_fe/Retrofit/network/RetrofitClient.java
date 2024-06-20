@@ -1,54 +1,26 @@
 package com.example.woi_fe.Retrofit.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
-
-import okhttp3.Interceptor;
+import android.content.Context;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.woi_fe.util.AuthInterceptor;
+import com.example.woi_fe.util.TokenManager;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-// AuthInterceptor 클래스
-class AuthInterceptor implements Interceptor {
-    private String token;
-
-    public AuthInterceptor(String token) {
-        this.token = token;
-    }
-
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request originalRequest = chain.request();
-        if (token == null) {
-            return chain.proceed(originalRequest);
-        }
-        Request.Builder builder = originalRequest.newBuilder().header("Authorization", "Bearer " + token);
-        Request newRequest = builder.build();
-        return chain.proceed(newRequest);
-    }
-}
-
-
 public class RetrofitClient {
 
-    private static final String BASE_URL="http://10.0.2.2:8080";
-
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     private static Retrofit retrofit;
 
-    public static Retrofit getInstance(Context context){
-        if(retrofit == null){
+    public static Retrofit getInstance(Context context) {
+        if (retrofit == null) {
 
-            SharedPreferences sharedPreferences = context.getSharedPreferences("WoI", Context.MODE_PRIVATE);
-            String token = sharedPreferences.getString("jwtToken", null);
+            String token = TokenManager.getToken(context);
+
 
             // TODO : 데이터 통신의 로그를 Logcat에서 확인할 수 있다.
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
@@ -57,7 +29,8 @@ public class RetrofitClient {
                     Log.d("HTTP", message);
                 }
             });
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY); //basic
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
 
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -76,6 +49,4 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-
 }
-

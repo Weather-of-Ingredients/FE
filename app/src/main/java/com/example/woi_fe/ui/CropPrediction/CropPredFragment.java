@@ -21,7 +21,6 @@ import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
-
 import com.example.woi_fe.databinding.BottomSheetCropPredBinding;
 import com.example.woi_fe.databinding.FragmentCropPredBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -102,7 +101,6 @@ public class CropPredFragment extends Fragment {
         //retrofit 연결
         recommendationRepository = new RecommendationRepository(requireContext());
 
-
         calendar = Calendar.getInstance();
 
         int year = calendar.get(Calendar.YEAR);
@@ -128,10 +126,13 @@ public class CropPredFragment extends Fragment {
 
     private void callRetrofit(int year, int month) {
         Log.e("MainActivity", "레트로핏 연결");
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("WoI", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("jwtToken", null);
-        if(!token.isEmpty()) {
-            recommendationRepository.getCropItems("Bearer " + token, year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+        /*SharedPreferences sharedPreferences = requireContext().getSharedPreferences("WoI", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwtToken", null);*/
+        /*if(!token.isEmpty()) {
+        *
+        * "Bearer " + token,
+        * */
+            recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
                 @Override
                 public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
                     if (response.isSuccessful()) {
@@ -179,9 +180,9 @@ public class CropPredFragment extends Fragment {
 
 
             });
-        }else{
+        /*}else{
             Log.e("HTTP", "토큰 없음");
-        }
+        }*/
     }
 
     private void handleEmptyCropItems() {
