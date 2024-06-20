@@ -3,6 +3,7 @@ package com.example.woi_fe;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 
@@ -25,6 +26,9 @@ import android.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-      
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Home page");
         }
