@@ -1,5 +1,7 @@
 package com.example.woi_fe.ui.CropPrediction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -58,6 +60,7 @@ public class CropPredFragment extends Fragment {
     private int itemSize = 0;
     private List<CropItem> cropItems = null;
 
+
     private RecommendationRepository recommendationRepository;
     public CropPredFragment() {
         // Required empty public constructor
@@ -99,6 +102,7 @@ public class CropPredFragment extends Fragment {
         //retrofit 연결
         recommendationRepository = new RecommendationRepository(requireContext());
 
+
         calendar = Calendar.getInstance();
 
         int year = calendar.get(Calendar.YEAR);
@@ -109,7 +113,8 @@ public class CropPredFragment extends Fragment {
         binding.monthText.setText(month + "월");
 
         //bad_crops list 보여주기
-        callRetrofit(year, month);
+
+            callRetrofit(year, month);
 
         setItemClickListener();
 
@@ -123,54 +128,60 @@ public class CropPredFragment extends Fragment {
 
     private void callRetrofit(int year, int month) {
         Log.e("MainActivity", "레트로핏 연결");
-        recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
-            @Override
-            public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
-                if(response.isSuccessful()){
-                    if(response.body() != null){
-                        itemSize = 0;
-                        CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
-                        cropItems = ResponseCropItems.getData();
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("WoI", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwtToken", null);
+        if(!token.isEmpty()) {
+            recommendationRepository.getCropItems("Bearer " + token, year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+                @Override
+                public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            itemSize = 0;
+                            CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
+                            cropItems = ResponseCropItems.getData();
 
-                        if(!cropItems.isEmpty()){
-                            binding.prevBtn.setVisibility(View.INVISIBLE);
-                            binding.cropId.setVisibility(View.VISIBLE);
-
-                            binding.cropId.setText(cropItems.get(0).getIngredient_name());
-                            Glide.with(requireContext())
-                                    .load(cropItems.get(0).getIngredient_image())
-                                    .override(134, 134)
-                                    .into(binding.cropImage);
-                            if(cropItems.size() > 1){
-                                binding.nextBtn.setVisibility(View.VISIBLE);
+                            if (!cropItems.isEmpty()) {
                                 binding.prevBtn.setVisibility(View.INVISIBLE);
+                                binding.cropId.setVisibility(View.VISIBLE);
+
+                                binding.cropId.setText(cropItems.get(0).getIngredient_name());
+                                Glide.with(requireContext())
+                                        .load(cropItems.get(0).getIngredient_image())
+                                        .override(134, 134)
+                                        .into(binding.cropImage);
+                                if (cropItems.size() > 1) {
+                                    binding.nextBtn.setVisibility(View.VISIBLE);
+                                    binding.prevBtn.setVisibility(View.INVISIBLE);
+                                }
+                            } else {
+                                handleEmptyCropItems();
                             }
-                        }else{
+
+                        } else {
+                            Log.e("MainActivity", "response.body()==null");
                             handleEmptyCropItems();
                         }
-
-                    }else{
-                        Log.e("MainActivity", "response.body()==null");
-                        handleEmptyCropItems();
-                    }
-                }else{
-                    Log.e("MainActivity", "response.isSuccessful()에서 오류");
-                    Log.e("MainActivity","Request failed with code: " + response.code());
-                    try {
-                        Log.e("MainActivity","Error body: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        Log.e("MainActivity", "response.isSuccessful()에서 오류");
+                        Log.e("MainActivity", "Request failed with code: " + response.code());
+                        try {
+                            Log.e("MainActivity", "Error body: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
-                Log.e("MainActivity", "GET request failed", t);
-            }
+                @Override
+                public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
+                    Log.e("MainActivity", "GET request failed" + call, t);
+                }
 
 
-        });
+            });
+        }else{
+            Log.e("HTTP", "토큰 없음");
+        }
     }
 
     private void handleEmptyCropItems() {

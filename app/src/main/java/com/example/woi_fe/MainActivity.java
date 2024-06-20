@@ -3,6 +3,7 @@ package com.example.woi_fe;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.woi_fe.FoodNutrition.FoodNutritionFragment;
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
 import com.example.woi_fe.ui.dashboard.DashboardFragment;

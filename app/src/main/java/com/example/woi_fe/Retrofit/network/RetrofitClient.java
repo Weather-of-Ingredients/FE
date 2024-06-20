@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 // AuthInterceptor 클래스
 class AuthInterceptor implements Interceptor {
@@ -50,8 +51,13 @@ public class RetrofitClient {
             String token = sharedPreferences.getString("jwtToken", null);
 
             // TODO : 데이터 통신의 로그를 Logcat에서 확인할 수 있다.
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    Log.d("HTTP", message);
+                }
+            });
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY); //basic
 
             Gson gson = new GsonBuilder()
                     .setLenient()
