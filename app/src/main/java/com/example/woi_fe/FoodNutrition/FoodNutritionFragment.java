@@ -49,6 +49,7 @@ public class FoodNutritionFragment extends Fragment {
 
     private FoodNutritionRepository foodNutritionRepository;
     private double getCarbohydrate, getProtein, getFat = 0;
+    private double getPrevCarbohydrate, getPrevProtein, getPrevFat = 0;
     public FoodNutritionFragment() {
         // Required empty public constructor
     }
@@ -95,16 +96,20 @@ public class FoodNutritionFragment extends Fragment {
         binding.foodNutritionSetYear.setText(year + "년");
         binding.foodNutritionSetMonth.setText(month + "월");
 
+        //날짜 변경
         setButtonClickListener();
 
+        //데이터
         callRetrofit(year, month);
-        setPieChart();
-        setBinding();
 
         return binding.getRoot();
     }
 
     private void setBinding() {
+        binding.fnCarbohydratePrevData.setText(String.valueOf(getPrevCarbohydrate));
+        binding.fnFatPrevData.setText(String.valueOf(getPrevFat));
+        binding.fnProteinPrevData.setText(String.valueOf(getPrevProtein));
+
         binding.fnCarbohydrateNextData.setText(String.valueOf(getCarbohydrate));
         binding.fnFatNextData.setText(String.valueOf(getFat));
         binding.fnProteinNextData.setText(String.valueOf(getProtein));
@@ -112,77 +117,109 @@ public class FoodNutritionFragment extends Fragment {
 
     private void callRetrofit(int year, int month) {
         Log.e("MainActivity", "영양성분 레트로핏 연결");
-        foodNutritionRepository.getCarbohydrate(year, month).enqueue(new Callback<NutritionDTO>() {
+        getCarbohydrate = 0;
+        getProtein = 0;
+        getFat = 0;
+
+        getPrevCarbohydrate = 0;
+        getPrevProtein = 0;
+        getPrevFat = 0;
+
+        callNutritionData(year, month, true);
+
+        if(month == 1){
+            callNutritionData(year - 1, 12, false);
+        }else{
+            callNutritionData(year, month -1, false);
+        }
+
+    }
+
+    private void callNutritionData(int year, int month, boolean b) {
+        foodNutritionRepository.getCarbohydrate(year, month).enqueue(new Callback<Double>() {
             @Override
-            public void onResponse(Call<NutritionDTO> call, Response<NutritionDTO> response) {
+            public void onResponse(Call<Double> call, Response<Double> response) {
                 Log.e("MainActivity", "탄수화물 레트로핏 연결");
-                if(response.isSuccessful()){
-                    Log.e("MainActivity", "탄수화물 isSuccessful");
-                    if(response.body() != null){
-                        Log.e("MainActivity", "탄수화물 body not null");
-                        NutritionDTO nutritionDTO = response.body();
-                        getCarbohydrate = nutritionDTO.getNutrition();
+                if(response.isSuccessful() && response.body() != null){
+                    double nutritionDTO = response.body();
+                    if(b){
+                        getCarbohydrate = nutritionDTO;
                     }else{
-
+                        getPrevCarbohydrate = nutritionDTO;
                     }
-                }else{
-
+                    Log.e("HTTP", "탄수화물: " + getCarbohydrate + " " + nutritionDTO);
+                    checkAndSetPieChart();
+                } else{
+                    checkAndSetPieChart();
                 }
             }
 
             @Override
-            public void onFailure(Call<NutritionDTO> call, Throwable t) {
+            public void onFailure(Call<Double> call, Throwable t) {
                 Log.e("MainActivity", "탄수화물 GET request failed", t);
+                checkAndSetPieChart();
             }
         });
 
-        foodNutritionRepository.getProtein(year, month).enqueue(new Callback<NutritionDTO>() {
+        foodNutritionRepository.getProtein(year, month).enqueue(new Callback<Double>() {
             @Override
-            public void onResponse(Call<NutritionDTO> call, Response<NutritionDTO> response) {
+            public void onResponse(Call<Double> call, Response<Double> response) {
                 Log.e("MainActivity", "단백질 레트로핏 연결");
-                if(response.isSuccessful()){
-                    Log.e("MainActivity", "단백질 isSuccessful");
-                    if(response.body() != null){
-                        Log.e("MainActivity", "단백질 body not null");
-                        NutritionDTO nutritionDTO = response.body();
-                        getProtein = nutritionDTO.getNutrition();
+                if(response.isSuccessful() && response.body() != null){
+                    double nutritionDTO = response.body();
+                    if(b){
+                        getProtein = nutritionDTO;
                     }else{
-
+                        getPrevProtein = nutritionDTO;
                     }
+                    Log.e("HTTP", "단백질: " + getProtein + " " + nutritionDTO);
+                    checkAndSetPieChart();
                 }else{
-
+                    checkAndSetPieChart();
                 }
             }
 
             @Override
-            public void onFailure(Call<NutritionDTO> call, Throwable t) {
+            public void onFailure(Call<Double> call, Throwable t) {
                 Log.e("MainActivity", "단백질 GET request failed", t);
+                checkAndSetPieChart();
             }
         });
 
-        foodNutritionRepository.getFat(year, month).enqueue(new Callback<NutritionDTO>() {
+        foodNutritionRepository.getFat(year, month).enqueue(new Callback<Double>() {
             @Override
-            public void onResponse(Call<NutritionDTO> call, Response<NutritionDTO> response) {
+            public void onResponse(Call<Double> call, Response<Double> response) {
                 Log.e("MainActivity", "지방 레트로핏 연결");
-                if(response.isSuccessful()){
-                    Log.e("MainActivity", "지방 isSuccessful");
-                    if(response.body() != null){
-                        Log.e("MainActivity", "지방 body not null");
-                        NutritionDTO nutritionDTO = response.body();
-                        getFat = nutritionDTO.getNutrition();
+                if(response.isSuccessful() && response.body() != null){
+                    double nutritionDTO = response.body();
+                    if(b){
+                        getFat = nutritionDTO;
                     }else{
-
+                        getPrevFat = nutritionDTO;
                     }
+                    Log.e("HTTP", "지방: " + getFat + " " + nutritionDTO);
+                    checkAndSetPieChart();
                 }else{
-
+                    checkAndSetPieChart();
                 }
             }
 
             @Override
-            public void onFailure(Call<NutritionDTO> call, Throwable t) {
+            public void onFailure(Call<Double> call, Throwable t) {
                 Log.e("MainActivity", "지방 GET request failed", t);
+                checkAndSetPieChart();
             }
         });
+    }
+
+    private void checkAndSetPieChart() {
+        if (getCarbohydrate > 0 || getProtein > 0 || getFat > 0) {
+            setPieChart();
+        } else {
+            clearPieChart();
+        }
+
+        setBinding();
     }
 
     private void setPieChart(){
@@ -194,6 +231,7 @@ public class FoodNutritionFragment extends Fragment {
         dataList.add(new PieEntry((float)getFat, "지방"));
         dataList.add(new PieEntry((float) getProtein, "단백질"));
 
+        Log.e("HTTP", dataList.toString());
         /*색깔 지정*/
         PieDataSet dataSet = new PieDataSet(dataList, "");
         List<Integer> colors = new ArrayList<>();
@@ -204,16 +242,23 @@ public class FoodNutritionFragment extends Fragment {
 
         dataSet.setColors(colors);
         /*텍스트 지우기*/
-        dataSet.setDrawValues(false);
+        dataSet.setDrawValues(true);
 
 
         PieData pieData = new PieData(dataSet);
         binding.graph.setData(pieData);
+        binding.graph.invalidate();
         binding.graph.getDescription().setEnabled(false);
         binding.graph.getLegend().setEnabled(false);
         binding.graph.setEntryLabelColor(R.color.black);
 
 
+
+
+    }
+    private void clearPieChart() {
+        binding.graph.clear();
+        //binding.graph.invalidate(); // 차트를 다시 그리도록 설정
 
     }
     private void setButtonClickListener() {
