@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
-import com.example.woi_fe.databinding.ItemDietBinding;
 import com.example.woi_fe.databinding.ItemDietcalBinding;
-import com.example.woi_fe.ui.Diet.DietUpdateFragment;
-import com.example.woi_fe.ui.home.MyDietViewHolder;
 
 import java.util.List;
 

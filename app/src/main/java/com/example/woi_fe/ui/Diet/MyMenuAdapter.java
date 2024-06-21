@@ -53,7 +53,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
                 bundle.putString("fat", data.getFat());
                 bundle.putString("calories", data.getCalories());
 
-                Intent intent = new Intent(context, DietUpdateFragment.class);
+                Intent intent = new Intent(context, DietUpdateActivity.class);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

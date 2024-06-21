@@ -19,7 +19,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DietRetrofitAPI {
-
     @POST("/api/diet") // 식단 작성
     Call<ResponseBody> createDiet(@Body DietDTO dietDTO);
 

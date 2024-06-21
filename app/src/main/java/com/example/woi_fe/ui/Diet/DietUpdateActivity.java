@@ -3,42 +3,31 @@ package com.example.woi_fe.ui.Diet;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.woi_fe.Dialog.CustomDialog;
+import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveCallback;
 import com.example.woi_fe.R;
-import com.example.woi_fe.databinding.FragmentDietUpdateBinding;
+import com.example.woi_fe.databinding.ActivityDietUpdateBinding;
 
 import java.util.Calendar;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DietUpdateFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener, DietItemAdapter.AdapterCallback, CustomDialog.DialogCallbackListener {
+public class DietUpdateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DietItemAdapter.AdapterCallback, CustomDialog.DialogCallbackListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private Calendar calendar;
 
-    private FragmentDietUpdateBinding binding;
+    private ActivityDietUpdateBinding binding;
+    private MyUDietAdapter adapter;
     private DietItemAdapter diet_list_adapter;
     private ItemTouchHelper diet_list_helper;
 
@@ -48,57 +37,50 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     private int lastPosition = 0;
     private int position = 0;
 
-    public DietUpdateFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DietUpdateFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DietUpdateFragment newInstance(String param1, String param2) {
-        DietUpdateFragment fragment = new DietUpdateFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        binding = ActivityDietUpdateBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentDietUpdateBinding.inflate(inflater, container, false);
-        //save 버튼 초기화
+        // 전달된 데이터를 가져옴
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String foodName = extras.getString("foodName");
+            String carbohydrate = extras.getString("carbohydrate");
+            String protein = extras.getString("protein");
+            String fat = extras.getString("fat");
+            String calories = extras.getString("calories");
+
+            // 전달받은 데이터를 DietItem 객체로 만듦
+            MenuDTO dietItem = new MenuDTO();
+            dietItem.setFoodName(foodName);
+            dietItem.setCalories(calories);
+            dietItem.setCarbohydrate(carbohydrate);
+            dietItem.setProtein(protein);
+            dietItem.setFat(fat);
+
+            adapter = new MyUDietAdapter(this, (List<DietResponseDTO>) dietItem);
+            binding.dietRecyclerView.setAdapter(adapter);
+        }
+
+        // dietresponsedto를 activity에 선언해놓고 menulist를 menuresponsedto로 바꾼 후 붙여주기 -> 후에 adapter에 넘기기
+        // list 미리 선언해놓고 마지막에 adapter에 붙이기?
+
+        // 초기화
         isSaved = false;
         isEdited = false;
 
-        Log.d("MainActivity", "[UpdateFragment] save: " + isSaved + " edit: " + isEdited);
+        Log.d("MainActivity", "[UpdateActivity] save: " + isSaved + " edit: " + isEdited);
 
         binding.btnMenuSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 // menu 검색 페이지로 넘어가기
-                Intent intent = new Intent(requireContext(), MenuSearchActivity.class);
+                Intent intent = new Intent(DietUpdateActivity.this, MenuSearchActivity.class);
                 startActivity(intent);
             }
         });
-
 
         //날짜 초기화
         setInitDate();
@@ -120,7 +102,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
                 isChangedCategory = false;
                 position = lastPosition;
 
-                Log.d("MainActivity", "[UpdateFragment] save 클릭");
+                Log.d("MainActivity", "[UpdateActivity] save 클릭");
                 Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
                 Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
             }
@@ -129,38 +111,14 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         binding.dietCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("MainActivity", "[UpdateFragment] 닫기 버튼 클릭");
-                //retrofit 연결
-                /*
-                 * case 1
-                 * 텍스트의 변경이 있었지만
-                 * 완료버튼을 누르지 않고
-                 *
-                 * 닫기 버튼을 누른 경우
-                 *
-                 * case 2
-                 * 텍스트의 변경이 있었지만
-                 * 완료버튼을 누르지 않고
-                 *
-                 * 화면을 내린 경우
-                 *
-                 *
-                 * 추후 추가해야할 case
-                 * 텍스트의 변경이 있었지만
-                 * 완료버튼을 누르지 않고
-                 *
-                 * 카테고리 변경을 누른 경우
-
-                 * */
+                Log.d("MainActivity", "[UpdateActivity] 닫기 버튼 클릭");
 
                 //커스텀 다이얼로그 설정 (팝업창)
                 setCustomDialog();
                 isSaved = false;
                 isEdited = false;
-
             }
         });
-        return binding.getRoot();
     }
 
     private void setCustomDialog() {
@@ -187,11 +145,9 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void showCustomDialog() {
-        //dialogCustomBinding = DialogCustomBinding.inflate(getLayoutInflater());
         Log.d("MainActivity", "** **[showCustomDialog]");
-        CustomDialog dialog = new CustomDialog(requireContext(), this);
+        CustomDialog dialog = new CustomDialog(this, this);
 
-        //dialog.setContentView(dialogCustomBinding.getRoot());
         dialog.show();
         Log.d("MainActivity", "** **[showCustomDialog]");
     }
@@ -206,21 +162,16 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         binding.dietDate.setText(year + "년 " + month + "월 " + date + "일");
     }
 
-    /*달력*/
     private void setCompleteButtonClickListener() {
         binding.dietUpdateCompleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //날짜 얻어오기
                 int setYear = binding.dietUpdateSetDatepicker.getYear();
                 int setMonth = binding.dietUpdateSetDatepicker.getMonth() + 1;
                 int setDate = binding.dietUpdateSetDatepicker.getDayOfMonth();
-                //뷰를 다시 닫기 visible.GONE
                 binding.dietUpdateOpacityLayout.setVisibility(View.GONE);
                 binding.dietUpdateDatepickerLayout.setVisibility(View.GONE);
-                //날짜 수정하기
                 binding.dietDate.setText(setYear + "년 " + setMonth + "월 " + setDate + "일");
-
             }
         });
     }
@@ -229,23 +180,19 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         binding.dietDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //버튼 클릭 시 datapickter 등장
                 binding.dietUpdateOpacityLayout.setVisibility(View.VISIBLE);
                 binding.dietUpdateDatepickerLayout.setVisibility(View.VISIBLE);
 
-                //완료 버튼 선택 시
                 setCompleteButtonClickListener();
             }
         });
     }
 
-    /*spinner*/
     private void setSpinner() {
-        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(), R.array.diet_array, R.layout.item_diet_update_diet_category);
+        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.diet_array, R.layout.item_diet_update_diet_category);
         binding.dietSpinner.setAdapter(spinner_adapter);
         binding.dietSpinner.setOnItemSelectedListener(this);
         Log.d("MainActivity", "스피너 연결");
-
     }
 
     @Override
@@ -254,7 +201,7 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         Log.d("MainActivity", String.valueOf(adapterView.getSelectedItem()));
 
         isChangedCategory = true;
-        lastPosition = i;//현재 위치 저장
+        lastPosition = i;
         isSaved = false;
 
         Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
@@ -269,49 +216,35 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    /*item list*/
     private void setDietList() {
-        /*레이아웃 설정*/
-        LinearLayoutManager manager = new LinearLayoutManager(requireContext());
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.dietRecyclerView.setLayoutManager(manager);
 
-        /*어댑터 설정*/
         diet_list_adapter = new DietItemAdapter(this);
         binding.dietRecyclerView.setAdapter(diet_list_adapter);
 
-        /*콜백 설정*/
         diet_list_helper = new ItemTouchHelper(new ItemMoveCallback(diet_list_adapter));
         diet_list_helper.attachToRecyclerView(binding.dietRecyclerView);
 
-        /*item 설정
-         * 추후 변경
-         * Retrofit 연결 필요
-         * */
-        diet_list_adapter.addItem("흰쌀밥");
-        diet_list_adapter.addItem("된장찌개");
-        diet_list_adapter.addItem("계란말이");
-        diet_list_adapter.addItem("김치");
-
-
+//        diet_list_adapter.addItem("흰쌀밥");
+//        diet_list_adapter.addItem("된장찌개");
+//        diet_list_adapter.addItem("계란말이");
+//        diet_list_adapter.addItem("김치");
     }
 
-    /*adapter callback method*/
     @Override
     public void onItemAdded(int position) {
-        /*plus btn*/
         isEdited = true;
     }
 
     @Override
     public void onItemRemoved(int position) {
-        /*delete btn*/
         isEdited = true;
     }
 
     @Override
     public void onItemChanged(int position) {
-        /*edit text*/
         isEdited = true;
     }
 
@@ -319,24 +252,18 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
     public void dialogCallbackListener(boolean isDialogResult) {
         Log.d("MainActivity", "** ** **[dialogCallbackListener]");
         if(isDialogResult){
-            /*true -> yes 를 누른 경우
-            * 수정 내용 반영 x
-            * 기존의 내용 그대로 취소
-            * lastPosition = 0
-            * */
-
+            // true -> yes를 누른 경우
+            // 수정 내용 반영 x
+            // 기존의 내용 그대로 취소
+            // lastPosition = 0
         }else{
-            /*false -> no를 누른 경우
-            * 수정 내용 유지
-            * customdialog만 취소
-            * lastPosition = 0
-            * */
+            // false -> no를 누른 경우
+            // 수정 내용 유지
+            // customdialog만 취소
+            // lastPosition = 0
             if(isChangedCategory){
-                //default로 되지 않은 경우
-                //lastposition의 category가 나와야 한다.
                 Log.d("MainActivity", "position: " + position);
             }
-
         }
         Log.d("MainActivity", "** ** **[dialogCallbackListener]");
     }

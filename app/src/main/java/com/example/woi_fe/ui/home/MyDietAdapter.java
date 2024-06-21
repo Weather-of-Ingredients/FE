@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
-import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.databinding.ItemDietBinding;
-import com.example.woi_fe.ui.Diet.DietUpdateFragment;
+import com.example.woi_fe.ui.Diet.DietUpdateActivity;
 
 import java.util.List;
 
@@ -68,7 +66,7 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
                 }
                 bundle.putString("menus", menusText.toString());
 
-                Intent intent = new Intent(context, DietUpdateFragment.class);
+                Intent intent = new Intent(context, DietUpdateActivity.class);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
