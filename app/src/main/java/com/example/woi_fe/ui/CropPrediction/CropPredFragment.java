@@ -1,5 +1,7 @@
 package com.example.woi_fe.ui.CropPrediction;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -98,7 +100,6 @@ public class CropPredFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCropPredBinding.inflate(inflater, container, false);
 
-        //retrofit 연결
         recommendationRepository = new RecommendationRepository(requireContext());
 
         calendar = Calendar.getInstance();
@@ -111,8 +112,7 @@ public class CropPredFragment extends Fragment {
         binding.monthText.setText(month + "월");
 
         //bad_crops list 보여주기
-
-            callRetrofit(year, month);
+        callRetrofit(year, month);
 
         setItemClickListener();
 
@@ -132,6 +132,7 @@ public class CropPredFragment extends Fragment {
         *
         * "Bearer " + token,
         * */
+            //retrofit 연결
             recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
                 @Override
                 public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
@@ -180,9 +181,6 @@ public class CropPredFragment extends Fragment {
 
 
             });
-        /*}else{
-            Log.e("HTTP", "토큰 없음");
-        }*/
     }
 
     private void handleEmptyCropItems() {

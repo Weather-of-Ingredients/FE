@@ -187,8 +187,6 @@ public class LoginActivity extends AppCompatActivity {
                         TokenManager.saveToken(LoginActivity.this, token); // 토큰 저장
                         Toast.makeText(LoginActivity.this, "로그인이 성공적으로 완료되었습니다. 환영합니다!", Toast.LENGTH_SHORT).show();
                         // 로그인 성공 시 다음 페이지로 이동
-
-
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("TOKEN", token);
                         startActivity(intent);
