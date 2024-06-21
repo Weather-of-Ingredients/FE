@@ -1,6 +1,7 @@
 package com.example.woi_fe;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -141,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         Retrofit retrofit = RetrofitClient.getInstance(this);
         registrationRetrofitAPI = retrofit.create(RegistrationRetrofitAPI.class);
 
+
         TextView subMessage = findViewById(R.id.sub_message);
         Spanned text = Html.fromHtml("<b>재료의 날씨</b>에 오신 것을 환영합니다!", Html.FROM_HTML_MODE_LEGACY);
         subMessage.setText(text);
@@ -185,6 +187,8 @@ public class LoginActivity extends AppCompatActivity {
                         TokenManager.saveToken(LoginActivity.this, token); // 토큰 저장
                         Toast.makeText(LoginActivity.this, "로그인이 성공적으로 완료되었습니다. 환영합니다!", Toast.LENGTH_SHORT).show();
                         // 로그인 성공 시 다음 페이지로 이동
+
+
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("TOKEN", token);
                         startActivity(intent);
