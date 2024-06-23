@@ -98,6 +98,8 @@ public class DietCalFragment extends Fragment {
 
         if(month != 9 && month != 10 && month != 11){
             binding.date.setText(year + "-0" + month + "-" + date);
+        } else {
+            binding.date.setText(year + "-" + month + "-" + date);
         }
     }
 }
