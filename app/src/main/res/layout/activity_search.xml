@@ -44,6 +44,14 @@
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:text="검색" />
+
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:text="완료" />
     </LinearLayout>
 
 

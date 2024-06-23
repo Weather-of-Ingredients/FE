@@ -11,16 +11,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.woi_fe.Dialog.CustomDialog;
+import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
+import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveCallback;
 import com.example.woi_fe.R;
 import com.example.woi_fe.databinding.ActivityDietUpdateBinding;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DietUpdateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DietItemAdapter.AdapterCallback, CustomDialog.DialogCallbackListener {
 
@@ -28,6 +38,9 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
 
     private ActivityDietUpdateBinding binding;
     private MyUDietAdapter adapter;
+    private List<MenuDTO> selectedItems = new ArrayList<>();
+    private DietRetrofitAPI retrofitAPI;
+
     private DietItemAdapter diet_list_adapter;
     private ItemTouchHelper diet_list_helper;
 
@@ -43,26 +56,29 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
         binding = ActivityDietUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        adapter = new MyUDietAdapter(this, selectedItems);
+        binding.dietRecyclerView.setAdapter(adapter);
+        binding.dietRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // 전달된 데이터를 가져옴
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String foodName = extras.getString("foodName");
-            String carbohydrate = extras.getString("carbohydrate");
-            String protein = extras.getString("protein");
-            String fat = extras.getString("fat");
-            String calories = extras.getString("calories");
-
-            // 전달받은 데이터를 DietItem 객체로 만듦
-            MenuDTO dietItem = new MenuDTO();
-            dietItem.setFoodName(foodName);
-            dietItem.setCalories(calories);
-            dietItem.setCarbohydrate(carbohydrate);
-            dietItem.setProtein(protein);
-            dietItem.setFat(fat);
-
-            adapter = new MyUDietAdapter(this, (List<DietResponseDTO>) dietItem);
-            binding.dietRecyclerView.setAdapter(adapter);
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            String foodName = extras.getString("foodName");
+//            String carbohydrate = extras.getString("carbohydrate");
+//            String protein = extras.getString("protein");
+//            String fat = extras.getString("fat");
+//            String calories = extras.getString("calories");
+//
+//            // 전달받은 데이터를 MenuDTO 객체로 만듦
+//            MenuDTO dietItem = new MenuDTO();
+//            dietItem.setFoodName(foodName);
+//            dietItem.setCalories(calories);
+//            dietItem.setCarbohydrate(carbohydrate);
+//            dietItem.setProtein(protein);
+//            dietItem.setFat(fat);
+//
+//            Log.d("DietUpdateActivity", dietItem.getFoodName());
+//        }
 
         // dietresponsedto를 activity에 선언해놓고 menulist를 menuresponsedto로 바꾼 후 붙여주기 -> 후에 adapter에 넘기기
         // list 미리 선언해놓고 마지막에 adapter에 붙이기?
@@ -97,6 +113,7 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onClick(View view) {
                 //retrofit 연결
+//                createDiet();
 
                 isSaved = true;
                 isChangedCategory = false;
@@ -117,6 +134,26 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
                 setCustomDialog();
                 isSaved = false;
                 isEdited = false;
+            }
+        });
+    }
+
+    private void createDiet(DietDTO dietDTO){
+        Call<ResponseBody> call = retrofitAPI.createDiet(dietDTO);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    // 식단 일정 페이지로 넘어가기
+                } else {
+                    Toast.makeText(DietUpdateActivity.this, "식단 작성 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("DietUpdateActivity",t.getMessage());
             }
         });
     }

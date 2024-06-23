@@ -2,10 +2,8 @@ package com.example.woi_fe.ui.Diet;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,24 +13,17 @@ import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.databinding.ItemDietUpdateMenuBinding;
-import com.example.woi_fe.databinding.ItemDietcalBinding;
-import com.example.woi_fe.ui.dietcal.DietCalFragment;
-import com.example.woi_fe.ui.dietcal.MyTDietViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyUDietAdapter extends RecyclerView.Adapter<MyUDietViewHolder>{
+public class MyUDietAdapter extends RecyclerView.Adapter<MyUDietViewHolder> {
     private Context context;
-    private List<DietResponseDTO> itemList;
+    private List<MenuDTO> menuList;
 
-    public MyUDietAdapter(Context context, List<DietResponseDTO> itemList){
+    public MyUDietAdapter(Context context, List<MenuDTO> menuList) {
         this.context = context;
-        this.itemList = itemList;
-    }
-
-    public void setDietItems(List<DietResponseDTO> itemList) {
-        this.itemList = itemList;
-        notifyDataSetChanged();
+        this.menuList = menuList;
     }
 
     @NonNull
@@ -40,23 +31,27 @@ public class MyUDietAdapter extends RecyclerView.Adapter<MyUDietViewHolder>{
     public MyUDietViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemDietUpdateMenuBinding binding = ItemDietUpdateMenuBinding.inflate(layoutInflater, parent, false);
-        return new MyUDietViewHolder(ItemDietUpdateMenuBinding.inflate(layoutInflater));
+        return new MyUDietViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyUDietViewHolder holder, int position) {
-        DietResponseDTO data = itemList.get(position);
+        MenuDTO menu = menuList.get(position);
 
-        holder.bind((MenuDTO) itemList);
+        holder.binding.dietItemName.setText(menu.getFoodName());
+        holder.binding.caloriesTextView.setText(menu.getCalories());
+        holder.binding.fatTextView.setText(menu.getFat());
+        holder.binding.carbohydrateTextView.setText(menu.getCarbohydrate());
+        holder.binding.proteinTextView.setText(menu.getProtein());
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return menuList.size();
     }
 
-    public void updateItems(List<DietResponseDTO> itemList) {
-        this.itemList = itemList;
+    public void setMenuList(List<MenuDTO> menuList) {
+        this.menuList = menuList;
         notifyDataSetChanged();
     }
 }

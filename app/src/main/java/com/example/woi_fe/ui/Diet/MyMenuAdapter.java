@@ -4,6 +4,7 @@ package com.example.woi_fe.ui.Diet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.databinding.ItemMenuBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
     private Context context;
     private List<MenuDTO> itemList;
+    private final List<MenuDTO> selectedList = new ArrayList<>();
 
     public MyMenuAdapter(Context context, List<MenuDTO> itemList){
         this.context = context;
@@ -30,7 +33,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
     public MyMenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemMenuBinding binding = ItemMenuBinding.inflate(layoutInflater, parent, false);
-        return new MyMenuViewHolder(ItemMenuBinding.inflate(layoutInflater));
+        return new MyMenuViewHolder(binding);
     }
 
     @Override
@@ -46,17 +49,11 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
         holder.binding.itemFoodNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("foodName", data.getFoodName());
-                bundle.putString("carbohydrate", data.getCarbohydrate());
-                bundle.putString("protein", data.getProtein());
-                bundle.putString("fat", data.getFat());
-                bundle.putString("calories", data.getCalories());
-
-                Intent intent = new Intent(context, DietUpdateActivity.class);
-                intent.putExtras(bundle);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                // selectedList에 해당 객체 추가
+                if (!selectedList.contains(data)) {
+                    selectedList.add(data);
+                    Log.d("SelectedMenus", data.getFoodName());
+                }
             }
         });
     }
@@ -69,5 +66,10 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
     public void updateItems(List<MenuDTO> itemList) {
         this.itemList = itemList;
         notifyDataSetChanged();
+    }
+
+    // 선택된 객체 리스트 반환 메서드
+    public List<MenuDTO> getSelectedItems() {
+        return selectedList;
     }
 }

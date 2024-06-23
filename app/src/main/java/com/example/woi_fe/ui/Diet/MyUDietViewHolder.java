@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.databinding.ItemDietUpdateMenuBinding;
 import com.example.woi_fe.databinding.ItemMenuBinding;
 
@@ -17,13 +18,5 @@ public class MyUDietViewHolder extends RecyclerView.ViewHolder{
     public MyUDietViewHolder(ItemDietUpdateMenuBinding binding){
         super(binding.getRoot());
         this.binding = binding;
-    }
-
-    public void bind(MenuDTO itemList) {
-        binding.dietItemName.setText(itemList.getFoodName());
-        binding.carbohydrateTextView.setText(itemList.getCarbohydrate());
-        binding.proteinTextView.setText(itemList.getProtein());
-        binding.fatTextView.setText(itemList.getFat());
-        binding.caloriesTextView.setText(itemList.getCalories());
     }
 }

@@ -20,6 +20,7 @@ import com.example.woi_fe.databinding.FragmentDietcalBinding;
 import com.example.woi_fe.ui.home.MyDietAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,6 +34,7 @@ public class DietCalFragment extends Fragment {
     private DietRepository dietRepository;
     private MyTDietAdapter adapter;
     private DietRetrofitAPI dietRetrofitAPI;
+    private Calendar calendar;
 
     @Nullable
     @Override
@@ -56,6 +58,7 @@ public class DietCalFragment extends Fragment {
         binding.feedRecyclerView.setAdapter(adapter);
 
         loadTDietList();
+        setDate();
 
         return root;
     }
@@ -70,6 +73,9 @@ public class DietCalFragment extends Fragment {
                     adapter = new MyTDietAdapter(getContext(), diets);
                     binding.feedRecyclerView.setAdapter(adapter);
                     binding.yetNoDiet.setVisibility(View.GONE);
+                    if(response.body().size() == 0){
+                        binding.yetNoDiet.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     binding.yetNoDiet.setVisibility(View.VISIBLE);
                     Log.e("DietCalFragment", "Response not successful or body is null");
@@ -81,5 +87,17 @@ public class DietCalFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setDate(){
+        calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) +1;
+        int date = calendar.get(Calendar.DATE);
+
+        if(month != 9 && month != 10 && month != 11){
+            binding.date.setText(year + "-0" + month + "-" + date);
+        }
     }
 }

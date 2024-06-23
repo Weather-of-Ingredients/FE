@@ -3,6 +3,7 @@ package com.example.woi_fe.ui.Diet;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +58,20 @@ public class MenuSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadMenuList();
+            }
+        });
+
+        MyMenuAdapter finalAdapter = adapter;
+        binding.btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<MenuDTO> selectedItems = finalAdapter.getSelectedItems();
+
+                // DietUpdateActivity를 시작하는 대신, 선택된 아이템들을 식단 어댑터로 전달
+                MyUDietAdapter dietAdapter = new MyUDietAdapter(MenuSearchActivity.this, selectedItems);
+
+                Intent intent = new Intent(MenuSearchActivity.this, DietUpdateActivity.class);
+                startActivity(intent);
             }
         });
 
