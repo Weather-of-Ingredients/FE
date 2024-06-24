@@ -4,6 +4,7 @@ package com.example.woi_fe.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
     @NonNull
     @Override
     public MyDietViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("MyDietAdapter", "MyDietAdapter 어댑터연결 성공");
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemDietBinding binding = ItemDietBinding.inflate(layoutInflater, parent, false);
         return new MyDietViewHolder(ItemDietBinding.inflate(layoutInflater));

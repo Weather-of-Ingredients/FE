@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context=".ui.Diet.DietUpdateActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/beige"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/background_white"
+            android:layout_marginTop="50dp"
+            android:elevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="230dp"
+                    android:id="@+id/diet_close_btn"
+                    android:background="@drawable/btn_close"
+                    android:adjustViewBounds="true" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="32dp"
+                    android:id="@+id/diet_edit_btn"
+                    android:background="@drawable/edit"
+                    android:adjustViewBounds="true" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="32dp"
+                android:text="날짜"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                android:id="@+id/diet_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:text="조식"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="32dp"
+                android:id="@+id/diet_type"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/diet_recyclerView"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginRight="30dp"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_diet_menu" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="분석하기"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/brown"
+                android:gravity="center"
+                android:paddingRight="33dp"
+                android:paddingLeft="33dp"
+                android:id="@+id/diet_analysis_btn"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="79dp"
+                android:layout_marginRight="32dp"
+                android:elevation="0dp"
+                android:background="@drawable/background_full_pale_brown" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

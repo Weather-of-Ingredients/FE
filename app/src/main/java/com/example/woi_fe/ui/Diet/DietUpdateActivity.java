@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.woi_fe.Dialog.CustomDialog;
@@ -37,18 +38,16 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
     private Calendar calendar;
 
     private ActivityDietUpdateBinding binding;
-    private MyUDietAdapter adapter;
-    private List<MenuDTO> selectedItems = new ArrayList<>();
+    private MyUDietAdapter adapter1;
+    private DietItemAdapter adapter2;
     private DietRetrofitAPI retrofitAPI;
-
-    private DietItemAdapter diet_list_adapter;
-    private ItemTouchHelper diet_list_helper;
 
     private boolean isSaved = false;
     private boolean isEdited = false;
     private boolean isChangedCategory = false;
     private int lastPosition = 0;
     private int position = 0;
+    private ItemTouchHelper diet_list_helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,32 +55,37 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
         binding = ActivityDietUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        adapter = new MyUDietAdapter(this, selectedItems);
-        binding.dietRecyclerView.setAdapter(adapter);
-        binding.dietRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        binding.dietUpdateRecyclerView.setLayoutManager(layoutManager);
 
-        // 전달된 데이터를 가져옴
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            String foodName = extras.getString("foodName");
-//            String carbohydrate = extras.getString("carbohydrate");
-//            String protein = extras.getString("protein");
-//            String fat = extras.getString("fat");
-//            String calories = extras.getString("calories");
+        // Intent로부터 Bundle을 가져옴(MyDietAdapter에서 가져온 것)
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null) {
+//            // Bundle에서 데이터를 추출
+//            String type = bundle.getString("type");
+//            String date = bundle.getString("date");
+//            String week = bundle.getString("week");
+//            ArrayList<String> menusList = bundle.getStringArrayList("menus");
 //
-//            // 전달받은 데이터를 MenuDTO 객체로 만듦
-//            MenuDTO dietItem = new MenuDTO();
-//            dietItem.setFoodName(foodName);
-//            dietItem.setCalories(calories);
-//            dietItem.setCarbohydrate(carbohydrate);
-//            dietItem.setProtein(protein);
-//            dietItem.setFat(fat);
+//            binding.dietType.setText(type);
+//            binding.dietDate.setText(date);
 //
-//            Log.d("DietUpdateActivity", dietItem.getFoodName());
+//            // 메뉴 데이터를 MenuDTO 리스트로 변환하여 어댑터에 설정
+//            if (menusList != null) {
+//                List<MenuResponseDTO> menuResponseDTOList = new ArrayList<>();
+//                for (String menuName : menusList) {
+//                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+//                    menuResponseDTO.setFoodName(menuName);
+//                    // 필요한 경우 다른 필드도 설정
+//                    menuResponseDTOList.add(menuResponseDTO);
+//                }
+//                adapter1 = new MyUDietAdapter(this, menuResponseDTOList);
+//                binding.dietRecyclerView.setAdapter(adapter1);
+//                Log.d("DietUpdateActivity1", menusList.toString());
+//            }
+//            Log.d("DietUpdateActivity2", menusList.toString());
 //        }
-
-        // dietresponsedto를 activity에 선언해놓고 menulist를 menuresponsedto로 바꾼 후 붙여주기 -> 후에 adapter에 넘기기
-        // list 미리 선언해놓고 마지막에 adapter에 붙이기?
 
         // 초기화
         isSaved = false;
@@ -124,6 +128,7 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
                 Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
             }
         });
+
         //닫기 버튼
         binding.dietCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,18 +261,13 @@ public class DietUpdateActivity extends AppCompatActivity implements AdapterView
     private void setDietList() {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        binding.dietRecyclerView.setLayoutManager(manager);
+        binding.dietUpdateRecyclerView.setLayoutManager(manager);
 
-        diet_list_adapter = new DietItemAdapter(this);
-        binding.dietRecyclerView.setAdapter(diet_list_adapter);
+        adapter2 = new DietItemAdapter(this);
+        binding.dietUpdateRecyclerView.setAdapter(adapter2);
 
-        diet_list_helper = new ItemTouchHelper(new ItemMoveCallback(diet_list_adapter));
-        diet_list_helper.attachToRecyclerView(binding.dietRecyclerView);
-
-//        diet_list_adapter.addItem("흰쌀밥");
-//        diet_list_adapter.addItem("된장찌개");
-//        diet_list_adapter.addItem("계란말이");
-//        diet_list_adapter.addItem("김치");
+        diet_list_helper = new ItemTouchHelper(new ItemMoveCallback(adapter2));
+        diet_list_helper.attachToRecyclerView(binding.dietUpdateRecyclerView);
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.Retrofit.repository.DietRepository;
 import com.example.woi_fe.databinding.ActivitySearchBinding;
@@ -67,8 +68,11 @@ public class MenuSearchActivity extends AppCompatActivity {
             public void onClick(View view) {
                 List<MenuDTO> selectedItems = finalAdapter.getSelectedItems();
 
+                // MenuDTO 리스트를 MenuResponseDTO 리스트로 변환
+                List<MenuResponseDTO> menuResponseDTOList = convertToMenuResponseDTOList(selectedItems);
+
                 // DietUpdateActivity를 시작하는 대신, 선택된 아이템들을 식단 어댑터로 전달
-                MyUDietAdapter dietAdapter = new MyUDietAdapter(MenuSearchActivity.this, selectedItems);
+                MyUDietAdapter dietAdapter = new MyUDietAdapter(MenuSearchActivity.this, menuResponseDTOList);
 
                 Intent intent = new Intent(MenuSearchActivity.this, DietUpdateActivity.class);
                 startActivity(intent);
@@ -98,5 +102,23 @@ public class MenuSearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static MenuResponseDTO convertToMenuResponseDTO(MenuDTO menuDTO) {
+        MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+        menuResponseDTO.setFoodName(menuDTO.getFoodName());
+         menuResponseDTO.setCalories(menuDTO.getCalories());
+         menuResponseDTO.setFat(menuDTO.getFat());
+         menuResponseDTO.setCarbohydrate(menuDTO.getCarbohydrate());
+         menuResponseDTO.setProtein(menuDTO.getProtein());
+        return menuResponseDTO;
+    }
+
+    public static List<MenuResponseDTO> convertToMenuResponseDTOList(List<MenuDTO> menuDTOList) {
+        List<MenuResponseDTO> menuResponseDTOList = new ArrayList<>();
+        for (MenuDTO menuDTO : menuDTOList) {
+            menuResponseDTOList.add(convertToMenuResponseDTO(menuDTO));
+        }
+        return menuResponseDTOList;
     }
 }

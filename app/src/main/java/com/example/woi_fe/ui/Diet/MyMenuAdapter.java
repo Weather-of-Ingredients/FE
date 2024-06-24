@@ -41,10 +41,10 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
         MenuDTO data = itemList.get(position);
 
         holder.binding.itemFoodNameView.setText(data.getFoodName());
-        holder.binding.itemCalView.setText(data.getCalories());
-        holder.binding.itemCarView.setText(data.getCarbohydrate());
-        holder.binding.itemFatView.setText(data.getFat());
-        holder.binding.itemProView.setText(data.getProtein());
+//        holder.binding.itemCalView.setText(data.getCalories());
+//        holder.binding.itemCarView.setText(data.getCarbohydrate());
+//        holder.binding.itemFatView.setText(data.getFat());
+//        holder.binding.itemProView.setText(data.getProtein());
 
         holder.binding.itemFoodNameView.setOnClickListener(new View.OnClickListener() {
             @Override
