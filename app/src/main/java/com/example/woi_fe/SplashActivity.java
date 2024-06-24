@@ -25,6 +25,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 6000); // 6초 동안 애니메이션 재생
+        }, 3000); // 6초 동안 애니메이션 재생
     }
 }
