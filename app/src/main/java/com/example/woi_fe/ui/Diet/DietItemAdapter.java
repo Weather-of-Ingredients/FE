@@ -77,7 +77,7 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
             }
         }
     }
-    
+
     @Override
     public boolean onItemMove(int from_position, int to_position) {
         String str = list.get(from_position);
@@ -86,21 +86,21 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
         notifyItemMoved(from_position, to_position);
         return true;
     }
-/*
-* 팝업 창 뜨는 case 정리
-*
-* case 1
-*   텍스트의 변경이 있을 시 && 키보드 외부 터치
-* case 2
-*   텍스트의 변경이 있을 시 && 키보드의 엔터키 눌렀을 시
-* case 3
-*   plus 버튼 눌렀을 시 && !text.equals("")
-* case 4
-*   delete 버튼 눌렀을 시
-*
-* Fragment로 Change callback이 전송되고
-* Fragment 측에서 callback과 Save btn 클릭 이벤트 점검을 모두 한 후에 팝업 창 등록
-* */
+    /*
+     * 팝업 창 뜨는 case 정리
+     *
+     * case 1
+     *   텍스트의 변경이 있을 시 && 키보드 외부 터치
+     * case 2
+     *   텍스트의 변경이 있을 시 && 키보드의 엔터키 눌렀을 시
+     * case 3
+     *   plus 버튼 눌렀을 시 && !text.equals("")
+     * case 4
+     *   delete 버튼 눌렀을 시
+     *
+     * Fragment로 Change callback이 전송되고
+     * Fragment 측에서 callback과 Save btn 클릭 이벤트 점검을 모두 한 후에 팝업 창 등록
+     * */
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, TextView.OnEditorActionListener, TextWatcher {
         EditText text;
         ImageView list_btn;

@@ -1,19 +1,28 @@
 package com.example.woi_fe.Retrofit.dto.diet;
 
 public class MenuDTO {
-    private String ingredients;
+    private Integer menuId;
     private String carbohydrate;
     private String protein;
     private String fat;
-    private String food_name;
+    private String foodName;
     private String calories;
+    private DietResponseDTO diet;
 
-    public String getIngredients() {
-        return ingredients;
+    public Integer getMenuId() {
+        return menuId;
     }
 
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
+
+    public DietResponseDTO getDiet() {
+        return diet;
+    }
+
+    public void setDiet(DietResponseDTO diet) {
+        this.diet = diet;
     }
 
     public String getCarbohydrate() {
@@ -40,12 +49,12 @@ public class MenuDTO {
         this.fat = fat;
     }
 
-    public String getFood_name() {
-        return food_name;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setFood_name(String food_name) {
-        this.food_name = food_name;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public String getCalories() {

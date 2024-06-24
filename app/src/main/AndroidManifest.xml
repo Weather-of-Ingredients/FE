@@ -34,6 +34,14 @@
         </activity>
 
         <activity
+            android:name=".ui.Diet.MenuSearchActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.Diet.DietUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".RegisterActivity"
             android:exported="true">
         </activity>

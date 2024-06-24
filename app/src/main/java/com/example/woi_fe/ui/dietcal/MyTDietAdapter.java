@@ -1,4 +1,4 @@
-package com.example.woi_fe.ui.home;
+package com.example.woi_fe.ui.dietcal;
 
 
 import android.content.Context;
@@ -13,30 +13,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
-import com.example.woi_fe.databinding.ItemDietBinding;
-import com.example.woi_fe.ui.Diet.DietUpdateActivity;
+import com.example.woi_fe.databinding.ItemDietcalBinding;
 
 import java.util.List;
 
-public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
+public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
     private Context context;
     private List<DietResponseDTO> itemList;
 
-    public MyDietAdapter(Context context, List<DietResponseDTO> itemList){
+    public MyTDietAdapter(Context context, List<DietResponseDTO> itemList){
         this.context = context;
         this.itemList = itemList;
     }
 
     @NonNull
     @Override
-    public MyDietViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyTDietViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ItemDietBinding binding = ItemDietBinding.inflate(layoutInflater, parent, false);
-        return new MyDietViewHolder(ItemDietBinding.inflate(layoutInflater));
+        ItemDietcalBinding binding = ItemDietcalBinding.inflate(layoutInflater, parent, false);
+        return new MyTDietViewHolder(ItemDietcalBinding.inflate(layoutInflater));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyDietViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyTDietViewHolder holder, int position) {
         DietResponseDTO data = itemList.get(position);
 
         holder.binding.itemTypeView.setText(data.getType());
@@ -66,7 +65,7 @@ public class MyDietAdapter extends RecyclerView.Adapter<MyDietViewHolder>{
                 }
                 bundle.putString("menus", menusText.toString());
 
-                Intent intent = new Intent(context, DietUpdateActivity.class);
+                Intent intent = new Intent(context, DietCalFragment.class);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

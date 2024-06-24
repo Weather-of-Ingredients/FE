@@ -6,7 +6,7 @@
     android:gravity="center|left"
     android:id="@+id/diet_item_layout">
 
-    <EditText
+    <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -50,5 +50,27 @@
             android:id="@+id/diet_item_delete_btn"
             android:src="@drawable/btn_delete"
             android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/carbohydrateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/proteinTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/fatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/caloriesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
 
 </LinearLayout>

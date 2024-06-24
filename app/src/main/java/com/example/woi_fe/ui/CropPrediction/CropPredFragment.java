@@ -17,7 +17,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.bumptech.glide.Glide;
-import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
@@ -141,7 +140,7 @@ public class CropPredFragment extends Fragment {
                             CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
                             cropItems = ResponseCropItems.getData();
 
-                            if (!cropItems.isEmpty()) {
+                            if (cropItems != null && !cropItems.isEmpty()) {
                                 binding.prevBtn.setVisibility(View.INVISIBLE);
                                 binding.cropId.setVisibility(View.VISIBLE);
 
