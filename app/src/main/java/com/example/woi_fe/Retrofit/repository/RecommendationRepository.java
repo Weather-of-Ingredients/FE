@@ -24,6 +24,10 @@ public class RecommendationRepository {
         return recommendationRetrofitAPI.getAllCropItems();
     }
 
+    /*public Call<CropResponseDTO<List<CropItem>>> getCropItems(String token, int year, int month, String bad_crops){
+        return recommendationRetrofitAPI.getCropItems(token, year, month, bad_crops);
+    }*/
+
     public Call<CropResponseDTO<List<CropItem>>> getCropItems(int year, int month, String bad_crops){
         return recommendationRetrofitAPI.getCropItems(year, month, bad_crops);
     }
