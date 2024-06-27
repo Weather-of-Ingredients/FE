@@ -3,6 +3,7 @@ package com.example.woi_fe.Retrofit.repository;
 import android.content.Context;
 
 import com.example.woi_fe.Retrofit.controller.RecommendationRetrofitAPI;
+import com.example.woi_fe.Retrofit.dto.recommendation.BadCropMenuDTO;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.recommendation.RecommendationDTO;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
@@ -36,5 +37,9 @@ public class RecommendationRepository {
 
     public Call<CropResponseDTO<RecommendationDTO>> getRecommendationDTO(int year, int month){
         return recommendationRetrofitAPI.getRecommendationDTO(year, month);
+    }
+
+    public Call<List<BadCropMenuDTO>> getBadCropsMenus(int year, int month){
+        return recommendationRetrofitAPI.getBadCropsMenus(year, month);
     }
 }

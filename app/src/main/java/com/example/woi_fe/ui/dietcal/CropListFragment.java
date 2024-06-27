@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,13 +97,23 @@ public class CropListFragment extends Fragment {
             @Override
             public void onResponse(Call<CropResponseDTO<RecommendationDTO>> call, Response<CropResponseDTO<RecommendationDTO>> response) {
                 if(response.isSuccessful() && response.body() != null){
+                    binding.cropListText.setVisibility(View.GONE);
+                    binding.cropListFragment.setVisibility(View.VISIBLE);
                     CropResponseDTO<RecommendationDTO> responseDTO = response.body();
                     RecommendationDTO recommendationDTO = responseDTO.getData();
-                    //Log.d("HTTP", String.valueOf(recommendationDTO));
-                    List<CropItem> good_cropList = recommendationDTO.getGood_crop();
-                    List<CropItem> bad_cropList = recommendationDTO.getBad_crop();
-                    List<CropItem> alt_cropList = recommendationDTO.getAlt_crop();
-                    setCropList(good_cropList, bad_cropList, alt_cropList);
+
+                    if(recommendationDTO != null){
+                        List<CropItem> good_cropList = recommendationDTO.getGood_crop();
+                        List<CropItem> bad_cropList = recommendationDTO.getBad_crop();
+                        List<CropItem> alt_cropList = recommendationDTO.getAlt_crop();
+                        setCropList(good_cropList, bad_cropList, alt_cropList);
+                    }else{
+                        binding.cropListFragment.setVisibility(View.GONE);
+                        binding.cropListText.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    binding.cropListFragment.setVisibility(View.GONE);
+                    binding.cropListText.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -116,7 +126,6 @@ public class CropListFragment extends Fragment {
 
 
     private void setCropList(List<CropItem> good_cropList, List<CropItem> bad_cropList, List<CropItem> alt_cropList) {
-        //어댑터에 붙이기.
         int spanCount = 3;
 
         GridLayoutManager manager = new GridLayoutManager(requireContext(), spanCount);

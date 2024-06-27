@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.woi_fe.FoodNutrition.FoodNutritionFragment;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
 import com.example.woi_fe.ui.Diet.DietUpdateFragment;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.e("HTTP", "Main Activity");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (itemId == R.id.navigation_dashboard) {
                     //                    updateIcons(item, R.drawable.checklist_1);
-                    loadFragment(new DashboardFragment());
+                    loadFragment(new FoodNutritionFragment());
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle("영양성분");
                     }
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     //                    updateIcons(item, R.drawable.user_1);
                     loadFragment(new CropPredFragment());
                     if (getSupportActionBar() != null) {
+                        Log.e("HTTP", "Crop Pred Fragment로 이동");
                         getSupportActionBar().setTitle("작물");
                     }
                 } else if (itemId == R.id.navigation_dietCal){

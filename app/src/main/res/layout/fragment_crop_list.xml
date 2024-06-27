@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.dietcal.CropListFragment"
-    android:background="@color/beige">
+    android:background="@color/beige"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,6 +53,21 @@
             android:background="@color/grey"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="27dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="아직 업데이트 되지 않았어요!"
+            android:textColor="@color/brown"
+            android:gravity="center"
+            android:id="@+id/crop_list_text"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/crop_list_fragment"
+            android:visibility="gone">
 
         <!--재배하기 쉬운 작물-->
         <LinearLayout
@@ -116,9 +132,6 @@
 
         </LinearLayout>
 
-
-        <!--대체 가능한 작물-->
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bad_crop_recyclerview"
             android:layout_width="match_parent"
@@ -131,6 +144,7 @@
             android:paddingRight="41dp"
             android:paddingBottom="14dp" />
 
+        <!--대체 가능한 작물-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,6 +180,7 @@
             android:paddingLeft="41dp"
             android:paddingRight="41dp"/>
 
+        </LinearLayout>
     </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,36 +1,26 @@
 package com.example.woi_fe.ui.CropPrediction;
 
-import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import com.bumptech.glide.Glide;
-import com.example.woi_fe.R;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.woi_fe.Retrofit.dto.recommendation.BadCropMenuDTO;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
-import com.example.woi_fe.databinding.BottomSheetCropPredBinding;
 import com.example.woi_fe.databinding.FragmentCropPredBinding;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
@@ -60,6 +50,8 @@ public class CropPredFragment extends Fragment {
 
     private int itemSize = 0;
     private List<CropItem> cropItems = null;
+
+    private BadCropMenuItemAdapter adapter;
 
 
     private RecommendationRepository recommendationRepository;
@@ -111,29 +103,33 @@ public class CropPredFragment extends Fragment {
         binding.cropPredSetMonth.setText(month + "월");
         binding.monthText.setText(month + "월");
 
-        //bad_crops list 보여주기
         callRetrofit(year, month);
 
         setItemClickListener();
 
-        //상세 메뉴 창 연결
-        setDetailClickListener();
         //달력 버튼 선택
         setButtonClickListener();
 
         return binding.getRoot();
     }
 
+    private void setBadCropMenu(List<BadCropMenuDTO> badCropMenuDTOList, Context context) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        binding.cropPredMenuList.setLayoutManager(layoutManager);
+
+        adapter = new BadCropMenuItemAdapter(badCropMenuDTOList, context);
+        binding.cropPredMenuList.setAdapter(adapter);
+    }
+
     private void callRetrofit(int year, int month) {
-        Log.e("MainActivity", "레트로핏 연결");
         /*SharedPreferences sharedPreferences = requireContext().getSharedPreferences("WoI", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("jwtToken", null);*/
         /*if(!token.isEmpty()) {
         *
         * "Bearer " + token,
         * */
-            //retrofit 연결
-            recommendationRepository.getCropItems(year, month, "bad_crops").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+            recommendationRepository.getCropItems(year, month, "bad_crop").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
                 @Override
                 public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
                     if (response.isSuccessful()) {
@@ -142,13 +138,14 @@ public class CropPredFragment extends Fragment {
                             CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
                             cropItems = ResponseCropItems.getData();
 
-                            if (!cropItems.isEmpty()) {
+                            if (cropItems != null && !cropItems.isEmpty()) {
                                 binding.prevBtn.setVisibility(View.INVISIBLE);
                                 binding.cropId.setVisibility(View.VISIBLE);
 
                                 binding.cropId.setText(cropItems.get(0).getIngredient_name());
                                 Glide.with(requireContext())
                                         .load(cropItems.get(0).getIngredient_image())
+                                        .apply(RequestOptions.circleCropTransform())
                                         .override(134, 134)
                                         .into(binding.cropImage);
                                 if (cropItems.size() > 1) {
@@ -160,12 +157,9 @@ public class CropPredFragment extends Fragment {
                             }
 
                         } else {
-                            Log.e("MainActivity", "response.body()==null");
                             handleEmptyCropItems();
                         }
                     } else {
-                        Log.e("MainActivity", "response.isSuccessful()에서 오류");
-                        Log.e("MainActivity", "Request failed with code: " + response.code());
                         try {
                             Log.e("MainActivity", "Error body: " + response.errorBody().string());
                         } catch (IOException e) {
@@ -176,10 +170,36 @@ public class CropPredFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
-                    Log.e("MainActivity", "GET request failed" + call, t);
                 }
 
 
+            });
+
+            recommendationRepository.getBadCropsMenus(year, month).enqueue(new Callback<List<BadCropMenuDTO>>() {
+                @Override
+                public void onResponse(Call<List<BadCropMenuDTO>> call, Response<List<BadCropMenuDTO>> response) {
+                    if(response.isSuccessful() && response.body()!=null){
+
+                        List<BadCropMenuDTO> badCropMenuDTOList = response.body();
+
+                        if(badCropMenuDTOList != null && !badCropMenuDTOList.isEmpty()){
+
+                            binding.cropPredMenuListText.setVisibility(View.GONE);
+                            binding.cropPredMenuList.setVisibility(View.VISIBLE);
+                            setBadCropMenu(badCropMenuDTOList, requireContext());
+                        }else{
+                            binding.cropPredMenuList.setVisibility(View.GONE);
+                            binding.cropPredMenuListText.setVisibility(View.VISIBLE);
+
+                        }
+                    }else{
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<BadCropMenuDTO>> call, Throwable t) {
+                }
             });
     }
 
@@ -189,7 +209,7 @@ public class CropPredFragment extends Fragment {
         binding.cropId.setVisibility(View.INVISIBLE);
         binding.cropId.setText("");
         Glide.with(requireContext())
-                .clear(binding.cropImage); // 이미지도 지우기
+                .clear(binding.cropImage);
     }
 
     private void setCropListener(){
@@ -219,6 +239,7 @@ public class CropPredFragment extends Fragment {
                 binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
                 Glide.with(requireContext())
                         .load(cropItems.get(itemSize).getIngredient_image())
+                        .apply(RequestOptions.circleCropTransform())
                         .override(134, 134)
                         .into(binding.cropImage);
                 setCropListener();
@@ -231,31 +252,13 @@ public class CropPredFragment extends Fragment {
                 binding.cropId.setText(cropItems.get(itemSize).getIngredient_name());
                 Glide.with(requireContext())
                         .load(cropItems.get(itemSize).getIngredient_image())
+                        .apply(RequestOptions.circleCropTransform())
                         .override(134, 134)
                         .into(binding.cropImage);
                 setCropListener();
             }
         });
 
-    }
-
-    private void setDetailClickListener() {
-        binding.originalMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowBottomSheet();
-            }
-        });
-    }
-
-    private void ShowBottomSheet() {
-        BottomSheetCropPredBinding bottomSheetBinding = BottomSheetCropPredBinding.inflate(getLayoutInflater());
-        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
-        dialog.setContentView(bottomSheetBinding.getRoot());
-
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.create();
-        dialog.show();
     }
 
     private void setButtonClickListener() {

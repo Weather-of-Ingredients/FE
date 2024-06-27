@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.woi_fe.R;
-import com.example.woi_fe.Retrofit.dto.foodNutrition.NutritionDTO;
 import com.example.woi_fe.Retrofit.repository.FoodNutritionRepository;
 import com.example.woi_fe.databinding.FragmentFoodNutritionBinding;
 import com.github.mikephil.charting.data.PieData;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import kotlin.collections.UCollectionsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,10 +94,8 @@ public class FoodNutritionFragment extends Fragment {
         binding.foodNutritionSetYear.setText(year + "년");
         binding.foodNutritionSetMonth.setText(month + "월");
 
-        //날짜 변경
         setButtonClickListener();
 
-        //데이터
         callRetrofit(year, month);
 
         return binding.getRoot();
@@ -116,7 +112,6 @@ public class FoodNutritionFragment extends Fragment {
     }
 
     private void callRetrofit(int year, int month) {
-        Log.e("MainActivity", "영양성분 레트로핏 연결");
         getCarbohydrate = 0;
         getProtein = 0;
         getFat = 0;
@@ -139,7 +134,6 @@ public class FoodNutritionFragment extends Fragment {
         foodNutritionRepository.getCarbohydrate(year, month).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                Log.e("MainActivity", "탄수화물 레트로핏 연결");
                 if(response.isSuccessful() && response.body() != null){
                     double nutritionDTO = response.body();
                     if(b){
@@ -147,7 +141,6 @@ public class FoodNutritionFragment extends Fragment {
                     }else{
                         getPrevCarbohydrate = nutritionDTO;
                     }
-                    Log.e("HTTP", "탄수화물: " + getCarbohydrate + " " + nutritionDTO);
                     checkAndSetPieChart();
                 } else{
                     checkAndSetPieChart();
@@ -156,7 +149,6 @@ public class FoodNutritionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                Log.e("MainActivity", "탄수화물 GET request failed", t);
                 checkAndSetPieChart();
             }
         });
@@ -164,7 +156,6 @@ public class FoodNutritionFragment extends Fragment {
         foodNutritionRepository.getProtein(year, month).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                Log.e("MainActivity", "단백질 레트로핏 연결");
                 if(response.isSuccessful() && response.body() != null){
                     double nutritionDTO = response.body();
                     if(b){
@@ -172,7 +163,6 @@ public class FoodNutritionFragment extends Fragment {
                     }else{
                         getPrevProtein = nutritionDTO;
                     }
-                    Log.e("HTTP", "단백질: " + getProtein + " " + nutritionDTO);
                     checkAndSetPieChart();
                 }else{
                     checkAndSetPieChart();
@@ -181,7 +171,6 @@ public class FoodNutritionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                Log.e("MainActivity", "단백질 GET request failed", t);
                 checkAndSetPieChart();
             }
         });
@@ -189,7 +178,6 @@ public class FoodNutritionFragment extends Fragment {
         foodNutritionRepository.getFat(year, month).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                Log.e("MainActivity", "지방 레트로핏 연결");
                 if(response.isSuccessful() && response.body() != null){
                     double nutritionDTO = response.body();
                     if(b){
@@ -197,7 +185,6 @@ public class FoodNutritionFragment extends Fragment {
                     }else{
                         getPrevFat = nutritionDTO;
                     }
-                    Log.e("HTTP", "지방: " + getFat + " " + nutritionDTO);
                     checkAndSetPieChart();
                 }else{
                     checkAndSetPieChart();
@@ -206,7 +193,6 @@ public class FoodNutritionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                Log.e("MainActivity", "지방 GET request failed", t);
                 checkAndSetPieChart();
             }
         });
@@ -223,16 +209,16 @@ public class FoodNutritionFragment extends Fragment {
     }
 
     private void setPieChart(){
+        binding.graphText.setVisibility(View.GONE);
+        binding.graph.setVisibility(View.VISIBLE);
         binding.graph.setUsePercentValues(true);
+        binding.graph.setNoDataText("");
 
         List<PieEntry> dataList = new ArrayList<>();
-        /*추후 데베 연결*/
         dataList.add(new PieEntry((float)getCarbohydrate, "탄수화물"));
         dataList.add(new PieEntry((float)getFat, "지방"));
         dataList.add(new PieEntry((float) getProtein, "단백질"));
 
-        Log.e("HTTP", dataList.toString());
-        /*색깔 지정*/
         PieDataSet dataSet = new PieDataSet(dataList, "");
         List<Integer> colors = new ArrayList<>();
 
@@ -241,7 +227,7 @@ public class FoodNutritionFragment extends Fragment {
         colors.add(ContextCompat.getColor(requireContext(), R.color.pale_brown));
 
         dataSet.setColors(colors);
-        /*텍스트 지우기*/
+
         dataSet.setDrawValues(true);
 
 
@@ -258,7 +244,8 @@ public class FoodNutritionFragment extends Fragment {
     }
     private void clearPieChart() {
         binding.graph.clear();
-        //binding.graph.invalidate(); // 차트를 다시 그리도록 설정
+        binding.graph.setVisibility(View.GONE);
+        binding.graphText.setVisibility(View.VISIBLE);
 
     }
     private void setButtonClickListener() {
