@@ -16,4 +16,5 @@
     <style name="CalendarViewTheme" parent="Theme.WoI_FE">
         <item name="colorAccent">@color/pink</item>
     </style>
+
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_full_white_in_diet_item"
+    android:layout_marginTop="70dp"
+    android:layout_gravity="center_horizontal"
+    android:id="@+id/datepicker_layout"
+        >
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:id="@+id/set_datepicker"
+            android:calendarViewShown="false"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_full_white"
+            android:text="완료"
+            android:textColor="@color/brown"
+            android:layout_margin="5dp"
+            android:id="@+id/complete_button"/>
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.woi_fe.ui.Diet;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -108,11 +109,11 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
 
                 isSaved = true;
                 isChangedCategory = false;
-                position = lastPosition;
+                lastPosition = position; //현재 눌렸던 식단 타입을 이전 position으로 전달
 
                 Log.d("MainActivity", "[UpdateFragment] save 클릭");
                 Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
-                Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
+                Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
             }
         });
         //닫기 버튼
@@ -180,8 +181,6 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         //dialogCustomBinding = DialogCustomBinding.inflate(getLayoutInflater());
         Log.d("MainActivity", "** **[showCustomDialog]");
         CustomDialog dialog = new CustomDialog(requireContext(), this);
-
-        //dialog.setContentView(dialogCustomBinding.getRoot());
         dialog.show();
         Log.d("MainActivity", "** **[showCustomDialog]");
     }
@@ -244,11 +243,11 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         Log.d("MainActivity", String.valueOf(adapterView.getSelectedItem()));
 
         isChangedCategory = true;
-        lastPosition = i;//현재 위치 저장
+        position = i;//현재 위치 저장
         isSaved = false;
 
         Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
-        Log.d("MainActivity", "position: " + position + "lastPosition: " + lastPosition);
+        Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
 
         setCustomDialog();
         Log.d("MainActivity", "**[OnItemSelected]");
@@ -310,21 +309,18 @@ public class DietUpdateFragment extends Fragment implements AdapterView.OnItemSe
         Log.d("MainActivity", "** ** **[dialogCallbackListener]");
         if(isDialogResult){
             /*true -> yes 를 누른 경우
-            * 수정 내용 반영 x
-            * 기존의 내용 그대로 취소
-            * lastPosition = 0
+            * dialog와 fragment 종료
             * */
 
         }else{
             /*false -> no를 누른 경우
-            * 수정 내용 유지
             * customdialog만 취소
-            * lastPosition = 0
+            * lastPosition의 식단이 나와야 한다.
             * */
+
             if(isChangedCategory){
-                //default로 되지 않은 경우
                 //lastposition의 category가 나와야 한다.
-                Log.d("MainActivity", "position: " + position);
+                Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
             }
 
         }

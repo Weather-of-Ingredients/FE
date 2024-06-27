@@ -1,5 +1,7 @@
 package com.example.woi_fe.FoodNutrition;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.woi_fe.Dialog.CalendarDialog;
 import com.example.woi_fe.R;
 import com.example.woi_fe.Retrofit.repository.FoodNutritionRepository;
 import com.example.woi_fe.databinding.FragmentFoodNutritionBinding;
@@ -249,49 +252,21 @@ public class FoodNutritionFragment extends Fragment {
 
     }
     private void setButtonClickListener() {
+
         binding.foodNutritionSetMonthBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //버튼 클릭 시 datapickter 등장
-                binding.foodNutritionOpacityLayout.setVisibility(View.VISIBLE);
-                binding.foodNutritionDatepickerLayout.setVisibility(View.VISIBLE);
-                //날짜 범위 제한
-                setDateInit();
-                //완료 버튼 선택 시
-                setCompleteButtonClickListener();
+                CalendarDialog calendarDialog = new CalendarDialog(requireContext());
+                calendarDialog.show();
+                calendarDialog.setCalendarDialogCallbackListener(new CalendarDialog.CalendarDialogCallbackListener() {
+                    @Override
+                    public void dialogCallbackListener(int Year, int Month) {
+                        callRetrofit(Year, Month);
+                        binding.foodNutritionSetYear.setText(Year + "년");
+                        binding.foodNutritionSetMonth.setText(Month + "월");
+                    }
+                });
             }
         });
     }
-    private void setCompleteButtonClickListener() {
-        binding.foodNutritionCompleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //날짜 얻어오기
-                int setYear = binding.foodNutritionSetDatepicker.getYear();
-                int setMonth = binding.foodNutritionSetDatepicker.getMonth() + 1;
-                //뷰를 다시 닫기 visible.GONE
-                binding.foodNutritionOpacityLayout.setVisibility(View.GONE);
-                binding.foodNutritionDatepickerLayout.setVisibility(View.GONE);
-                //날짜 수정하기
-                binding.foodNutritionSetYear.setText(setYear + "년");
-                binding.foodNutritionSetMonth.setText(setMonth + "월");
-                callRetrofit(setYear, setMonth);
-            }
-        });
-
-
-    }
-
-    private void setDateInit() {
-        //현재 날짜
-        Calendar maxMonth = Calendar.getInstance();
-
-        //이번 달에 3을 더하여 설정.
-        maxMonth.add(Calendar.MONTH, 3);
-
-        // DatePicker의 최대 날짜를 다음 달의 마지막 날로 설정
-        binding.foodNutritionSetDatepicker.setMaxDate(maxMonth.getTimeInMillis());
-
-    }
-
 }

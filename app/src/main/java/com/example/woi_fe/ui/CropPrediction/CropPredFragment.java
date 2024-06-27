@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.woi_fe.Dialog.CalendarDialog;
 import com.example.woi_fe.Retrofit.dto.recommendation.BadCropMenuDTO;
 import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
 import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
@@ -263,53 +264,23 @@ public class CropPredFragment extends Fragment {
 
     private void setButtonClickListener() {
         binding.cropPredSetMonthBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                //버튼 클릭 시 datapickter 등장
-                binding.cropPredOpacityLayout.setVisibility(View.VISIBLE);
-                binding.cropPredDatepickerLayout.setVisibility(View.VISIBLE);
-                //날짜 범위 제한
-                setDateInit();
-                //완료 버튼 선택 시
-                setCompleteButtonClickListener();
+                CalendarDialog calendarDialog = new CalendarDialog(requireContext());
+                calendarDialog.show();
+                calendarDialog.setCalendarDialogCallbackListener(new CalendarDialog.CalendarDialogCallbackListener() {
+                    @Override
+                    public void dialogCallbackListener(int Year, int Month) {
+                        callRetrofit(Year, Month);
+                        binding.cropPredSetYear.setText(Year + "년");
+                        binding.cropPredSetMonth.setText(Month + "월");
+                        binding.monthText.setText(Month + "월");
+                    }
+                });
             }
         });
     }
-
-    private void setCompleteButtonClickListener() {
-        binding.cropPredCompleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //날짜 얻어오기
-                int setYear = binding.cropPredSetDatepicker.getYear();
-                int setMonth = binding.cropPredSetDatepicker.getMonth() + 1;
-                //뷰를 다시 닫기 visible.GONE
-                binding.cropPredOpacityLayout.setVisibility(View.GONE);
-                binding.cropPredDatepickerLayout.setVisibility(View.GONE);
-                //날짜 수정하기
-                binding.cropPredSetYear.setText(setYear + "년");
-                binding.cropPredSetMonth.setText(setMonth + "월");
-                binding.monthText.setText(setMonth + "월");
-                callRetrofit(setYear, setMonth);
-            }
-        });
-
-
-    }
-
-    private void setDateInit() {
-        //현재 날짜
-        Calendar maxMonth = Calendar.getInstance();
-
-        //이번 달에 3을 더하여 설정.
-        maxMonth.add(Calendar.MONTH, 3);
-
-        // DatePicker의 최대 날짜를 다음 달의 마지막 날로 설정
-        binding.cropPredSetDatepicker.setMaxDate(maxMonth.getTimeInMillis());
-
-    }
-
-
 
     @Override
     public void onDestroyView() {
