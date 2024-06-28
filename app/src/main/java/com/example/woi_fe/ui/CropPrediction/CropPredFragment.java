@@ -25,6 +25,8 @@ import com.example.woi_fe.databinding.FragmentCropPredBinding;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -117,6 +119,14 @@ public class CropPredFragment extends Fragment {
     }
 
     private void setBadCropMenu(List<BadCropMenuDTO> badCropMenuDTOList, Context context) {
+        // Sort the list by day (integer)
+        Collections.sort(badCropMenuDTOList, new Comparator<BadCropMenuDTO>() {
+            @Override
+            public int compare(BadCropMenuDTO o1, BadCropMenuDTO o2) {
+                return Integer.compare(o1.getDay(), o2.getDay());
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.cropPredMenuList.setLayoutManager(layoutManager);

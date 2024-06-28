@@ -20,6 +20,8 @@ import com.example.woi_fe.ui.Diet.DietDetailActivity;
 import com.example.woi_fe.ui.Diet.DietUpdateActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
@@ -29,6 +31,7 @@ public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
     public MyTDietAdapter(Context context, List<DietResponseDTO> itemList){
         this.context = context;
         this.itemList = itemList;
+        sortItemList(); // 아이템 리스트를 생성자에서 정렬
     }
 
     @NonNull
@@ -70,10 +73,6 @@ public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
                 ArrayList<String> menuList = new ArrayList<>();
                 for(MenuResponseDTO menu : data.getMenus()){
                     menuList.add(menu.getFoodName());
-//                    menuList.add(String.format("%.2f",menu.getCalories()));
-//                    menuList.add(String.format("%.2f",menu.getCarbohydrate()));
-//                    menuList.add(String.format("%.2f",menu.getProtein()));
-//                    menuList.add(String.format("%.2f",menu.getFat()));
                 }
                 bundle.putStringArrayList("menus", menuList);
 
@@ -92,6 +91,26 @@ public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
 
     public void updateItems(List<DietResponseDTO> itemList) {
         this.itemList = itemList;
+        sortItemList(); // 아이템 리스트를 생성자에서 정렬
         notifyDataSetChanged();
+    }
+
+    private void sortItemList() {
+        Collections.sort(itemList, new Comparator<DietResponseDTO>() {
+            @Override
+            public int compare(DietResponseDTO o1, DietResponseDTO o2) {
+                // 조식-중식-석식 순으로 정렬
+                return getOrder(o1.getType()) - getOrder(o2.getType());
+            }
+
+            private int getOrder(String type) {
+                switch (type) {
+                    case "조식": return 1;
+                    case "중식": return 2;
+                    case "석식": return 3;
+                    default: return 4;
+                }
+            }
+        });
     }
 }
