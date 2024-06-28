@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="32dp"
-                android:text="조식"
+                android:text="타입"
                 android:textSize="20dp"
                 android:textColor="@color/brown" />
 
@@ -96,7 +96,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@color/pink"
-                android:text="시간 선택하기" />
+                android:text="타입 선택하기" />
 
         </RelativeLayout>
 

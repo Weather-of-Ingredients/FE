@@ -4,7 +4,6 @@
     <solid android:color="@color/white"/>
     <corners android:topRightRadius="30dp"
         android:topLeftRadius="30dp"/>
-    <stroke android:color="@color/taupe_stroke"
-        android:width="1.5dp"/>
-
+<!--    <stroke android:color="@color/taupe_stroke"-->
+<!--        android:width="1.5dp"/>-->
 </shape>

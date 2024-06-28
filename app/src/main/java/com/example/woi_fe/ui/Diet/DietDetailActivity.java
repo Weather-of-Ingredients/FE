@@ -18,11 +18,16 @@ import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.controller.RegistrationRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
+import com.example.woi_fe.Retrofit.dto.recommendation.BadCropMenuDTO;
+import com.example.woi_fe.Retrofit.dto.recommendation.CropItem;
+import com.example.woi_fe.Retrofit.dto.response.CropResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
+import com.example.woi_fe.Retrofit.repository.RecommendationRepository;
 import com.example.woi_fe.databinding.ActivityDietDetailBinding;
 import com.example.woi_fe.ui.dietcal.DietCalFragment;
 import com.example.woi_fe.ui.dietcal.MyTDietAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,9 +44,12 @@ public class DietDetailActivity extends AppCompatActivity {
     private ActivityDietDetailBinding binding;
     private MyDDietAdapter adapter1;
     private DietRetrofitAPI retrofitAPI;
+    private RecommendationRepository recommendationRepository;
+    private int itemSize = 0;
+    private List<CropItem> cropItems = null;
 
     String type, date, week;
-    int dietId;
+    int dietId, year, month, day;
     ArrayList<String> menusList;
 
 
@@ -53,6 +61,8 @@ public class DietDetailActivity extends AppCompatActivity {
 
         Retrofit retrofit = RetrofitClient.getInstance(this);
         retrofitAPI = retrofit.create(DietRetrofitAPI.class);
+
+        recommendationRepository = new RecommendationRepository(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -87,6 +97,25 @@ public class DietDetailActivity extends AppCompatActivity {
             }
         }
 
+        if (date != null && date.length() == 10) { // 간단한 유효성 검사
+            // 연도 추출 (yyyy)
+            String yearString = date.substring(0, 4);
+            year = Integer.parseInt(yearString);
+
+            // 월 추출 (MM)
+            String monthString = date.substring(5, 7);
+            month = Integer.parseInt(monthString);
+
+            // day는 필요에 따라 추가로 추출 가능
+             String dayString = date.substring(8, 10);
+             day = Integer.parseInt(dayString);
+
+        } else {
+            // 유효하지 않은 date 형식 처리
+            Log.e("MainActivity", "Invalid date format: " + date);
+        }
+
+
         binding.dietEditBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -96,6 +125,13 @@ public class DietDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(DietDetailActivity.this, DietUpdateActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        binding.dietAnalysisBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAltCrop(year, month, day);
             }
         });
 
@@ -131,6 +167,64 @@ public class DietDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showAltCrop(int year, int month, int day){
+        recommendationRepository.getCropItems(year, month, "bad_crop").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+            @Override
+            public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
+                        cropItems = ResponseCropItems.getData();
+
+                        if (cropItems != null && !cropItems.isEmpty()) {
+                            binding.altLayout.setVisibility(View.VISIBLE);
+                            binding.textNoBadCrop.setVisibility(View.GONE);
+                            binding.badCropText.setText(cropItems.get(0).getIngredient_name());
+                        } else {
+                            binding.altLayout.setVisibility(View.GONE);
+                            binding.textNoBadCrop.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
+
+            }
+        });
+
+        recommendationRepository.getCropItems(year, month, "alt_crop").enqueue(new Callback<CropResponseDTO<List<CropItem>>>() {
+            @Override
+            public void onResponse(Call<CropResponseDTO<List<CropItem>>> call, Response<CropResponseDTO<List<CropItem>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        CropResponseDTO<List<CropItem>> ResponseCropItems = response.body();
+                        cropItems = ResponseCropItems.getData();
+
+                        if (cropItems != null && !cropItems.isEmpty()) {
+                            binding.altLayout.setVisibility(View.VISIBLE);
+                            binding.textNoBadCrop.setVisibility(View.GONE);
+                            binding.altCropText.setText(cropItems.get(0).getIngredient_name());
+                        } else {
+                            binding.altLayout.setVisibility(View.GONE);
+                            binding.textNoBadCrop.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<CropResponseDTO<List<CropItem>>> call, Throwable t) {
+
+            }
+        });
+
+        // 메뉴당 작물 비교는 나중에 개발
     }
 
     private void deleteDiet(int dietId) {
