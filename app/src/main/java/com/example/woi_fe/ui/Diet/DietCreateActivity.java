@@ -79,7 +79,8 @@ public class DietCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("date", selectedDate);
+                bundle2.putString("cu", "create");
+                bundle2.putString("date", binding.dietDate.getText().toString());
                 bundle2.putString("type", binding.dietType.getText().toString());
                 bundle2.putString("week", binding.dietWeek.getText().toString());
 
@@ -117,9 +118,9 @@ public class DietCreateActivity extends AppCompatActivity {
                 binding.dietUpdateRecyclerView.setAdapter(adapter2);
                 Log.d("DietUpdateActivity1", newMenusList.toString());
 
-                dietDTO.setDate(date);
-                dietDTO.setType(type);
-                dietDTO.setWeek(week);
+                dietDTO.setDate(binding.dietDate.getText().toString());
+                dietDTO.setType(binding.dietType.getText().toString());
+                dietDTO.setWeek(binding.dietWeek.getText().toString());
                 dietDTO.setMenus(menuResponseDTOList);
             }
         }
@@ -127,9 +128,12 @@ public class DietCreateActivity extends AppCompatActivity {
         binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dietDTO.setDate(binding.dietDate.getText().toString());
+                dietDTO.setType(binding.dietType.getText().toString());
+                dietDTO.setWeek(binding.dietWeek.getText().toString());
                 createDiet(dietDTO);
                 finish();
-                Log.d("DietUpdateActivity", dietDTO.getMenus().toString());
+                Log.d("DietCreateActivity", dietDTO.getMenus().toString());
             }
         });
 
@@ -174,7 +178,7 @@ public class DietCreateActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("DietUpdateActivity",t.getMessage());
+                Log.e("DietCreateActivity",t.getMessage());
             }
         });
     }

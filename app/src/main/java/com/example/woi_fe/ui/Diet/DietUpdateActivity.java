@@ -28,6 +28,7 @@ import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuParDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveCallback;
@@ -57,7 +58,8 @@ public class DietUpdateActivity extends AppCompatActivity {
     private DietRetrofitAPI retrofitAPI;
     private DietDTO dietDTO;
     Integer dietId;
-    String selectedDate;
+    String type, date, week, selectedDate;
+    private List<MenuParDTO> newMenusList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +75,9 @@ public class DietUpdateActivity extends AppCompatActivity {
         binding.dietUpdateRecyclerView.setLayoutManager(layoutManager);
 
         // Intent로부터 Bundle을 가져옴(DietDetailActivity 가져온 것)
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            dietId = bundle.getInt("dietId");
+        Bundle bundle2 = getIntent().getExtras();
+        if (bundle2 != null) {
+            dietId = bundle2.getInt("dietId");
         }
         loadDietByID(dietId);
 
@@ -101,7 +103,11 @@ public class DietUpdateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // menu 검색 페이지로 넘어가기
                 Bundle bundle = new Bundle();
+                bundle.putString("cu", "update");
                 bundle.putInt("dietId", dietId);
+                bundle.putString("date", binding.dietDate.getText().toString());
+                bundle.putString("type", binding.dietType.getText().toString());
+                bundle.putString("week", binding.dietWeek.getText().toString());
 
                 Intent intent = new Intent(DietUpdateActivity.this, MenuSearchActivity.class);
                 intent.putExtras(bundle);
@@ -109,28 +115,49 @@ public class DietUpdateActivity extends AppCompatActivity {
             }
         });
 
-//        binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (dietDTO != null) {
-//                    updateDiet(dietId, dietDTO);
-//                } else {
-//                    Toast.makeText(DietUpdateActivity.this, "식단 정보를 입력하세요", Toast.LENGTH_SHORT).show();
+        // Intent로부터 Bundle을 가져옴(MenuSearchActivity 가져온 것)
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            // Bundle에서 데이터를 추출
+            newMenusList = bundle.getParcelableArrayList("newMenus");
+            date = bundle.getString("date");
+            type = bundle.getString("type");
+            week = bundle.getString("week");
+            dietId = bundle.getInt("dietId");
+            set3Text(date, type, week);
 
-                //retrofit 연결
-//                createDiet();
+            // 메뉴 데이터를 MenuResponseDTO 리스트로 변환하여 어댑터에 설정
+            if (newMenusList != null) {
+                List<MenuResponseDTO> menuResponseDTOList = new ArrayList<>();
+                dietDTO = new DietDTO();
+                for (MenuParDTO menuParDTO : newMenusList) {
+                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+                    menuResponseDTO.setFoodName(menuParDTO.getFoodName());
+                    menuResponseDTO.setCarbohydrate(menuParDTO.getCarbohydrate());
+                    menuResponseDTO.setProtein(menuParDTO.getProtein());
+                    menuResponseDTO.setFat(menuParDTO.getFat());
+                    menuResponseDTO.setCalories(menuParDTO.getCalories());
+                    menuResponseDTOList.add(menuResponseDTO);
+                }
+                adapter2 = new MyUDietAdapter(this, menuResponseDTOList);
+                binding.dietUpdateRecyclerView.setAdapter(adapter2);
+                Log.d("DietUpdateActivity1", newMenusList.toString());
 
-//                 isSaved = true;
-//                 isChangedCategory = false;
-//                 lastPosition = position; //현재 눌렸던 식단 타입을 이전 position으로 전달
+                dietDTO.setDate(binding.dietDate.getText().toString());
+                dietDTO.setType(binding.dietType.getText().toString());
+                dietDTO.setWeek(binding.dietWeek.getText().toString());
+                dietDTO.setMenus(menuResponseDTOList);
+            }
+        }
 
-//                 Log.d("MainActivity", "[UpdateActivity] save 클릭");
-//                 Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
-//                 Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
-
-//            }
-//        });
+        binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateDiet(dietId, dietDTO);
+                finish();
+                Log.d("DietUpdateActivity", dietDTO.getMenus().toString());
+            }
+        });
 
         binding.dietCloseBtn.setOnClickListener(new View.OnClickListener() {
             DialogInterface.OnClickListener alertHandler = new DialogInterface.OnClickListener() {
@@ -187,8 +214,8 @@ public class DietUpdateActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     // 식단 일정 페이지로 넘어가기(수정중...)
-                    Intent intent = new Intent(DietUpdateActivity.this, DietDetailActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(DietUpdateActivity.this, "식단 수정 성공", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(DietUpdateActivity.this, "식단 수정 실패", Toast.LENGTH_SHORT).show();
                 }
@@ -200,66 +227,14 @@ public class DietUpdateActivity extends AppCompatActivity {
         });
     }
 
+    private void set3Text(String date, String type, String week){
+        binding.dietDate.setText(date);
+        binding.dietType.setText(type);
+        binding.dietWeek.setText(week);
+    }
 
     private void showTypeDialog() {
         final String[] options = {"조식", "중식", "석식"};
-
-//     private void setCustomDialog() {
-//         Log.d("MainActivity", "**[setCustomDialog]");
-//         Log.d("MainActivity", "**[setCustomDialog] save: " + isSaved + " edit: " + isEdited);
-//         if(!isSaved){
-//             //완료 버튼을 누르지 않은 경우
-//             if(isEdited){
-//                 //텍스트의 변경이 있는 경우
-//                 //팝업 창
-//                 showCustomDialog();
-//             }else{
-//                 //텍스트의 변경이 없는 경우
-//                 //창 닫기
-//             }
-//         }else{
-//             //완료 버튼을 누른 경우
-//             //초기화해야할 boolean 값들 ?
-//             isSaved = false;
-//             isEdited = false;
-//             //창 닫기
-//         }
-//         Log.d("MainActivity", "**[setCustomDialog]");
-//     }
-
-//     private void showCustomDialog() {
-//         Log.d("MainActivity", "** **[showCustomDialog]");
-
-//         CustomDialog dialog = new CustomDialog(this, this);
-
-//         dialog.show();
-//         Log.d("MainActivity", "** **[showCustomDialog]");
-//     }
-
-//     private void setInitDate() {
-//         calendar = Calendar.getInstance();
-
-//         int year = calendar.get(Calendar.YEAR);
-//         int month = calendar.get(Calendar.MONTH) +1;
-//         int date = calendar.get(Calendar.DATE);
-
-//         binding.dietDate.setText(year + "년 " + month + "월 " + date + "일");
-//     }
-
-//     private void setCompleteButtonClickListener() {
-//         binding.dietUpdateCompleteButton.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View view) {
-//                 int setYear = binding.dietUpdateSetDatepicker.getYear();
-//                 int setMonth = binding.dietUpdateSetDatepicker.getMonth() + 1;
-//                 int setDate = binding.dietUpdateSetDatepicker.getDayOfMonth();
-//                 binding.dietUpdateOpacityLayout.setVisibility(View.GONE);
-//                 binding.dietUpdateDatepickerLayout.setVisibility(View.GONE);
-//                 binding.dietDate.setText(setYear + "년 " + setMonth + "월 " + setDate + "일");
-//             }
-//         });
-//     }
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("타입 선택");
@@ -320,87 +295,6 @@ public class DietUpdateActivity extends AppCompatActivity {
                 return "토";
             default:
                 return "";
-//     private void setSpinner() {
-//         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.diet_array, R.layout.item_diet_update_diet_category);
-//         binding.dietSpinner.setAdapter(spinner_adapter);
-//         binding.dietSpinner.setOnItemSelectedListener(this);
-//         Log.d("MainActivity", "스피너 연결");
-//     }
-
-//     @Override
-//     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//         Log.d("MainActivity", "**[OnItemSelected]");
-//         Log.d("MainActivity", String.valueOf(adapterView.getSelectedItem()));
-
-//         isChangedCategory = true;
-
-//         lastPosition = i;
-
-//         isSaved = false;
-
-//         Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
-//         Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
-
-//         setCustomDialog();
-//         Log.d("MainActivity", "**[OnItemSelected]");
-//     }
-
-//     @Override
-//     public void onNothingSelected(AdapterView<?> adapterView) {
-
-//     }
-
-//     private void setDietList() {
-//         LinearLayoutManager manager = new LinearLayoutManager(this);
-//         manager.setOrientation(LinearLayoutManager.VERTICAL);
-//         binding.dietRecyclerView.setLayoutManager(manager);
-
-//         diet_list_adapter = new DietItemAdapter(this);
-//         binding.dietRecyclerView.setAdapter(diet_list_adapter);
-
-//         diet_list_helper = new ItemTouchHelper(new ItemMoveCallback(diet_list_adapter));
-//         diet_list_helper.attachToRecyclerView(binding.dietRecyclerView);
-
-// //        diet_list_adapter.addItem("흰쌀밥");
-// //        diet_list_adapter.addItem("된장찌개");
-// //        diet_list_adapter.addItem("계란말이");
-// //        diet_list_adapter.addItem("김치");
-//     }
-
-//     @Override
-//     public void onItemAdded(int position) {
-//         isEdited = true;
-//     }
-
-//     @Override
-//     public void onItemRemoved(int position) {
-//         isEdited = true;
-//     }
-
-//     @Override
-//     public void onItemChanged(int position) {
-//         isEdited = true;
-//     }
-
-//     @Override
-//     public void dialogCallbackListener(boolean isDialogResult) {
-//         Log.d("MainActivity", "** ** **[dialogCallbackListener]");
-//         if(isDialogResult){
-
-//             // true -> yes를 누른 경우
-//             // 수정 내용 반영 x
-//             // 기존의 내용 그대로 취소
-//             // lastPosition = 0
-//         }else{
-//             // false -> no를 누른 경우
-//             // 수정 내용 유지
-//             // customdialog만 취소
-//             // lastPosition = 0
-//             if(isChangedCategory){
-//                 Log.d("MainActivity", "position: " + position);
-
-//             }
-
         }
     }
 }

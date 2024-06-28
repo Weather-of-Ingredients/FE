@@ -33,7 +33,7 @@ public class MenuSearchActivity extends AppCompatActivity {
     private MyMenuAdapter adapter;
     List<MenuResponseDTO> menuResponseDTOS;
     List<MenuDTO> menuDTOList;
-    String type, date, week;
+    String type, date, week,cu;
     Integer dietId;
 
     @Override
@@ -47,19 +47,18 @@ public class MenuSearchActivity extends AppCompatActivity {
         Retrofit retrofit = RetrofitClient.getInstance(this);
         dietRetrofitAPI = retrofit.create(DietRetrofitAPI.class);
 
-        // From DietCreateActivity
+        // From DietCreateActivity, DietUpdateActivity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             date = bundle.getString("date");
             type = bundle.getString("type");
             week = bundle.getString("week");
             dietId = bundle.getInt("dietId");
+            cu = bundle.getString("cu");
         }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MenuSearchActivity.this);
         binding.feedRecyclerView.setLayoutManager(layoutManager);
-
-//        loadDietByID(dietId);
 
         binding.bSearch.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -71,10 +70,11 @@ public class MenuSearchActivity extends AppCompatActivity {
         binding.btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List<MenuDTO> newSelectedItems = adapter.getSelectedItems(); // 새로 선택된 메뉴 리스트
+
                 Bundle bundle = new Bundle();
-                List<MenuDTO> newItems = adapter.getSelectedItems();
                 List<MenuParDTO> menuParDTOList = new ArrayList<>();
-                for (MenuDTO menuDTO : newItems) {
+                for (MenuDTO menuDTO : newSelectedItems) {
                     MenuParDTO menuParDTO = new MenuParDTO();
                     menuParDTO.setMenuId(menuDTO.getMenuId());
                     menuParDTO.setCarbohydrate(menuDTO.getCarbohydrate());
@@ -91,10 +91,17 @@ public class MenuSearchActivity extends AppCompatActivity {
                 bundle.putString("date", date);
                 bundle.putString("week", week);
                 bundle.putParcelableArrayList("newMenus", parcelableMenuList);
+                bundle.putInt("dietId", dietId);
 
-                Intent intent2 = new Intent(MenuSearchActivity.this, DietCreateActivity.class);
-                intent2.putExtras(bundle);
-                startActivity(intent2);
+                if(cu.equals("create")){
+                    Intent intent2 = new Intent(MenuSearchActivity.this, DietCreateActivity.class);
+                    intent2.putExtras(bundle);
+                    startActivity(intent2);
+                } else {
+                    Intent intent = new Intent(MenuSearchActivity.this, DietUpdateActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
 
                 finish();
             }
@@ -102,7 +109,8 @@ public class MenuSearchActivity extends AppCompatActivity {
 
     }
 
-    private void loadDietByID(Integer dietId){
+    private void loadMenuList() {
+        // 수정할 때 원래 식단의 메뉴를 가져오는 메소드
         Call<DietResponseDTO> call = dietRetrofitAPI.getDietByDietId(dietId);
         call.enqueue(new Callback<DietResponseDTO>() {
             @Override
@@ -113,28 +121,30 @@ public class MenuSearchActivity extends AppCompatActivity {
 //                    binding.dietWeek.setText(response.body().getWeek());
                     menuResponseDTOS = response.body().getMenus();
                     menuDTOList = convertToMenuDTOList(menuResponseDTOS);
-
-                    adapter = new MyMenuAdapter(MenuSearchActivity.this, menuDTOList);
-                    binding.feedRecyclerView.setAdapter(adapter);
                 }
             }
-
             @Override
             public void onFailure(Call<DietResponseDTO> call, Throwable t) {
                 Log.e("MenuSearchActivity", "Failed to load diet by ID", t);
             }
         });
-    }
 
-    private void loadMenuList() {
-        Call<List<MenuDTO>> call = dietRetrofitAPI.getMenuList(binding.eSearchWord.getText().toString());
-        call.enqueue(new Callback<List<MenuDTO>>() {
+        // 원래 식단 메뉴를 가져와 어댑터 실행시키는 메소드
+        Call<List<MenuDTO>> call2 = dietRetrofitAPI.getMenuList(binding.eSearchWord.getText().toString());
+        call2.enqueue(new Callback<List<MenuDTO>>() {
             @Override
             public void onResponse(Call<List<MenuDTO>> call, Response<List<MenuDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<MenuDTO> menus = response.body();
-                    adapter = new MyMenuAdapter(MenuSearchActivity.this, menus);
-                    binding.feedRecyclerView.setAdapter(adapter);
+                    if(menuDTOList == null){
+                        adapter = new MyMenuAdapter(MenuSearchActivity.this, menus, new ArrayList<>());
+                        binding.feedRecyclerView.setAdapter(adapter);
+                    } else {
+                        adapter = new MyMenuAdapter(MenuSearchActivity.this, menus, menuDTOList);
+                        binding.feedRecyclerView.setAdapter(adapter);
+                    }
+//                    adapter = new MyMenuAdapter(MenuSearchActivity.this, menus, menuDTOList);
+//                    binding.feedRecyclerView.setAdapter(adapter);
                 } else {
                     Log.e("SearchActivity", "Response not successful or body is null");
                 }

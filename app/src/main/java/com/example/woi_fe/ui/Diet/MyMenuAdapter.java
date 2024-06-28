@@ -24,16 +24,18 @@ import java.util.Map;
 
 public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
     private Context context;
-    private List<MenuDTO> menuList;
+    private List<MenuDTO> menuList, itemList;
     private List<MenuDTO> selectedList = new ArrayList<>();
     private Map<MenuDTO, Boolean> selectionMap = new HashMap<>();
 
-    public MyMenuAdapter(Context context, List<MenuDTO> itemList){
+    public MyMenuAdapter(Context context, List<MenuDTO> itemList, List<MenuDTO> menuList){
         this.context = context;
-        this.menuList = itemList;
+        this.itemList = itemList; // 검색해서 나오는 메뉴 리스트
+        this.menuList = menuList; // 업데이트 할 떄 원래 가지고있던 메뉴 리스트
         // 초기화 시 선택 상태 맵과 선택 리스트를 설정
         for (MenuDTO item : menuList) {
-            selectionMap.put(item, false);
+            selectionMap.put(item, true);
+            selectedList.add(item);
         }
     }
 
@@ -49,7 +51,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyMenuViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        MenuDTO data = menuList.get(position);
+        MenuDTO data = itemList.get(position);
 
         holder.binding.itemFoodNameView.setText(data.getFoodName());
         holder.binding.itemCalView.setText(String.format("%.2f", data.getCalories()));
@@ -79,7 +81,12 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
 
     @Override
     public int getItemCount() {
-        return menuList.size();
+        return itemList.size();
+    }
+
+    // 원래 메뉴 리스트 반환 메서드
+    public List<MenuDTO> getOriginalItems() {
+        return menuList;
     }
 
     // 선택된 객체 리스트 반환 메서드
