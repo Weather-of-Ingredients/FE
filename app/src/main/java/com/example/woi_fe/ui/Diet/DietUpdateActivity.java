@@ -109,14 +109,14 @@ public class DietUpdateActivity extends AppCompatActivity {
             }
         });
 
-        binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (dietDTO != null) {
-                    updateDiet(dietId, dietDTO);
-                } else {
-                    Toast.makeText(DietUpdateActivity.this, "식단 정보를 입력하세요", Toast.LENGTH_SHORT).show();
+//        binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (dietDTO != null) {
+//                    updateDiet(dietId, dietDTO);
+//                } else {
+//                    Toast.makeText(DietUpdateActivity.this, "식단 정보를 입력하세요", Toast.LENGTH_SHORT).show();
 
                 //retrofit 연결
 //                createDiet();
@@ -129,8 +129,8 @@ public class DietUpdateActivity extends AppCompatActivity {
 //                 Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
 //                 Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
 
-            }
-        });
+//            }
+//        });
 
         binding.dietCloseBtn.setOnClickListener(new View.OnClickListener() {
             DialogInterface.OnClickListener alertHandler = new DialogInterface.OnClickListener() {
