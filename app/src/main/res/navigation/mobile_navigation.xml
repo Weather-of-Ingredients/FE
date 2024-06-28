@@ -11,11 +11,11 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
+    <activity
         android:id="@+id/navigation_makeDiet"
-        android:name="com.example.woi_fe.ui.home.HomeFragment"
+        android:name="com.example.woi_fe.ui.Diet.DietCreateActivity"
         android:label="@string/title_makeDiet"
-        tools:layout="@layout/activity_diet_update" />
+        tools:layout="@layout/activity_diet_create" />
 
     <fragment
         android:id="@+id/navigation_dietCal"

@@ -16,29 +16,24 @@
         android:theme="@style/Theme.WoI_FE"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
-
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.Diet.DietDetailActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
         </activity>
-
         <activity
             android:name=".ui.Diet.MenuSearchActivity"
             android:exported="true">
         </activity>
         <activity
             android:name=".ui.Diet.DietUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.Diet.DietCreateActivity"
             android:exported="true">
         </activity>
         <activity
@@ -58,16 +53,16 @@
 
         <activity
             android:name=".LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".SplashActivity"
             android:exported="true"
             android:label="@string/app_name">
-
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -1,12 +1,17 @@
 package com.example.woi_fe.Retrofit.dto.diet;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 public class MenuDTO {
     private Integer menuId;
-    private String carbohydrate;
-    private String protein;
-    private String fat;
+    private double carbohydrate;
+    private double protein;
+    private double fat;
     private String foodName;
-    private String calories;
+    private double calories;
     private DietResponseDTO diet;
 
     public Integer getMenuId() {
@@ -17,35 +22,27 @@ public class MenuDTO {
         this.menuId = menuId;
     }
 
-    public DietResponseDTO getDiet() {
-        return diet;
-    }
-
-    public void setDiet(DietResponseDTO diet) {
-        this.diet = diet;
-    }
-
-    public String getCarbohydrate() {
+    public double getCarbohydrate() {
         return carbohydrate;
     }
 
-    public void setCarbohydrate(String carbohydrate) {
+    public void setCarbohydrate(double carbohydrate) {
         this.carbohydrate = carbohydrate;
     }
 
-    public String getProtein() {
+    public double getProtein() {
         return protein;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(double protein) {
         this.protein = protein;
     }
 
-    public String getFat() {
+    public double getFat() {
         return fat;
     }
 
-    public void setFat(String fat) {
+    public void setFat(double fat) {
         this.fat = fat;
     }
 
@@ -57,11 +54,20 @@ public class MenuDTO {
         this.foodName = foodName;
     }
 
-    public String getCalories() {
+    public double getCalories() {
         return calories;
     }
 
-    public void setCalories(String calories) {
+    public void setCalories(double calories) {
         this.calories = calories;
     }
+
+    public DietResponseDTO getDiet() {
+        return diet;
+    }
+
+    public void setDiet(DietResponseDTO diet) {
+        this.diet = diet;
+    }
+
 }

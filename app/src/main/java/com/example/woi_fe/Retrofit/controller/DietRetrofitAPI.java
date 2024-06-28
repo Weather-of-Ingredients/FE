@@ -23,10 +23,13 @@ public interface DietRetrofitAPI {
     Call<ResponseBody> createDiet(@Body DietDTO dietDTO);
 
     @PUT("/api/diet/update/{dietId}") // 식단 수정
-    Call<ResponseBody> updateDiet(@Body int dietId, DietDTO dietDTO);
+    Call<ResponseBody> updateDiet(@Path("dietId") int dietId, @Body DietDTO dietDTO);
 
     @DELETE("/api/diet/delete/{dietId}") // 식단 삭제
-    Call<ResponseBody> deleteDiet(@Path("dietId") int dietId);
+    Call<Void> deleteDiet(@Path("dietId") int dietId);
+
+    @GET("/api/diet/get/{dietId}")
+    Call<DietResponseDTO> getDietByDietId(@Path("dietId") Integer dietId);
 
     @GET("/api/diet/all") // 식단 목록 가져오기
     Call<List<DietResponseDTO>> getAllDiets();

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.woi_fe.ui.CropPrediction.CropPredFragment;
+import com.example.woi_fe.ui.Diet.DietCreateActivity;
 import com.example.woi_fe.ui.Diet.DietUpdateActivity;
 
 import com.example.woi_fe.ui.dashboard.DashboardFragment;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
             } else if (itemId == R.id.navigation_makeDiet){
-                Intent intent = new Intent(this, DietUpdateActivity.class);
+                Intent intent = new Intent(this, DietCreateActivity.class);
                 startActivity(intent);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 등록");

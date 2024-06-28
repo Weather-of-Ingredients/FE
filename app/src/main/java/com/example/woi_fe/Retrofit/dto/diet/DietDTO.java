@@ -1,11 +1,8 @@
 package com.example.woi_fe.Retrofit.dto.diet;
 
 import com.example.woi_fe.Retrofit.dto.user.UserDTO;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class DietDTO {
@@ -19,7 +16,7 @@ public class DietDTO {
     private String week;
 
     @SerializedName("menus")
-    private List<MenuDTO> menus;
+    private List<MenuResponseDTO> menus;
     @SerializedName("userEntity")
     private UserDTO userEntity;
 
@@ -56,11 +53,11 @@ public class DietDTO {
     }
 
 
-    public List<MenuDTO> getMenus() {
+    public List<MenuResponseDTO> getMenus() {
         return menus;
     }
 
-    public void setMenus(List<MenuDTO> menus) {
+    public void setMenus(List<MenuResponseDTO> menus) {
         this.menus = menus;
     }
 
