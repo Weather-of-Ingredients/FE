@@ -54,7 +54,10 @@ public class MenuSearchActivity extends AppCompatActivity {
             dietId = bundle.getInt("dietId");
         }
 
-        loadDietByID(dietId);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MenuSearchActivity.this);
+        binding.feedRecyclerView.setLayoutManager(layoutManager);
+
+//        loadDietByID(dietId);
 
         binding.bSearch.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -78,10 +81,6 @@ public class MenuSearchActivity extends AppCompatActivity {
                 bundle.putString("date", date);
                 bundle.putString("week", week);
 
-//                Intent intent = new Intent(MenuSearchActivity.this, DietUpdateActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-
                 Intent intent2 = new Intent(MenuSearchActivity.this, DietCreateActivity.class);
                 intent2.putExtras(bundle);
                 startActivity(intent2);
@@ -104,8 +103,6 @@ public class MenuSearchActivity extends AppCompatActivity {
                     menuResponseDTOS = response.body().getMenus();
                     menuDTOList = convertToMenuDTOList(menuResponseDTOS);
 
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(MenuSearchActivity.this);
-                    binding.feedRecyclerView.setLayoutManager(layoutManager);
                     adapter = new MyMenuAdapter(MenuSearchActivity.this, menuDTOList);
                     binding.feedRecyclerView.setAdapter(adapter);
                 }

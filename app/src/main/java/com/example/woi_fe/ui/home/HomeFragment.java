@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     private MyDietAdapter adapter;
     private DietRetrofitAPI dietRetrofitAPI;
     private String selectedDate = "0";
+    private Calendar calendar;
 
     //
 //    private final String TAG = getClass().getSimpleName();
@@ -110,6 +111,14 @@ public class HomeFragment extends Fragment {
 //        binding.calendarView.setAdapter(calendarAdapter);
 //        initView(calendarView);
 
+        calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) +1;
+
+        binding.cropPredSetYear.setText(year + "년");
+        binding.cropPredSetMonth.setText(month + "월");
+
         // 캘린더뷰
         binding.calendarView2.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -156,38 +165,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-//    private void initView(View view) {
-//        pageIndex -= (Integer.MAX_VALUE / 2);
-//        Log.e(TAG, "Calendar Index: " + pageIndex);
-//
-//        calendarYearMonthText = view.findViewById(R.id.crop_pred_set_month);
-//        calendarLayout = view.findViewById(R.id.calendar_layout);
-//        calendarView = view.findViewById(R.id.calendar_view);
-//
-//        // 날짜 적용
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.MONTH, pageIndex);
-//        Date date = (Date)calendar.getTime();
-//        currentDate = date;
-//        Log.e(TAG, date.toString());
-//
-//        // 포맷 적용
-//        String datetime = new SimpleDateFormat(
-//                mContext.getString(R.string.calendar_year_month_format),
-//                Locale.KOREA
-//        ).format(date);
-//        calendarYearMonthText.setText(datetime);
-//
-//        // currentDate가 null이 아닌지 확인 후 calendarAdapter 초기화
-//        if (currentDate != null) {
-//            calendarAdapter = new CalendarAdapter(mContext, calendarLayout, currentDate);
-//            calendarView.setAdapter(calendarAdapter);
-//        } else {
-//            Log.e(TAG, "currentDate is null");
-//        }
-//    }
-
 
     @Override
     public void onDestroyView() {

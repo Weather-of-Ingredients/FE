@@ -41,6 +41,7 @@
                     android:layout_marginRight="85dp"
                     android:layout_alignParentRight="true"
                     android:id="@+id/diet_edit_btn"
+                    android:visibility="invisible"
                     android:background="@drawable/edit"
                     android:adjustViewBounds="true" />
 

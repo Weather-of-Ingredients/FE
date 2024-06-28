@@ -109,12 +109,12 @@ public class DietCreateActivity extends AppCompatActivity {
                     // 필요한 경우 다른 필드도 설정
                     menuResponseDTOList.add(menuResponseDTO);
                 }
-                for (String cal : newMenusList) {
-                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
-                    menuResponseDTO.setCalories(Double.parseDouble(cal));
-                    // 필요한 경우 다른 필드도 설정
-                    menuResponseDTOList.add(menuResponseDTO);
-                }
+//                for (String cal : newMenusList) {
+//                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+//                    menuResponseDTO.setCalories(Double.parseDouble(cal));
+////                     필요한 경우 다른 필드도 설정
+//                    menuResponseDTOList.add(menuResponseDTO);
+//                }
                 adapter2 = new MyUDietAdapter(this, menuResponseDTOList);
                 binding.dietUpdateRecyclerView.setAdapter(adapter2);
                 Log.d("DietUpdateActivity1", newMenusList.toString());

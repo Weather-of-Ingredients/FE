@@ -33,7 +33,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MyMenuViewHolder>{
         this.menuList = itemList;
         // 초기화 시 선택 상태 맵과 선택 리스트를 설정
         for (MenuDTO item : menuList) {
-            selectionMap.put(item, true);
+            selectionMap.put(item, false);
         }
     }
 
