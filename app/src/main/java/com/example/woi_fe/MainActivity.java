@@ -1,4 +1,10 @@
 package com.example.woi_fe;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.example.woi_fe.FoodNutrition.FoodNutritionFragment;
+import com.example.woi_fe.Retrofit.network.RetrofitClient;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,40 +44,40 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.e("HTTP", "Main Activity");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Home page");
         }
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.navigation_home) {
-                //                    updateIcons(item, R.drawable.calendar_1);
-                loadFragment(new HomeFragment());
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("식단 일정");
-                }
-            } else if (itemId == R.id.navigation_dashboard) {
-                //                    updateIcons(item, R.drawable.checklist_1);
-                loadFragment(new DashboardFragment());
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("영양성분");
-                }
-            } else if (itemId == R.id.navigation_notifications) {
-                //                    updateIcons(item, R.drawable.user_1);
-                loadFragment(new CropPredFragment());
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("작물");
-                }
-            } else if (itemId == R.id.navigation_dietCal){
-                loadFragment(new DietCalFragment());
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("홈");
-                }
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_home) {
+                    //                    updateIcons(item, R.drawable.calendar_1);
+                    loadFragment(new HomeFragment());
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("식단 일정");
+                    }
+                } else if (itemId == R.id.navigation_dashboard) {
+                    //                    updateIcons(item, R.drawable.checklist_1);
+                    loadFragment(new FoodNutritionFragment());
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("영양성분");
+                    }
+                } else if (itemId == R.id.navigation_notifications) {
+                    //                    updateIcons(item, R.drawable.user_1);
+                    loadFragment(new CropPredFragment());
+                    if (getSupportActionBar() != null) {
+                        Log.e("HTTP", "Crop Pred Fragment로 이동");
+                        getSupportActionBar().setTitle("작물");
+                    }
+                } else if (itemId == R.id.navigation_dietCal){
+                    loadFragment(new DietCalFragment());
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("홈");
+                    }
 
             } else if (itemId == R.id.navigation_makeDiet){
                 Intent intent = new Intent(this, DietCreateActivity.class);
@@ -79,19 +85,18 @@ public class MainActivity extends AppCompatActivity {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("식단 등록");
                 }
-
-            }
-            return true;
-        });
-        loadFragment(new DietCalFragment());
-        bottomNavigationView.setSelectedItemId(R.id.navigation_dietCal);
+                }
+                return true;
+            });
+            loadFragment(new DietCalFragment());
+            bottomNavigationView.setSelectedItemId(R.id.navigation_dietCal);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.main_layout, new CropPredFragment())
 //                .commit();
     }
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_layout, fragment);
         transaction.addToBackStack(null); // Optional: Add the fragment to the back stack

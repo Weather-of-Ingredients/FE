@@ -1,9 +1,11 @@
 package com.example.woi_fe;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -137,9 +139,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Log.e("HTTP", "Login Activity");
         Retrofit retrofit = RetrofitClient.getInstance(this);
         registrationRetrofitAPI = retrofit.create(RegistrationRetrofitAPI.class);
+
 
         TextView subMessage = findViewById(R.id.sub_message);
         Spanned text = Html.fromHtml("<b>재료의 날씨</b>에 오신 것을 환영합니다!", Html.FROM_HTML_MODE_LEGACY);

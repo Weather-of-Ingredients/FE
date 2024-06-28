@@ -30,7 +30,8 @@
             android:text="17"
             android:textSize="40dp"
             android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:id="@+id/bottom_sheet_day"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,12 +48,14 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:textColor="@color/brown"
+        android:id="@+id/bottom_sheet_food_name"
         android:layout_marginBottom="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="60dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -82,6 +85,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/brown"
+                android:id="@+id/bottom_sheet_original_menu"
                 />
         </LinearLayout>
 
@@ -111,11 +115,12 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/brown"
+                android:id="@+id/bottom_sheet_pred_menu"
                 />
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -172,5 +177,5 @@
                 android:textColor="@color/brown" />
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 </LinearLayout>

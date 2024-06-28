@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dietcal.CropListFragment"
+    android:background="@color/beige"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp">
+
+        <!--logo-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo"
+                android:adjustViewBounds="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이달의 작물"
+                android:textSize="20dp"
+                android:textColor="@color/brown"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <!--line-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/grey"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="27dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="아직 업데이트 되지 않았어요!"
+            android:textColor="@color/brown"
+            android:gravity="center"
+            android:id="@+id/crop_list_text"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/crop_list_fragment"
+            android:visibility="gone">
+
+        <!--재배하기 쉬운 작물-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/oval_green"
+                android:adjustViewBounds="true"
+                android:layout_marginRight="19dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="재배하기 쉬운 작물"
+                android:textSize="16dp"
+                android:textColor="@color/brown"/>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="35dp"
+            android:id="@+id/good_crop_recyclerview"
+            android:background="@drawable/background_full_green"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="41dp"
+            android:paddingRight="41dp"
+            />
+
+        <!--재배하기 어려운 작물-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/oval_date"
+                android:adjustViewBounds="true"
+                android:layout_marginRight="19dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="재배하기 어려운 작물"
+                android:textSize="16dp"
+                android:textColor="@color/brown"/>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bad_crop_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="35dp"
+            android:background="@drawable/background_full_bright_pink"
+            android:paddingLeft="41dp"
+            android:paddingTop="14dp"
+            android:paddingRight="41dp"
+            android:paddingBottom="14dp" />
+
+        <!--대체 가능한 작물-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="19dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/oval_brown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대체 가능한 작물"
+                android:textColor="@color/brown"
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="35dp"
+            android:id="@+id/alt_crop_recyclerview"
+            android:background="@drawable/background_full_brown"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="41dp"
+            android:paddingRight="41dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

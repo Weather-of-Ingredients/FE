@@ -8,11 +8,11 @@ import retrofit2.http.Path;
 
 public interface FoodNutritionRetrofitAPI {
 
-    @GET("/carbohydrate/{year}/{month}")
-    Call<NutritionDTO> getCarbohydrate(@Path("year") int year, @Path("month") int month);
-    @GET("/protein/{year}/{month}")
-    Call<NutritionDTO> getProtein(@Path("year") int year, @Path("month") int month);
-    @GET("/fat/{year}/{month}")
-    Call<NutritionDTO> getFat(@Path("year") int year, @Path("month") int month);
+    @GET("/api/nutrition/carbohydrate/{year}/{month}")
+    Call<Double> getCarbohydrate(@Path("year") int year, @Path("month") int month);
+    @GET("/api/nutrition/protein/{year}/{month}")
+    Call<Double> getProtein(@Path("year") int year, @Path("month") int month);
+    @GET("/api/nutrition/fat/{year}/{month}")
+    Call<Double> getFat(@Path("year") int year, @Path("month") int month);
 
 }

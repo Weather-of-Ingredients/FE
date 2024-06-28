@@ -10,11 +10,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+
+import com.example.woi_fe.MainActivity;
+import com.example.woi_fe.R;
 
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
+
 import com.example.woi_fe.Retrofit.repository.DietRepository;
 import com.example.woi_fe.databinding.FragmentDietcalBinding;
 import com.example.woi_fe.ui.home.MyDietAdapter;
@@ -60,6 +67,16 @@ public class DietCalFragment extends Fragment {
         loadTDietList();
         setDate();
 
+
+        binding.dietCalGotoCropList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 프래그먼트 매니저 객체 가져오기
+                CropListFragment fragment = new CropListFragment();
+                ((MainActivity)getActivity()).loadFragment(fragment);
+
+            }
+        });
         return root;
     }
 

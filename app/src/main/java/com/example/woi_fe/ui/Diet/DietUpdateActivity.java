@@ -1,11 +1,14 @@
 package com.example.woi_fe.ui.Diet;
 
+
 import static android.text.format.DateUtils.getDayOfWeekString;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+
 import android.content.Intent;
+
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -109,11 +112,23 @@ public class DietUpdateActivity extends AppCompatActivity {
         binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (dietDTO != null) {
                     updateDiet(dietId, dietDTO);
                 } else {
                     Toast.makeText(DietUpdateActivity.this, "식단 정보를 입력하세요", Toast.LENGTH_SHORT).show();
-                }
+
+                //retrofit 연결
+//                createDiet();
+
+//                 isSaved = true;
+//                 isChangedCategory = false;
+//                 lastPosition = position; //현재 눌렸던 식단 타입을 이전 position으로 전달
+
+//                 Log.d("MainActivity", "[UpdateActivity] save 클릭");
+//                 Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
+//                 Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
+
             }
         });
 
@@ -185,8 +200,66 @@ public class DietUpdateActivity extends AppCompatActivity {
         });
     }
 
+
     private void showTypeDialog() {
         final String[] options = {"조식", "중식", "석식"};
+
+//     private void setCustomDialog() {
+//         Log.d("MainActivity", "**[setCustomDialog]");
+//         Log.d("MainActivity", "**[setCustomDialog] save: " + isSaved + " edit: " + isEdited);
+//         if(!isSaved){
+//             //완료 버튼을 누르지 않은 경우
+//             if(isEdited){
+//                 //텍스트의 변경이 있는 경우
+//                 //팝업 창
+//                 showCustomDialog();
+//             }else{
+//                 //텍스트의 변경이 없는 경우
+//                 //창 닫기
+//             }
+//         }else{
+//             //완료 버튼을 누른 경우
+//             //초기화해야할 boolean 값들 ?
+//             isSaved = false;
+//             isEdited = false;
+//             //창 닫기
+//         }
+//         Log.d("MainActivity", "**[setCustomDialog]");
+//     }
+
+//     private void showCustomDialog() {
+//         Log.d("MainActivity", "** **[showCustomDialog]");
+
+//         CustomDialog dialog = new CustomDialog(this, this);
+
+//         dialog.show();
+//         Log.d("MainActivity", "** **[showCustomDialog]");
+//     }
+
+//     private void setInitDate() {
+//         calendar = Calendar.getInstance();
+
+//         int year = calendar.get(Calendar.YEAR);
+//         int month = calendar.get(Calendar.MONTH) +1;
+//         int date = calendar.get(Calendar.DATE);
+
+//         binding.dietDate.setText(year + "년 " + month + "월 " + date + "일");
+//     }
+
+//     private void setCompleteButtonClickListener() {
+//         binding.dietUpdateCompleteButton.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View view) {
+//                 int setYear = binding.dietUpdateSetDatepicker.getYear();
+//                 int setMonth = binding.dietUpdateSetDatepicker.getMonth() + 1;
+//                 int setDate = binding.dietUpdateSetDatepicker.getDayOfMonth();
+//                 binding.dietUpdateOpacityLayout.setVisibility(View.GONE);
+//                 binding.dietUpdateDatepickerLayout.setVisibility(View.GONE);
+//                 binding.dietDate.setText(setYear + "년 " + setMonth + "월 " + setDate + "일");
+//             }
+//         });
+//     }
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("타입 선택");
@@ -247,6 +320,87 @@ public class DietUpdateActivity extends AppCompatActivity {
                 return "토";
             default:
                 return "";
+//     private void setSpinner() {
+//         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.diet_array, R.layout.item_diet_update_diet_category);
+//         binding.dietSpinner.setAdapter(spinner_adapter);
+//         binding.dietSpinner.setOnItemSelectedListener(this);
+//         Log.d("MainActivity", "스피너 연결");
+//     }
+
+//     @Override
+//     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//         Log.d("MainActivity", "**[OnItemSelected]");
+//         Log.d("MainActivity", String.valueOf(adapterView.getSelectedItem()));
+
+//         isChangedCategory = true;
+
+//         lastPosition = i;
+
+//         isSaved = false;
+
+//         Log.d("MainActivity", "save: " + isSaved + "changed: " + isChangedCategory);
+//         Log.d("MainActivity", "position: " + position + " lastPosition: " + lastPosition);
+
+//         setCustomDialog();
+//         Log.d("MainActivity", "**[OnItemSelected]");
+//     }
+
+//     @Override
+//     public void onNothingSelected(AdapterView<?> adapterView) {
+
+//     }
+
+//     private void setDietList() {
+//         LinearLayoutManager manager = new LinearLayoutManager(this);
+//         manager.setOrientation(LinearLayoutManager.VERTICAL);
+//         binding.dietRecyclerView.setLayoutManager(manager);
+
+//         diet_list_adapter = new DietItemAdapter(this);
+//         binding.dietRecyclerView.setAdapter(diet_list_adapter);
+
+//         diet_list_helper = new ItemTouchHelper(new ItemMoveCallback(diet_list_adapter));
+//         diet_list_helper.attachToRecyclerView(binding.dietRecyclerView);
+
+// //        diet_list_adapter.addItem("흰쌀밥");
+// //        diet_list_adapter.addItem("된장찌개");
+// //        diet_list_adapter.addItem("계란말이");
+// //        diet_list_adapter.addItem("김치");
+//     }
+
+//     @Override
+//     public void onItemAdded(int position) {
+//         isEdited = true;
+//     }
+
+//     @Override
+//     public void onItemRemoved(int position) {
+//         isEdited = true;
+//     }
+
+//     @Override
+//     public void onItemChanged(int position) {
+//         isEdited = true;
+//     }
+
+//     @Override
+//     public void dialogCallbackListener(boolean isDialogResult) {
+//         Log.d("MainActivity", "** ** **[dialogCallbackListener]");
+//         if(isDialogResult){
+
+//             // true -> yes를 누른 경우
+//             // 수정 내용 반영 x
+//             // 기존의 내용 그대로 취소
+//             // lastPosition = 0
+//         }else{
+//             // false -> no를 누른 경우
+//             // 수정 내용 유지
+//             // customdialog만 취소
+//             // lastPosition = 0
+//             if(isChangedCategory){
+//                 Log.d("MainActivity", "position: " + position);
+
+//             }
+
         }
     }
 }

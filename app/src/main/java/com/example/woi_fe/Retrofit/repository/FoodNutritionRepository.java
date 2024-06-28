@@ -17,15 +17,15 @@ public class FoodNutritionRepository {
         foodNutritionRetrofitAPI = RetrofitClient.getInstance(context).create(FoodNutritionRetrofitAPI.class);
     }
 
-    public Call<NutritionDTO> getCarbohydrate(int year, int month){
+    public Call<Double> getCarbohydrate(int year, int month){
         return foodNutritionRetrofitAPI.getCarbohydrate(year, month);
     }
 
-    public Call<NutritionDTO> getProtein(int year, int month){
+    public Call<Double> getProtein(int year, int month){
         return foodNutritionRetrofitAPI.getProtein(year, month);
     }
 
-    public Call<NutritionDTO> getFat(int year, int month){
+    public Call<Double> getFat(int year, int month){
         return foodNutritionRetrofitAPI.getFat(year, month);
     }
 }

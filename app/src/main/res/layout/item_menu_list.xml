@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/background_full_pink"
+    android:layout_marginBottom="5dp">
+
+    <!--date-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="9dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/brown"
+            android:id="@+id/day"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/brown"
+            android:id="@+id/day_text"/>
+    </LinearLayout>
+
+    <!--text-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:minHeight="0dp"
+        android:minWidth="0dp">
+
+        <!--메뉴이름-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="미나리 무침"
+            android:id="@+id/original_menu"
+            android:textSize="10dp"
+            android:textColor="@color/brown"
+            android:background="@android:color/transparent"
+            />
+
+        <!--대체메뉴-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추천 대체 작물 : "
+                android:textSize="10dp"
+                android:textColor="@color/brown"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시금치 무침"
+                android:textSize="10dp"
+                android:id="@+id/pred_menu"
+                android:textColor="@color/brown"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
