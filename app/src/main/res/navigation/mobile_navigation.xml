@@ -15,7 +15,7 @@
         android:id="@+id/navigation_makeDiet"
         android:name="com.example.woi_fe.ui.home.HomeFragment"
         android:label="@string/title_makeDiet"
-        tools:layout="@layout/fragment_diet_update" />
+        tools:layout="@layout/activity_diet_update" />
 
     <fragment
         android:id="@+id/navigation_dietCal"

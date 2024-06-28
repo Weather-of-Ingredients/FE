@@ -2,12 +2,20 @@ package com.example.woi_fe.Retrofit.dto.diet;
 
 public class MenuResponseDTO {
     private Integer menuId;
-    private String ingredients;
     private double carbohydrate;
     private double protein;
     private double fat;
     private String foodName;
     private double calories;
+    private DietResponseDTO diet;
+
+    public DietResponseDTO getDiet() {
+        return diet;
+    }
+
+    public void setDiet(DietResponseDTO diet) {
+        this.diet = diet;
+    }
 
     public Integer getMenuId() {
         return menuId;
@@ -15,14 +23,6 @@ public class MenuResponseDTO {
 
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
-    }
-
-    public String getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
     }
 
     public double getCarbohydrate() {
