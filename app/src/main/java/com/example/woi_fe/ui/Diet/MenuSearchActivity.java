@@ -2,6 +2,7 @@ package com.example.woi_fe.ui.Diet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuParDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.Retrofit.repository.DietRepository;
@@ -71,15 +73,24 @@ public class MenuSearchActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 List<MenuDTO> newItems = adapter.getSelectedItems();
-                ArrayList<String> menuList = new ArrayList<>();
-                for(MenuDTO menu : newItems){
-                    // field 추가할 방법 고민해보기 ...
-                    menuList.add(menu.getFoodName());
+                List<MenuParDTO> menuParDTOList = new ArrayList<>();
+                for (MenuDTO menuDTO : newItems) {
+                    MenuParDTO menuParDTO = new MenuParDTO();
+                    menuParDTO.setMenuId(menuDTO.getMenuId());
+                    menuParDTO.setCarbohydrate(menuDTO.getCarbohydrate());
+                    menuParDTO.setProtein(menuDTO.getProtein());
+                    menuParDTO.setFat(menuDTO.getFat());
+                    menuParDTO.setFoodName(menuDTO.getFoodName());
+                    menuParDTO.setCalories(menuDTO.getCalories());
+                    menuParDTO.setDiet(menuDTO.getDiet());
+                    menuParDTOList.add(menuParDTO);
                 }
-                bundle.putStringArrayList("newMenus", menuList);
+                ArrayList<MenuParDTO> parcelableMenuList = new ArrayList<>(menuParDTOList);
+
                 bundle.putString("type", type);
                 bundle.putString("date", date);
                 bundle.putString("week", week);
+                bundle.putParcelableArrayList("newMenus", parcelableMenuList);
 
                 Intent intent2 = new Intent(MenuSearchActivity.this, DietCreateActivity.class);
                 intent2.putExtras(bundle);

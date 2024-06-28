@@ -1,5 +1,10 @@
 package com.example.woi_fe.Retrofit.dto.diet;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 public class MenuDTO {
     private Integer menuId;
     private double carbohydrate;
@@ -64,4 +69,5 @@ public class MenuDTO {
     public void setDiet(DietResponseDTO diet) {
         this.diet = diet;
     }
+
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuParDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
 import com.example.woi_fe.databinding.ActivityDietCreateBinding;
@@ -40,7 +41,7 @@ public class DietCreateActivity extends AppCompatActivity {
     private DietRetrofitAPI retrofitAPI;
     private DietDTO dietDTO;
     String type, date, week, selectedDate;
-    ArrayList<String> newMenusList;
+    private List<MenuParDTO> newMenusList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class DietCreateActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             // Bundle에서 데이터를 추출
-            newMenusList = bundle.getStringArrayList("newMenus");
+            newMenusList = bundle.getParcelableArrayList("newMenus");
             date = bundle.getString("date");
             type = bundle.getString("type");
             week = bundle.getString("week");
@@ -103,18 +104,15 @@ public class DietCreateActivity extends AppCompatActivity {
             if (newMenusList != null) {
                 List<MenuResponseDTO> menuResponseDTOList = new ArrayList<>();
                 dietDTO = new DietDTO();
-                for (String menuName : newMenusList) {
+                for (MenuParDTO menuParDTO : newMenusList) {
                     MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
-                    menuResponseDTO.setFoodName(menuName);
-                    // 필요한 경우 다른 필드도 설정
+                    menuResponseDTO.setFoodName(menuParDTO.getFoodName());
+                    menuResponseDTO.setCarbohydrate(menuParDTO.getCarbohydrate());
+                    menuResponseDTO.setProtein(menuParDTO.getProtein());
+                    menuResponseDTO.setFat(menuParDTO.getFat());
+                    menuResponseDTO.setCalories(menuParDTO.getCalories());
                     menuResponseDTOList.add(menuResponseDTO);
                 }
-//                for (String cal : newMenusList) {
-//                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
-//                    menuResponseDTO.setCalories(Double.parseDouble(cal));
-////                     필요한 경우 다른 필드도 설정
-//                    menuResponseDTOList.add(menuResponseDTO);
-//                }
                 adapter2 = new MyUDietAdapter(this, menuResponseDTOList);
                 binding.dietUpdateRecyclerView.setAdapter(adapter2);
                 Log.d("DietUpdateActivity1", newMenusList.toString());
