@@ -105,13 +105,15 @@ public class FoodNutritionFragment extends Fragment {
     }
 
     private void setBinding() {
-        binding.fnCarbohydratePrevData.setText(String.valueOf(getPrevCarbohydrate));
-        binding.fnFatPrevData.setText(String.valueOf(getPrevFat));
-        binding.fnProteinPrevData.setText(String.valueOf(getPrevProtein));
+        // 이전 데이터 설정
+        binding.fnCarbohydratePrevData.setText(String.format("%.2f", getPrevCarbohydrate));
+        binding.fnFatPrevData.setText(String.format("%.2f", getPrevFat));
+        binding.fnProteinPrevData.setText(String.format("%.2f", getPrevProtein));
 
-        binding.fnCarbohydrateNextData.setText(String.valueOf(getCarbohydrate));
-        binding.fnFatNextData.setText(String.valueOf(getFat));
-        binding.fnProteinNextData.setText(String.valueOf(getProtein));
+        // 다음 데이터 설정
+        binding.fnCarbohydrateNextData.setText(String.format("%.2f", getCarbohydrate));
+        binding.fnFatNextData.setText(String.format("%.2f", getFat));
+        binding.fnProteinNextData.setText(String.format("%.2f", getProtein));
     }
 
     private void callRetrofit(int year, int month) {
@@ -240,11 +242,8 @@ public class FoodNutritionFragment extends Fragment {
         binding.graph.getDescription().setEnabled(false);
         binding.graph.getLegend().setEnabled(false);
         binding.graph.setEntryLabelColor(R.color.black);
-
-
-
-
     }
+
     private void clearPieChart() {
         binding.graph.clear();
         binding.graph.setVisibility(View.GONE);
