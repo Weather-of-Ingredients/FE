@@ -1,6 +1,7 @@
 package com.example.woi_fe.ui.dietcal;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,33 +57,28 @@ public class MyTDietAdapter extends RecyclerView.Adapter<MyTDietViewHolder>{
         holder.binding.itemMenusView.setText(menusText.toString());
 
         holder.binding.itemMenusView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("type", data.getType());
                 bundle.putString("date", data.getDate());
                 bundle.putString("week", data.getWeek());
+                bundle.putInt("dietId", data.getDietId());
 
                 // 메뉴 목록을 MenuResponseDTO 변환
-//                ArrayList<MenuResponseDTO> menusList = new ArrayList<>();
-//                MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
-//                for (MenuResponseDTO menu : data.getMenus()) {
-//                    menuResponseDTO.setFoodName(menu.getFoodName());
-//                    menuResponseDTO.setCalories(menu.getCalories());
-//                    menuResponseDTO.setCarbohydrate(menu.getCarbohydrate());
-//                    menuResponseDTO.setProtein(menu.getProtein());
-//                    menuResponseDTO.setFat(menu.getFat());
-//                    menusList.add(menuResponseDTO);
-//                }
                 ArrayList<String> menuList = new ArrayList<>();
                 for(MenuResponseDTO menu : data.getMenus()){
                     menuList.add(menu.getFoodName());
+//                    menuList.add(String.format("%.2f",menu.getCalories()));
+//                    menuList.add(String.format("%.2f",menu.getCarbohydrate()));
+//                    menuList.add(String.format("%.2f",menu.getProtein()));
+//                    menuList.add(String.format("%.2f",menu.getFat()));
                 }
                 bundle.putStringArrayList("menus", menuList);
 
                 Intent intent = new Intent(context, DietDetailActivity.class);
                 intent.putExtras(bundle);
-//                intent.putExtra("menus", menusList);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

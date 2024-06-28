@@ -76,19 +76,75 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30.66dp"
-                android:layout_marginBottom="26.90dp"
-                android:text="일 월 화 수 목 금 토"
-                android:textColor="@color/brown"
-                android:textSize="15dp" />
+<!--            <LinearLayout-->
+<!--                android:id="@+id/calendar_header"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="일"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="월"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="화"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="수"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="목"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="금"-->
+<!--                    style="@style/TextViewStyle"/>-->
+<!--                <TextView android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="토"-->
+<!--                    style="@style/TextViewStyle"/>-->
+
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
+<!--        <LinearLayout-->
+<!--            android:id="@+id/calendar_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/calendar_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:spanCount="7"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                app:layout_constrainedHeight="true"-->
+<!--                tools:listitem="@layout/list_item_calendar"/>-->
+<!--        </LinearLayout>-->
+
         <CalendarView
-            android:id="@+id/calendarView"
+            android:id="@+id/calendarView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/CalendarViewTheme" />

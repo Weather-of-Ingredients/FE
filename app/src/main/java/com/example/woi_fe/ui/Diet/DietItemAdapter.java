@@ -19,15 +19,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
+import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
+import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveListener;
 import com.example.woi_fe.R;
+import com.example.woi_fe.ui.home.MyDietAdapter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemViewHolder> implements ItemMoveListener {
 
     private ArrayList<String> list = new ArrayList<>();
+    private List<MenuResponseDTO> menuList;
     private AdapterCallback callback;
+    private DietRetrofitAPI retrofitAPI;
 
     public interface AdapterCallback{
         void onItemAdded(int position);
@@ -35,15 +47,15 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
         void onItemChanged(int position);
     }
 
-    public DietItemAdapter(AdapterCallback adapterCallback) {
+    public DietItemAdapter(AdapterCallback adapterCallback, List<MenuResponseDTO> menuList) {
         this.callback = adapterCallback;
-
+        this.menuList = menuList;
     }
-
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("DietItemAdapter", "DietItemAdapter 어댑터연결 성공");
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_diet_update_menu, parent, false);
         return new ItemViewHolder(view);
@@ -51,7 +63,34 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        MenuResponseDTO data = menuList.get(position);
+        holder.onBind(data.getFoodName());
         holder.onBind(list.get(position));
+
+//        Call<List<DietResponseDTO>> call = retrofitAPI.getDietByUserAndDate(date);
+//
+//        call.enqueue(new Callback<List<DietResponseDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<DietResponseDTO>> call, Response<List<DietResponseDTO>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<DietResponseDTO> diets = response.body();
+//
+//                } else {
+//                    Log.e("HomeFragment", "Response not successful or body is null");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<DietResponseDTO>> call, Throwable t) {
+//
+//            }
+//        });
+    }
+
+    public void setMenuList(List<MenuResponseDTO> menuList) {
+        this.menuList = menuList;
+        notifyDataSetChanged();
+        Log.d("MyUDietAdapter", menuList.toString());
     }
 
     @Override
@@ -102,7 +141,7 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
      * Fragment 측에서 callback과 Save btn 클릭 이벤트 점검을 모두 한 후에 팝업 창 등록
      * */
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, TextView.OnEditorActionListener, TextWatcher {
-        EditText text;
+        TextView text;
         ImageView list_btn;
         ImageView plus_btn;
         ImageView delete_btn;
@@ -117,7 +156,6 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
 
             text = itemView.findViewById(R.id.diet_item_name);
             list_btn = itemView.findViewById(R.id.diet_item_list_btn);
-            plus_btn = itemView.findViewById(R.id.diet_item_plus_btn);
             delete_btn = itemView.findViewById(R.id.diet_item_delete_btn);
 
             text.setOnEditorActionListener(this);
@@ -135,17 +173,8 @@ public class DietItemAdapter extends RecyclerView.Adapter<DietItemAdapter.ItemVi
 
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.diet_item_plus_btn) {
-                String newStr = new String("");
-                addItem(newStr);
-                if (callback != null) {
-                    callback.onItemAdded(getAdapterPosition() + 1);
-                }
-            }else if (view.getId() == R.id.diet_item_delete_btn) {
+            if (view.getId() == R.id.diet_item_delete_btn) {
                 removeItem(getAdapterPosition());
-            }else if(view.getId() == R.id.diet_item_name){
-                text.setSelection(text.getText().length());
-                text.setCursorVisible(true);
             }
 
         }

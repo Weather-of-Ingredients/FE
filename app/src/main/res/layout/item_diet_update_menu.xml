@@ -39,14 +39,6 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/diet_item_plus_btn"
-            android:src="@drawable/btn_plus"
-            android:adjustViewBounds="true"/>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
             android:id="@+id/diet_item_delete_btn"
             android:src="@drawable/btn_delete"
             android:adjustViewBounds="true"/>

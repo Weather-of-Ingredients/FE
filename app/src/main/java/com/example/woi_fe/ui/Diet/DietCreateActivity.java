@@ -1,37 +1,23 @@
 package com.example.woi_fe.ui.Diet;
 
-import static android.text.format.DateUtils.getDayOfWeekString;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.example.woi_fe.Dialog.CustomDialog;
-import com.example.woi_fe.RegisterActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.woi_fe.Retrofit.controller.DietRetrofitAPI;
 import com.example.woi_fe.Retrofit.dto.diet.DietDTO;
-import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
-import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
 import com.example.woi_fe.Retrofit.network.RetrofitClient;
-import com.example.woi_fe.ui.Diet.ItemMove.ItemMoveCallback;
-import com.example.woi_fe.R;
-import com.example.woi_fe.databinding.ActivityDietUpdateBinding;
-
-import org.json.JSONObject;
+import com.example.woi_fe.databinding.ActivityDietCreateBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,20 +32,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class DietUpdateActivity extends AppCompatActivity {
+public class DietCreateActivity extends AppCompatActivity {
 
     private Calendar calendar;
-    private ActivityDietUpdateBinding binding;
+    private ActivityDietCreateBinding binding;
     private MyUDietAdapter adapter2;
     private DietRetrofitAPI retrofitAPI;
     private DietDTO dietDTO;
-    Integer dietId;
-    String selectedDate;
+    String type, date, week, selectedDate;
+    ArrayList<String> newMenusList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDietUpdateBinding.inflate(getLayoutInflater());
+        binding = ActivityDietCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Retrofit retrofit = RetrofitClient.getInstance(this);
@@ -68,13 +54,8 @@ public class DietUpdateActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.dietUpdateRecyclerView.setLayoutManager(layoutManager);
-
-        // Intent로부터 Bundle을 가져옴(DietDetailActivity 가져온 것)
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            dietId = bundle.getInt("dietId");
-        }
-        loadDietByID(dietId);
+        adapter2 = new MyUDietAdapter(this, new ArrayList<>());
+        binding.dietUpdateRecyclerView.setAdapter(adapter2);
 
         // 날짜 연결 및 변경 가능하게
         binding.addDdate.setOnClickListener(new View.OnClickListener() {
@@ -96,24 +77,61 @@ public class DietUpdateActivity extends AppCompatActivity {
         binding.btnMenuSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // menu 검색 페이지로 넘어가기
-                Bundle bundle = new Bundle();
-                bundle.putInt("dietId", dietId);
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("date", selectedDate);
+                bundle2.putString("type", binding.dietType.getText().toString());
+                bundle2.putString("week", binding.dietWeek.getText().toString());
 
-                Intent intent = new Intent(DietUpdateActivity.this, MenuSearchActivity.class);
-                intent.putExtras(bundle);
+                // menu 검색 페이지로 넘어가기
+                Intent intent = new Intent(DietCreateActivity.this, MenuSearchActivity.class);
+                intent.putExtras(bundle2);
                 startActivity(intent);
             }
         });
 
+        // Intent로부터 Bundle을 가져옴(MenuSearchActivity 가져온 것)
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            // Bundle에서 데이터를 추출
+            newMenusList = bundle.getStringArrayList("newMenus");
+            date = bundle.getString("date");
+            type = bundle.getString("type");
+            week = bundle.getString("week");
+            set3Text(date, type, week);
+
+            // 메뉴 데이터를 MenuResponseDTO 리스트로 변환하여 어댑터에 설정
+            if (newMenusList != null) {
+                List<MenuResponseDTO> menuResponseDTOList = new ArrayList<>();
+                dietDTO = new DietDTO();
+                for (String menuName : newMenusList) {
+                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+                    menuResponseDTO.setFoodName(menuName);
+                    // 필요한 경우 다른 필드도 설정
+                    menuResponseDTOList.add(menuResponseDTO);
+                }
+                for (String cal : newMenusList) {
+                    MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+                    menuResponseDTO.setCalories(Double.parseDouble(cal));
+                    // 필요한 경우 다른 필드도 설정
+                    menuResponseDTOList.add(menuResponseDTO);
+                }
+                adapter2 = new MyUDietAdapter(this, menuResponseDTOList);
+                binding.dietUpdateRecyclerView.setAdapter(adapter2);
+                Log.d("DietUpdateActivity1", newMenusList.toString());
+
+                dietDTO.setDate(date);
+                dietDTO.setType(type);
+                dietDTO.setWeek(week);
+                dietDTO.setMenus(menuResponseDTOList);
+            }
+        }
+
         binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dietDTO != null) {
-                    updateDiet(dietId, dietDTO);
-                } else {
-                    Toast.makeText(DietUpdateActivity.this, "식단 정보를 입력하세요", Toast.LENGTH_SHORT).show();
-                }
+                createDiet(dietDTO);
+                finish();
+                Log.d("DietUpdateActivity", dietDTO.getMenus().toString());
             }
         });
 
@@ -124,15 +142,14 @@ public class DietUpdateActivity extends AppCompatActivity {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             finish();
-                            break;
                         case DialogInterface.BUTTON_NEGATIVE:
-                            break;
+
                     }
                 }
             };
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(DietUpdateActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(DietCreateActivity.this);
                 builder.setTitle("정말 나가시겠습니까?");
                 builder.setMessage("변경된 사항은 저장되지 않습니다.");
                 builder.setNegativeButton("Cancel", alertHandler);
@@ -143,39 +160,18 @@ public class DietUpdateActivity extends AppCompatActivity {
         });
 
     }
-    private void loadDietByID(Integer dietId){
-        Call<DietResponseDTO> call = retrofitAPI.getDietByDietId(dietId);
-        call.enqueue(new Callback<DietResponseDTO>() {
-            @Override
-            public void onResponse(Call<DietResponseDTO> call, Response<DietResponseDTO> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    binding.dietDate.setText(response.body().getDate());
-                    binding.dietType.setText(response.body().getType());
-                    binding.dietWeek.setText(response.body().getWeek());
-                    // adapter설정 -> menu list 불러오기
-                    adapter2 = new MyUDietAdapter(DietUpdateActivity.this, response.body().getMenus());
-                    binding.dietUpdateRecyclerView.setAdapter(adapter2);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<DietResponseDTO> call, Throwable t) {
-                Log.e("DietUpdateActivity", "Failed to load diet by ID", t);
-            }
-        });
-    }
-
-    private void updateDiet(Integer dietId, DietDTO dietDTO){
-        Call<ResponseBody> call = retrofitAPI.updateDiet(dietId, dietDTO);
+    private void createDiet(DietDTO dietDTO){
+        Call<ResponseBody> call = retrofitAPI.createDiet(dietDTO);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     // 식단 일정 페이지로 넘어가기(수정중...)
-                    Intent intent = new Intent(DietUpdateActivity.this, DietDetailActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(DietCreateActivity.this, "식단 작성 성공", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
-                    Toast.makeText(DietUpdateActivity.this, "식단 수정 실패", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DietCreateActivity.this, "식단 작성 실패", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -183,6 +179,12 @@ public class DietUpdateActivity extends AppCompatActivity {
                 Log.e("DietUpdateActivity",t.getMessage());
             }
         });
+    }
+
+    private void set3Text(String date, String type, String week){
+        binding.dietDate.setText(date);
+        binding.dietType.setText(type);
+        binding.dietWeek.setText(week);
     }
 
     private void showTypeDialog() {
@@ -203,7 +205,7 @@ public class DietUpdateActivity extends AppCompatActivity {
     public void getSelectedDate(){
         calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                DietUpdateActivity.this,
+                DietCreateActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -248,5 +250,10 @@ public class DietUpdateActivity extends AppCompatActivity {
             default:
                 return "";
         }
+    }
+
+    public static String dateToString(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN);
+        return format.format(date);
     }
 }

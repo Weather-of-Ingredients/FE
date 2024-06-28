@@ -7,12 +7,11 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/menuCardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="20dp"
         app:cardUseCompatPadding="true"
         app:cardBackgroundColor="#ffffff">
@@ -71,6 +70,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp">

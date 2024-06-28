@@ -1,6 +1,7 @@
 package com.example.woi_fe.ui.Diet;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.woi_fe.Retrofit.dto.diet.DietResponseDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuDTO;
 import com.example.woi_fe.Retrofit.dto.diet.MenuResponseDTO;
-import com.example.woi_fe.databinding.ItemDietMenuBinding;
 import com.example.woi_fe.databinding.ItemDietUpdateMenuBinding;
 
 import java.util.ArrayList;
@@ -32,20 +32,20 @@ public class MyUDietAdapter extends RecyclerView.Adapter<MyUDietViewHolder> {
     public MyUDietViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("MyUDietAdapter", "MyUDietAdapter 어댑터연결 성공");
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ItemDietMenuBinding binding = ItemDietMenuBinding.inflate(layoutInflater, parent, false);
+        ItemDietUpdateMenuBinding binding = ItemDietUpdateMenuBinding.inflate(layoutInflater, parent, false);
         return new MyUDietViewHolder(binding);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyUDietViewHolder holder, int position) {
-        MenuResponseDTO data = menuList.get(position);
+        MenuResponseDTO menu = menuList.get(position);
 
-        holder.binding.dietItemName.setText(data.getFoodName());
-        Log.d("MyUDietAdapter", data.getFoodName());
-//        holder.binding.caloriesTextView.setText(menu.getCalories());
-//        holder.binding.fatTextView.setText(menu.getFat());
-//        holder.binding.carbohydrateTextView.setText(menu.getCarbohydrate());
-//        holder.binding.proteinTextView.setText(menu.getProtein());
+        holder.binding.dietItemName.setText(menu.getFoodName());
+        holder.binding.caloriesTextView.setText(String.format("%.2f", menu.getCalories()));
+        holder.binding.fatTextView.setText(String.format("%.2f", menu.getFat()));
+        holder.binding.carbohydrateTextView.setText(String.format("%.2f", menu.getCarbohydrate()));
+        holder.binding.proteinTextView.setText(String.format("%.2f", menu.getProtein()));
     }
 
     @Override
@@ -56,6 +56,5 @@ public class MyUDietAdapter extends RecyclerView.Adapter<MyUDietViewHolder> {
     public void setMenuList(List<MenuResponseDTO> menuList) {
         this.menuList = menuList;
         notifyDataSetChanged();
-        Log.d("MyUDietAdapter", menuList.toString());
     }
 }

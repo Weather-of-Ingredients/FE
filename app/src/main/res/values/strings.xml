@@ -15,4 +15,6 @@
         <item>석식</item>
     </string-array>
 
+    <string name="calendar_year_month_format">yyyy-MM-dd</string>
+
 </resources>
