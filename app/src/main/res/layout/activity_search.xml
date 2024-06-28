@@ -32,21 +32,23 @@
             android:id="@+id/eSearchWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bSearch"
+            android:background="@drawable/background_full_bright_pink"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:text="검색" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_finish"
+            android:background="@drawable/background_full_bright_pink"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
