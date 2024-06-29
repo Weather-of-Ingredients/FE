@@ -2,13 +2,12 @@ plugins {
     id("com.android.application")
 }
 
-
 android {
-    namespace = "com.example.woi_fe"
+    namespace = "com.nutangel.woi_fe"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.woi_fe"
+        applicationId = "com.nutangel.woi_fe"
         minSdk = 25
         targetSdk = 34
         versionCode = 1
