@@ -58,6 +58,11 @@ public class DietCreateActivity extends AppCompatActivity {
         adapter2 = new MyUDietAdapter(this, new ArrayList<>());
         binding.dietUpdateRecyclerView.setAdapter(adapter2);
 
+        // 초기화 코드 추가
+        if (dietDTO == null) {
+            dietDTO = new DietDTO();
+        }
+
         // 날짜 연결 및 변경 가능하게
         binding.addDdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +133,17 @@ public class DietCreateActivity extends AppCompatActivity {
         binding.dietUpdateSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // dietDTO가 null인지 확인하고, null이면 초기화
+                if (dietDTO == null) {
+                    dietDTO = new DietDTO();
+                }
+
                 dietDTO.setDate(binding.dietDate.getText().toString());
                 dietDTO.setType(binding.dietType.getText().toString());
                 dietDTO.setWeek(binding.dietWeek.getText().toString());
                 createDiet(dietDTO);
                 finish();
-                Log.d("DietCreateActivity", dietDTO.getMenus().toString());
+//                Log.d("DietCreateActivity", dietDTO.getMenus().toString());
             }
         });
 

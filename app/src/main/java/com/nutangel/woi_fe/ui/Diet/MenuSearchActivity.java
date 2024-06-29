@@ -69,6 +69,12 @@ public class MenuSearchActivity extends AppCompatActivity {
         binding.btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (adapter == null) {
+                    // Handle the case where myMenuAdapter is null
+                    Log.e("MenuSearchActivity", "myMenuAdapter is null");
+                    return;
+                }
+
                 List<MenuDTO> newSelectedItems = adapter.getSelectedItems(); // 새로 선택된 메뉴 리스트
 
                 Bundle bundle = new Bundle();
