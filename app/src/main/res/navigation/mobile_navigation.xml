@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.woi_fe.ui.home.HomeFragment"
+        android:name="com.nutangel.woi_fe.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <activity
         android:id="@+id/navigation_makeDiet"
-        android:name="com.example.woi_fe.ui.Diet.DietCreateActivity"
+        android:name="com.nutangel.woi_fe.ui.Diet.DietCreateActivity"
         android:label="@string/title_makeDiet"
         tools:layout="@layout/activity_diet_create" />
 
     <fragment
         android:id="@+id/navigation_dietCal"
-        android:name="com.example.woi_fe.ui.dietcal.DietCalFragment"
+        android:name="com.nutangel.woi_fe.ui.dietcal.DietCalFragment"
         android:label="@string/title_dietCal"
         tools:layout="@layout/fragment_dietcal" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.woi_fe.ui.dashboard.DashboardFragment"
+        android:name="com.nutangel.woi_fe.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.woi_fe.ui.notifications.NotificationsFragment"
+        android:name="com.nutangel.woi_fe.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
