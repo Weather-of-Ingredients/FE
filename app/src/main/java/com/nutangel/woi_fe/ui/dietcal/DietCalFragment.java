@@ -109,10 +109,15 @@ public class DietCalFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH) +1;
         int date = calendar.get(Calendar.DATE);
 
-        if(month != 9 && month != 10 && month != 11){
-            binding.date.setText(year + "-0" + month + "-" + date);
-        } else {
-            binding.date.setText(year + "-" + month + "-" + date);
-        }
+        String monthString = (month < 10) ? "0" + month : String.valueOf(month);
+        String dateString = (date < 10) ? "0" + date : String.valueOf(date);
+
+        binding.date.setText(year + "-" + monthString + "-" + dateString);
+
+//        if(month != 9 && month != 10 && month != 11){
+//            binding.date.setText(year + "-0" + month + "-" + date);
+//        } else {
+//            binding.date.setText(year + "-" + month + "-" + date);
+//        }
     }
 }
