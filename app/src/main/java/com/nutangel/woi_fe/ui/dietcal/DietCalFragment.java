@@ -21,7 +21,9 @@ import com.nutangel.woi_fe.Retrofit.network.RetrofitClient;
 
 import com.nutangel.woi_fe.Retrofit.repository.DietRepository;
 import com.nutangel.woi_fe.databinding.FragmentDietcalBinding;
+import com.nutangel.woi_fe.ui.home.MyDietAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -60,7 +62,15 @@ public class DietCalFragment extends Fragment {
         adapter = new MyTDietAdapter(requireContext(), new ArrayList<>());
         binding.feedRecyclerView.setAdapter(adapter);
 
-        loadTDietList();
+        // 일단 현재 날짜를 가져옴
+        Calendar calendar = Calendar.getInstance();
+
+        // 날짜 형식 지정
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // selectedDate 업데이트
+        String selectedDate = dateFormat.format(calendar.getTime());
+
+        loadTDietList(selectedDate);
         setDate();
 
 
@@ -76,8 +86,9 @@ public class DietCalFragment extends Fragment {
         return root;
     }
 
-    private void loadTDietList() {
-        Call<List<DietResponseDTO>> call = dietRetrofitAPI.getDietByUserAndToday();
+    private void loadTDietList(String date) {
+        Call<List<DietResponseDTO>> call = dietRetrofitAPI.getDietByUserAndDate(date);
+
         call.enqueue(new Callback<List<DietResponseDTO>>() {
             @Override
             public void onResponse(Call<List<DietResponseDTO>> call, Response<List<DietResponseDTO>> response) {
@@ -102,6 +113,32 @@ public class DietCalFragment extends Fragment {
         });
     }
 
+//    private void loadTDietList() {
+//        Call<List<DietResponseDTO>> call = dietRetrofitAPI.getDietByUserAndToday();
+//        call.enqueue(new Callback<List<DietResponseDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<DietResponseDTO>> call, Response<List<DietResponseDTO>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<DietResponseDTO> diets = response.body();
+//                    adapter = new MyTDietAdapter(getContext(), diets);
+//                    binding.feedRecyclerView.setAdapter(adapter);
+//                    binding.yetNoDiet.setVisibility(View.GONE);
+//                    if(response.body().size() == 0){
+//                        binding.yetNoDiet.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    binding.yetNoDiet.setVisibility(View.VISIBLE);
+//                    Log.e("DietCalFragment", "Response not successful or body is null");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<DietResponseDTO>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
+
     private void setDate(){
         calendar = Calendar.getInstance();
 
@@ -113,11 +150,5 @@ public class DietCalFragment extends Fragment {
         String dateString = (date < 10) ? "0" + date : String.valueOf(date);
 
         binding.date.setText(year + "-" + monthString + "-" + dateString);
-
-//        if(month != 9 && month != 10 && month != 11){
-//            binding.date.setText(year + "-0" + month + "-" + date);
-//        } else {
-//            binding.date.setText(year + "-" + month + "-" + date);
-//        }
     }
 }
